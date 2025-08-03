@@ -1,0 +1,9 @@
+build/
+dist/
+MANIFEST
+*.egg-info
+*.pyc
+*.so
+*.swp
+venv/
+.venv/

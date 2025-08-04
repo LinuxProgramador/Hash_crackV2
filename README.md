@@ -9,6 +9,7 @@ The author is not responsible for any misuse or illegal activity performed using
 ## Recommended Platforms
 
 • Linux-based systems (Debian, Ubuntu)
+
 • Android (via Termux)
 
 ## Features

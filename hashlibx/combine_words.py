@@ -29,8 +29,8 @@ def generate_combinations(encoder):
     print("This will take time...")
 
     try:
-        with open(WORDLIST_FILE, 'r', encoding=encoder) as infile, \
-             open(TEMP_FILE, 'w', encoding=encoder) as outfile:
+        with open(WORDLIST_FILE, 'r', encoding=encoder, errors='ignore') as infile, \
+             open(TEMP_FILE, 'w', encoding=encoder, errors='ignore') as outfile:
 
             prev_tail = []
             while True:

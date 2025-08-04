@@ -92,7 +92,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             buffer = last_line + chunk
             lines = buffer.splitlines()
 
-            # If chunk doesn't end with '\n', last line is incomplete; save for next block
             if chunk and not chunk.endswith('\n') and lines:
                 last_line = lines.pop()
             else:
@@ -102,11 +101,9 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             if total_words == 0:
                 continue
 
-            # Divide lines into process_count chunks as evenly as possible (no duplicates)
             chunk_size = (total_words + process_count - 1) // process_count
             chunks = [lines[i:i + chunk_size] for i in range(0, total_words, chunk_size)]
 
-            # If there are more processes than chunks, reduce processes to chunk count
             actual_processes = min(process_count, len(chunks))
 
             processes = [
@@ -141,7 +138,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
                 for p in processes:
                     p.join()
 
-        # Procesa la última línea si quedó incompleta
         if last_line and not found.is_set():
             hash_cracking_worker(
                 [last_line], ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time

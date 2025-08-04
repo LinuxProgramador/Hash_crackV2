@@ -6,6 +6,11 @@
 This tool is intended for educational and research purposes only.  
 The author is not responsible for any misuse or illegal activity performed using this software.
 
+## Recommended Platforms
+
+• Linux-based systems (Debian, Ubuntu)
+• Android (via Termux)
+
 ## Features
 
 1. Multi-processing for optimal performance on multi-core systems  

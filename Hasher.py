@@ -146,7 +146,7 @@ def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None
     if hash_type in ["ntlm", "ripemd-160", "sm3"]:
         db_path = os.path.join(HOME, 'Hash_crackV2/config_bundle/db.json')
-        with open(db_path, 'r', encoding=encoder) as db_read:
+        with open(db_path, 'r', encoding=encoder, errors='ignore') as db_read:
             dic_db = loads(db_read.read())
             for db_hash, value in dic_db.items():
                 if target_hash.lower() == db_hash.lower():

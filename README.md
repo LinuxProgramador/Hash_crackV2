@@ -15,7 +15,7 @@ The author is not responsible for any misuse or illegal activity performed using
 ## Features
 
 1. Multi-processing for optimal performance on multi-core systems  
-2. Custom dictionary generation using crunch, including combined rule-based and mask-based attacks (option 3)  
+2. Custom dictionary generation using crunch, including combined rule-based and mask-based attacks   
 3. Ability to crack ZIP and RAR archive passwords using integrated third-party tools  
 4. Support for hybrid attacks, including rules, masks, and blended password lists  
 5. Fast and simple command-line interface  

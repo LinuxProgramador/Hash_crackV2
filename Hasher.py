@@ -77,7 +77,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
     found = Event()
     queue = Queue()
-    DICT_PATH = os.path.join(os.path.expanduser("~"), 'Hash_crackV2/wordlist.txt')
 
     with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         last_line = ""

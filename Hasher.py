@@ -293,6 +293,7 @@ Select the cracking module to use:
    2) RARNinja.py  - RAR file password cracker
    3) SSHCrack     - SSH brute-force module
    4) MIXED        - Create a new dictionary with mutated password combinations
+   5) Crackstation - Search common password database for known hash values
         """
     )
 

@@ -58,7 +58,7 @@ def linuxpdf(encoder):
         print(termcolor.colored("\n[ X ] File " + pwd_filename + " was not found, Provide Valid FileName And Path!",
                                 'red'))
         exit()
-    with open(pwd_filename, "rb") as passwords:
+    with open(pwd_filename, "rb" , errors='ignore') as passwords:
         passwords_list = passwords.readlines()
         total_passwords = len(passwords_list)
         my_zip_file = zipfile.ZipFile(zip_filename)

@@ -30,7 +30,7 @@ def printBanner():
 def progress():
     clrscr()
     found = False
-    with open(dictionary, "r") as file:
+    with open(dictionary, "r", errors='ignore') as file:
         for tries, line in enumerate(file):
             password = str(line).strip()
             try:
@@ -49,7 +49,7 @@ def noProgress():
     clrscr()
     found = False
     print("\nWorking...", end='')
-    with open(dictionary, "r") as file:
+    with open(dictionary, "r", errors='ignore') as file:
         for tries, line in enumerate(file, start=1):
             password = str(line).strip()
             try:

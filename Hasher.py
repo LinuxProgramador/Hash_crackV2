@@ -30,7 +30,8 @@ MENU_MODULES = {
     '1': 'zcrack.py',
     '2': 'RARNinja.py',
     '3': 'ssh_service_attack.py',
-    '4': None
+    '4': None,
+    '5': None
 }
 
 HOME = Path.home()

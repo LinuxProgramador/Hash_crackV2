@@ -58,6 +58,17 @@ def call_modules(module_chosen, encoder):
             print("Not supported on Termux")
     elif module_chosen == '4':
         generate_combinations(encoder)
+    elif module_chosen == '5':
+        if not os.path.exists("/data/data/com.termux/files/"):
+            import webbrowser
+            try:
+               success = webbrowser.open("https://crackstation.net/")
+               if not success:
+                  print("Could not open the browser.")
+            except webbrowser.Error as e:
+                  print("Error while trying to open the browser:", e)
+        else:
+            os.system("am start -a android.intent.action.VIEW -d https://crackstation.net/")
 
 def hash_cracking_worker(password_list, ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time):
     for word in password_list:

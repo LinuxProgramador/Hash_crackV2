@@ -66,7 +66,7 @@ def call_modules(module_chosen, encoder):
                if not success:
                   print("Could not open the browser.")
             except webbrowser.Error as e:
-                  print("Error while trying to open the browser:", e)
+                  print(f"Error while trying to open the browser: {e}")
         else:
             os.system("am start -a android.intent.action.VIEW -d https://crackstation.net/")
 

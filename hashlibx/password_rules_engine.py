@@ -91,6 +91,29 @@ def rules_parameters(word, rules, stored):
               word = word + word
               stored.append(word)
 
+        elif chosen_rules in ['10']:
+             for vocal in vocals:
+                 word = word.replace(vocal, '')
+                 word = word.replace(vocal.upper(), '')
+             stored.append(word)
+
+        elif chosen_rules in ['11']:
+             for number in numbers:
+                 word_number = number + word
+                 stored.append(word_number)
+
+        elif chosen_rules in ['00']:
+             for symbol in symbols:
+                 word_symbol  = symbol + word
+                 stored.append(word_symbol)
+
+        elif chosen_rules in ['HBA']:
+            for r in range(1, 5):                                                                                  
+              for combo in product([0,1,2,3,4,5,6,7,8,9], repeat=r):
+                   full_word = word + ''.join(str(digit) for digit in combo)
+                   stored.append(full_word)
+              
+
         elif chosen_rules in ['64','46']:
             for char in character_substitution:
                word = word.replace(char,character_substitution[char])

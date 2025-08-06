@@ -263,6 +263,13 @@ Apply mutation rules to each word in the dictionary. Available rules:
   7) Combine capitalization, numbers, and symbols
   8) Reverse the word (e.g., hola → aloh)
   9) Duplicate the word (e.g., hola → holahola)
+ 10) Remove vowels (e.g., hola → hl, secure → scr)
+ 11) Prepend numbers (e.g., password → 123password, hola → 456hola)
+ 00) Prepend symbols (e.g., password → @password, hola → #hola)
+ HBA) Brute force numbers (1 to 4 digits) at the end 
+ appends all possible number combinations from 1 to 4 digits to the end of the word.
+ (e.g., password1, password2, password9999)
+
 
 [INFO] Valid input: single or double-digit combinations, e.g., 1, 12
 [INFO] Unsupported combinations detected (14, 23, 35, 25)

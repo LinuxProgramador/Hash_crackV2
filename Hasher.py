@@ -266,7 +266,7 @@ Apply mutation rules to each word in the dictionary. Available rules:
 
 [INFO] Valid input: single or double-digit combinations, e.g., 1, 12
 [INFO] Unsupported combinations detected (14, 23, 35, 25)
-[NOTE] Rules '7', '8', and '9' are not valid in combination and are applied individually
+[NOTE] Rules '7', '8', '9', '10', '11', 'HBA' and '00' are not valid in combination and are applied individually
         """
     )
     parser.add_argument(

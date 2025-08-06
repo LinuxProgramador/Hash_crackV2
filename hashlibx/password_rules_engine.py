@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import sys
+from itertools import product
+
 
 def rules_parameters(word, rules, stored):
   try:

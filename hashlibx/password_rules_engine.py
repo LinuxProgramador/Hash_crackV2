@@ -96,10 +96,11 @@ def rules_parameters(word, rules, stored):
               stored.append(word)
 
         elif chosen_rules in ['10']:
+             temp_word = word
              for vocal in vocals:
-                 word = word.replace(vocal, '')
-                 word = word.replace(vocal.upper(), '')
-             stored.append(word)
+                 temp_word = temp_word.replace(vocal, '')
+                 temp_word = temp_word.replace(vocal.upper(), '')
+             stored.append(temp_word)
 
         elif chosen_rules in ['11']:
              for number in numbers:

@@ -76,6 +76,8 @@ def hash_cracking_worker(password_list, ssid, wpa_psk, target_hash, queue, found
         for candidate in mutated_words:
             candidate = candidate.strip()
             data = candidate.encode(encoder)
+            if found.is_set():
+                return
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
             if hash_result is None:
                 continue

@@ -62,6 +62,9 @@ def call_modules(module_chosen, encoder):
             os.system("pkill tor")
         else:
             print("Not supported on Termux")
+            print("To use the SSH cracking module in Hash_crackV2 from an Android device")
+            print("Install Ubuntu through the UserLAnd app available on the Play Store:")
+            print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
     elif module_chosen == '4':
         generate_combinations(encoder)
     elif module_chosen == '5':

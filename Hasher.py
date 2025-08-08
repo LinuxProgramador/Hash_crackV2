@@ -37,6 +37,11 @@ MENU_MODULES = {
 
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
+start = time.time()
+
+def show_elapsed_time(signum, frame):
+    elapsed = time.time() - start
+    print(f"\n[-]Time elapsed: {elapsed:.2f} seconds")
 
 def get_encoder(choice):
     return "latin-1" if choice == "1" else "utf-8"

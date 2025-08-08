@@ -41,7 +41,7 @@ start = time.time()
 
 def show_elapsed_time(signum, frame):
     elapsed = time.time() - start
-    print(f"\n[-]Time elapsed: {elapsed:.2f} seconds")
+    print(f"\n[-]Time elapsed: {elapsed:.2f}")
 
 def get_encoder(choice):
     return "latin-1" if choice == "1" else "utf-8"

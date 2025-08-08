@@ -10,3 +10,4 @@ gmssl==3.2.2
 paramiko==3.5.1
 argon2-cffi==23.1.0
 tqdm==4.67.1
+pikepdf==9.10.2

@@ -15,6 +15,7 @@ import sys
 import time
 import os
 import argparse
+import signal
 from pathlib import Path
 from multiprocessing import Process, cpu_count, Queue, Event
 from json import loads

@@ -327,6 +327,7 @@ Select the cracking module to use:
    3) SSHCrack     - SSH brute-force module
    4) MIXED        - Create a new dictionary with mutated password combinations
    5) Crackstation - Search common password database for known hash values
+   6) Pdf-Crack    - Decrypt PDF file passwords with a key using dictionary attacks
         """
     )
 

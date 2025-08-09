@@ -80,6 +80,18 @@ def call_modules(module_chosen, encoder):
         else:
             os.system("am start -a android.intent.action.VIEW -d https://crackstation.net/")
 
+    elif module_chosen == '6' and module:
+        if not os.path.exists("/data/data/com.termux/files/"):
+            time.sleep(1)
+            os.system("clear")
+            os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
+        else:
+            print("Not supported on Termux")
+            print("To use the Pdf-Crack module in Hash_crackV2 from an Android device")
+            print("Install Ubuntu through the UserLAnd app available on the Play Store:")
+            print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
+            
+
 def hash_cracking_worker(password_list, ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time):
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     for word in password_list:

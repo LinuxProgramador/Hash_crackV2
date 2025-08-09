@@ -35,7 +35,7 @@ main() {
     if [[ "$os" == "Android" || "$PREFIX" == *"com.termux"* ]]; then
         echo "[+] Environment detected: Termux"
         apt update && apt upgrade -y
-        apt install  python rust crunch -y
+        apt install  python rust crunch p7zip -y
         python -m pip install -r termux_requirements.txt
     else
         echo "[+] Environment detected: Linux (Debian/Ubuntu)"

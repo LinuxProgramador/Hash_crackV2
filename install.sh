@@ -45,7 +45,7 @@ main() {
         fi
 
         sudo apt update && sudo apt upgrade -y
-        sudo apt install python3 python3-pip tor proxychains4 crunch -y
+        sudo apt install python3 python3-pip tor proxychains4 crunch p7zip-full p7zip-rar -y
         python3 -m pip install --upgrade pip
         python3 -m pip install -r linux_requirements.txt
 

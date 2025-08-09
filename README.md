@@ -101,7 +101,7 @@ Important notes
 1. If you want to use your own dictionary, name the file wordlist.txt and place it inside the Hash_crackV2 directory.
 
 
-2. Cracking ZIP and RAR archives depends on the tool used for compression. Success is more likely if the files were compressed using command-line tools such as zip or rar.
+2. ZCrack and RARNinja tools are better suited for older encryption implementations since they were developed some time ago. For decrypting modern compression formats, we recommend using Zip-Crack and Rar-Crack.
 
 
 3. For DCC2 and WPA-PSK hashes, include the username or SSID along with the hash. For example:

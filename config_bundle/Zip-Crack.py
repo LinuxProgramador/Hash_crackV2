@@ -24,6 +24,12 @@ def try_passwords(zip_file, passwords, found, queue):
                 print("=" * 50)
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
+                extract_cmd = ['7z', 'x', zip_file, f'-p{pwd}', f'-oDecryptedTablets', '-aoa']
+                try:
+                  subprocess.run(extract_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+                except subprocess.CalledProcessError as e:
+                  pass
                 queue.put(pwd)
                 found.set()
                 return

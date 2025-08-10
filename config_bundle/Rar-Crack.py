@@ -130,6 +130,10 @@ def crack_rar(rar_file, wordlist_file):
 
 
 if __name__ == "__main__":
+  try:
     rar_file = input("Enter the absolute path of the RAR file you want to crack: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
     crack_rar(rar_file, wordlist_file)
+  except KeyboardInterrupt:
+      print()
+      sys.exit(1)

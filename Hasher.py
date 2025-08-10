@@ -34,8 +34,8 @@ MENU_MODULES = {
     '4': None,
     '5': None,
     '6': 'Pdf-Crack.py',
-    '7': 'Zip-Crack',
-    '8': 'Rar-Crack'
+    '7': 'Zip-Crack.py',
+    '8': 'Rar-Crack.py'
 }
 
 HOME = Path.home()

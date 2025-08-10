@@ -33,7 +33,9 @@ MENU_MODULES = {
     '3': 'ssh_service_attack.py',
     '4': None,
     '5': None,
-    '6': 'Pdf-Crack.py'
+    '6': 'Pdf-Crack.py',
+    '7': 'Zip-Crack',
+    '8': 'Rar-Crack'
 }
 
 HOME = Path.home()

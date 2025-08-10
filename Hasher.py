@@ -83,7 +83,6 @@ def call_modules(module_chosen, encoder):
     elif module_chosen == '6' and module:
         if not os.path.exists("/data/data/com.termux/files/"):
             time.sleep(1)
-            os.system("clear")
             os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
         else:
             print("Not supported on Termux")

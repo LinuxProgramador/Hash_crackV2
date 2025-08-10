@@ -129,6 +129,10 @@ def crack_zip(zip_file, wordlist_file):
 
 
 if __name__ == "__main__":
+  try:
     zip_file = input("Enter the absolute path of the ZIP file you want to crack: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
     crack_zip(zip_file, wordlist_file)
+  except KeyboardInterrupt:
+      print()
+      sys.exit(1)

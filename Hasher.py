@@ -79,7 +79,6 @@ def call_modules(module_chosen, encoder):
                   print(f"Error while trying to open the browser: {e}")
         else:
             os.system("am start -a android.intent.action.VIEW -d https://crackstation.net/")
-
     elif module_chosen == '6' and module:
         if not os.path.exists("/data/data/com.termux/files/"):
             time.sleep(1)
@@ -89,7 +88,10 @@ def call_modules(module_chosen, encoder):
             print("To use the Pdf-Crack module in Hash_crackV2 from an Android device")
             print("Install Ubuntu through the UserLAnd app available on the Play Store:")
             print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
-            
+    elif module_chosen in ['7', '8'] and module:
+        time.sleep(1)   
+        os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
+
 
 def hash_cracking_worker(password_list, ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time):
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
@@ -327,6 +329,8 @@ Select the cracking module to use:
    4) MIXED        - Create a new dictionary with mutated password combinations
    5) Crackstation - Search common password database for known hash values
    6) Pdf-Crack    - Decrypt PDF file passwords with a key using dictionary attacks
+   7) Zip-Crack    - Module that supports the new zip format encryption method and implements multiprocessing to increase speed 
+   8) Rar-Crack    - Module that supports the new rar format encryption method and implements multiprocessing to increase speed 
         """
     )
 

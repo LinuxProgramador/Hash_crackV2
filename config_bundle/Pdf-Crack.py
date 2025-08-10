@@ -122,6 +122,10 @@ def crack_pdf(pdf_file, wordlist_file):
 
 
 if __name__ == "__main__":
+  try:
     pdf_file = input("Enter the absolute path of the PDF file you want to decrypt: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
     crack_pdf(pdf_file, wordlist_file)
+  except KeyboardInterrupt:
+      print()
+      sys.exit(1)

@@ -334,6 +334,7 @@ Select the cracking module to use:
    6) Pdf-Crack    - Decrypt PDF file passwords with a key using dictionary attacks
    7) Zip-Crack    - Module that supports the new zip format encryption method and implements multiprocessing to increase speed 
    8) Rar-Crack    - Module that supports the new rar format encryption method and implements multiprocessing to increase speed 
+   9) 7z-Crack     - Decrypt 7Z compressed files with passwords using dictionary attacks
         """
     )
 

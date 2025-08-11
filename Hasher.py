@@ -35,7 +35,8 @@ MENU_MODULES = {
     '5': None,
     '6': 'Pdf-Crack.py',
     '7': 'Zip-Crack.py',
-    '8': 'Rar-Crack.py'
+    '8': 'Rar-Crack.py',
+    '9': '7z-Crack.py'
 }
 
 HOME = Path.home()
@@ -90,7 +91,7 @@ def call_modules(module_chosen, encoder):
             print("To use the Pdf-Crack module in Hash_crackV2 from an Android device")
             print("Install Ubuntu through the UserLAnd app available on the Play Store:")
             print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
-    elif module_chosen in ['7', '8'] and module:
+    elif module_chosen in ['7', '8', '9'] and module:
         time.sleep(1)   
         os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
 

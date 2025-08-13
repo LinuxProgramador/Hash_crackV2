@@ -25,15 +25,19 @@ hash_list = [
 ]
 
 
-hash_list_show = [
-    "\nmd5", "sha1", "\nblake2s", "blake2b", "\nripemd-160", "bcrypt",
-    "\nsha256crypt", "sha512crypt", "\nshake-128", "shake-256", "\nwpa", "ntlm",
-    "\nmysql5.x", "md5crypt", "\napr1", "dcc2", "\nssha", "sm3",
-    "\nsha512-256", "phpass", "\nwhirlpool", "sha512sum", "sha256sum",
-    "\nsha3-224", "sha3-256", "\nsha3-384", "sha3-512", "sha256",
-    "\nsha224", "sha384", "\nsha512", "pbkdf2-sha256", "\nargon2id", "scrypt", "pbkdf2-sha1"
-]
+hash_list_show = """
+Hash types available:
 
+  md5           sha1          blake2s        blake2b
+  ripemd-160    bcrypt        sha256crypt    sha512crypt
+  shake-128     shake-256     wpa            ntlm
+  mysql5.x      md5crypt      apr1           dcc2
+  ssha          sm3           sha512-256     phpass
+  whirlpool     sha512sum     sha256sum
+  sha3-224      sha3-256      sha3-384       sha3-512
+  sha256        sha224        sha384         sha512
+  pbkdf2-sha256 argon2id      scrypt         pbkdf2-sha1
+"""
 
 
 def ask_user_for_type(prompt, options):

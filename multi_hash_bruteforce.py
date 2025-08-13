@@ -180,7 +180,7 @@ def validate_word(word, target_hash, hash_type, ssid, user):
         dklen = len(b64decode(key_b64))
         salt = b64decode(salt_b64)
         key = pbkdf2_hmac('sha256', data, salt, int(iterations), dklen)
-        return f"pbkdf2-sha256${iterations}${b64encode(salt).decode()}${b64encode(key).decode()}"
+        return f"$pbkdf2-sha256${iterations}${b64encode(salt).decode()}${b64encode(key).decode()}"
 
       except binascii.Error:
         return pbkf_sha2_passlib.verify(word, target_hash)
@@ -192,7 +192,7 @@ def validate_word(word, target_hash, hash_type, ssid, user):
           dklen = len(b64decode(key_b64))
           salt = b64decode(salt_b64)
           key = pbkdf2_hmac('sha1', data, salt, int(iterations), dklen)
-          return f"pbkdf2${iterations}${b64encode(salt).decode()}${b64encode(key).decode()}"
+          return f"$pbkdf2${iterations}${b64encode(salt).decode()}${b64encode(key).decode()}"
 
         except binascii.Error:
           return pbkf_sha1_passlib.verify(word, target_hash)

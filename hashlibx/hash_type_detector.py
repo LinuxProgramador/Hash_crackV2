@@ -181,7 +181,7 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder):
         sys.exit(1)
 
     if hash_type not in hash_list:
-        print(f"[!] Unsupported hash type: '{hash_type}'. Please choose a valid type from: {', '.join(hash_list_show[0:])}")
+        print(f"[!] Unsupported hash type: '{hash_type}'. Please choose a valid type from: {hash_list_show}")
         sys.exit(1)
 
     process_count = show_info_cracker(hash_type, cpu_num, encoder)

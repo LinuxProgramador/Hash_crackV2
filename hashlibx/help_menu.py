@@ -29,5 +29,6 @@ def show_help():
          ║  sha256      sha224      sha384      ║
          ║  sha512      pbkdf2-sha256           ║
          ║  argon2id    scrypt      CiscoType7  ║
+         ║  pbkdf2-sha1                         ║
          ╚══════════════════════════════════════╝
   '''

@@ -142,6 +142,9 @@ def auto_detect_type(target_hash):
     if target_hash.startswith("$pbkdf2-sha256"):
         return "pbkdf2-sha256", None, None, None, target_hash
 
+    if target_hash.startswith("$pbkdf2"):
+        return "pbkdf2-sha1", None, None, None, target_hash
+
     return None, None, None, None, target_hash
 
 

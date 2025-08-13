@@ -148,7 +148,18 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
       except binascii.Error:
         return pbkf_sha2_passlib.verify(word, target_hash)
 
+    elif hash_type == "pbkdf2-sha1":
+      try:
 
+        algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
+        dklen = len(b64decode(key_b64))
+        salt = b64decode(salt_b64)
+        key = pbkdf2_hmac('sha1', data, salt, int(iterations), dklen)
+        generated_hash = f"pbkdf2${iterations}${b64encode(salt).decode(encoder)}${b64encode(key).decode(encoder)}"
+
+      except binascii.Error:
+        return pbkf_sha1_passlib.verify(word, target_hash)
+            
     elif hash_type in HASH_ALGORITHMS_INFO:
         if hash_type == 'sha512crypt':
             time.sleep(0.02)

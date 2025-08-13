@@ -151,7 +151,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
     elif hash_type == "pbkdf2-sha1":
       try:
 
-        algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
+        algo, iterations, salt_b64, key_b64 = target_hash.split('$')
         dklen = len(b64decode(key_b64))
         salt = b64decode(salt_b64)
         key = pbkdf2_hmac('sha1', data, salt, int(iterations), dklen)

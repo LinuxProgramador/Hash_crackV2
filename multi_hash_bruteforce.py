@@ -288,6 +288,10 @@ def main():
      wpa_psk = True if hash_type == "wpa" else None
      ssid = input("Enter SSID: ").strip() if hash_type == "wpa" else ssid
 
+     if hash_type == "pbkdf2-sha1":
+         target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
+
+       
      if target_hash.startswith("$dcc2$") and hash_type == "dcc2":
          dcc2_split_hash = target_hash.split('$')
          salt_bytes = b64decode(dcc2_split_hash[3])

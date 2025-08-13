@@ -21,7 +21,7 @@ hash_list = [
     "mysql5.x", "md5crypt", "apr1", "dcc2", "ssha", "sm3",
     "sha512-256", "phpass", "whirlpool", "sha512sum", "sha256sum",
     "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha256",
-    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt"
+    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1"
 ]
 
 
@@ -31,7 +31,7 @@ hash_list_show = [
     "\nmysql5.x", "md5crypt", "\napr1", "dcc2", "\nssha", "sm3",
     "\nsha512-256", "phpass", "\nwhirlpool", "sha512sum", "sha256sum",
     "\nsha3-224", "sha3-256", "\nsha3-384", "sha3-512", "sha256",
-    "\nsha224", "sha384", "\nsha512", "pbkdf2-sha256", "\nargon2id", "scrypt"
+    "\nsha224", "sha384", "\nsha512", "pbkdf2-sha256", "\nargon2id", "scrypt", "pbkdf2-sha1"
 ]
 
 

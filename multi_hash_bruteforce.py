@@ -280,7 +280,7 @@ def main():
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",
         "dcc2", "mysql5.x", "whirlpool", "sha256sum", "sha512sum",
-        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "wpa"
+        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "wpa", "pbkdf2-sha1"
      ]:
         print("Invalid input.")
         sys.exit(1)

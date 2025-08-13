@@ -19,6 +19,7 @@ from passlib.hash import (
     apr_md5_crypt, msdcc2, phpass
 )
 from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
+from passlib.hash import pbkdf2_sha1 as pbkf_sha1_passlib
 from bcrypt import checkpw
 from gmssl import sm3, func
 from whirlpool import new as wpl

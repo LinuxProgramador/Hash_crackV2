@@ -164,7 +164,7 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder):
         print("[ERROR]: No hash input provided.")
         sys.exit(1)
 
-    if target_hash.startswith("$pbkdf2-sha1")
+    if target_hash.startswith("$pbkdf2-sha1"):
        target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
       
     if not hash_type:

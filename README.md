@@ -59,7 +59,7 @@ The author is not responsible for any misuse or illegal activity performed using
 
   RainbowCrackalack: https://github.com/jtesta/rainbowcrackalack
 
-  Hashes: https://hashes.com/en/decrypt/hash
+  Hashes: https://hashes.com/
 
 ## Installation
 

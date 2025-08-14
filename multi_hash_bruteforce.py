@@ -68,7 +68,7 @@ def display_supported_hashes():
 | sha3-512   | sha256       |
 | sha224     | sha384       |
 | sha512     | pbkdf2-sha256|
-| pbkdf2-sha1|              |
+| pbkdf2-sha1| pbkdf2-sha512|
  ---------------------------
 ''')
 

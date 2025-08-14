@@ -61,6 +61,12 @@ The author is not responsible for any misuse or illegal activity performed using
 
   Md5decrypt: https://md5decrypt.net/
 
+- Hash type recognition:
+  
+  Dcode: https://www.dcode.fr/identificador-hash
+  
+  [NOTE] Or pass the hash to the main module Hasher.py and it will show you the hash type or the closest one
+  
 ## Installation
 
 ```bash

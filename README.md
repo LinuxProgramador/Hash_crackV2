@@ -59,6 +59,8 @@ The author is not responsible for any misuse or illegal activity performed using
 
   Hashes: https://hashes.com/
 
+  Md5decrypt: https://md5decrypt.net/
+
 ## Installation
 
 ```bash

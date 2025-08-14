@@ -53,8 +53,6 @@ The author is not responsible for any misuse or illegal activity performed using
 
   PassMark Software: https://www.osforensics.com/tools/rainbow-tables/index.html
 
-  RainbowCrack: https://project-rainbowcrack.com
-
   Ophcrack: https://ophcrack.sourceforge.io/tables.php
 
   RainbowCrackalack: https://github.com/jtesta/rainbowcrackalack

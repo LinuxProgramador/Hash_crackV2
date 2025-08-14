@@ -45,6 +45,20 @@ The author is not responsible for any misuse or illegal activity performed using
 - Collection of common wordlists:  
   https://github.com/kkrypt0nn/wordlists
 
+- Rainbow tables collection:
+  CrackStation: https://crackstation.net
+
+  FreeRainbowTables: https://freerainbowtables.com
+
+  PassMark Software: https://www.osforensics.com/tools/rainbow-tables/index.html
+
+  RainbowCrack: https://project-rainbowcrack.com
+
+  Ophcrack: https://ophcrack.sourceforge.io/tables.php
+
+  RainbowCrackalack: https://github.com/jtesta/rainbowcrackalack
+
+
 ## Installation
 
 ```bash

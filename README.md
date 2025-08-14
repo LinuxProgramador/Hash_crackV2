@@ -112,6 +112,7 @@ Supported hashes
 • SCRYPT
 • PBKDF2-SHA256
 • PBKDF2-SHA1
+• PBKDF2-SHA512
 
 Important notes
 

@@ -46,6 +46,7 @@ The author is not responsible for any misuse or illegal activity performed using
   https://github.com/kkrypt0nn/wordlists
 
 - Rainbow tables collection:
+  
   CrackStation: https://crackstation.net
 
   FreeRainbowTables: https://freerainbowtables.com

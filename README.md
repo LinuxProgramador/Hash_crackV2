@@ -12,6 +12,33 @@ The author is not responsible for any misuse or illegal activity performed using
 
 • Android (via Termux)
 
+## Quick Command Usage for Hasher.py
+
+🔓 Decrypt a Cisco Type 7 key
+
+python3 Hasher.py -i 'cisco7_key' -ct7
+
+
+---
+
+📦 Call external modules
+
+python3 Hasher.py -m -mc [1..9]
+
+
+---
+
+✅ Directly check a hash (with default values)
+
+python3 Hasher.py -i 'hash'
+
+---
+
+⚙️ Example with common parameters
+
+python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
+
+
 ## Features
 
 1. Multi-processing for optimal performance on multi-core systems  

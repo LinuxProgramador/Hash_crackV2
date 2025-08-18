@@ -175,6 +175,10 @@ DCC2: root:e7f9a1ba77b1d0406ab52783b2b9636a
 
 8. To create custom password dictionaries, use the helper script crunch_manager.sh.
 
+9. In Linux distros (Debian/Ubuntu) the installation of the Whirlpool module is done with 'sudo'
+
+To avoid conflicts, but unlikely, you have the option to install Whirlpool from a virtual environment
+
 Check progress
 
 To display elapsed time, press:

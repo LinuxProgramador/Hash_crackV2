@@ -29,7 +29,7 @@ def try_passwords(rar_file, passwords, found, queue):
                 try:
                   subprocess.run(extract_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-                except subprocess.CalledProcessError as e:
+                except subprocess.CalledProcessError:
                   pass
                 queue.put(pwd)
                 found.set()

@@ -37,6 +37,7 @@ main() {
         apt update && apt upgrade -y
         apt install  python rust crunch p7zip -y
         python -m pip install -r termux_requirements.txt
+        python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else
         echo "[+] Environment detected: Linux (Debian/Ubuntu)"
         if ! command -v sudo >/dev/null; then
@@ -56,9 +57,9 @@ main() {
         else
             echo "[!] proxychains4.conf not found in ~/Hash_crackV2/config_bundle/"
         fi
+        sudo python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     fi
 
-    python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     echo -e "\n[✓] Installation completed."
 }
 

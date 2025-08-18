@@ -58,7 +58,7 @@ main() {
         fi
     fi
 
-    python3 -m pip install -e thirdparty_cracktools/python-whirlpool/.
+    python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     echo -e "\n[✓] Installation completed."
 }
 

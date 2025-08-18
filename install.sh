@@ -37,7 +37,7 @@ main() {
         apt update && apt upgrade -y
         apt install  python rust crunch p7zip -y
         python -m pip install -r termux_requirements.txt
-        python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
+        python -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else
         echo "[+] Environment detected: Linux (Debian/Ubuntu)"
         if ! command -v sudo >/dev/null; then

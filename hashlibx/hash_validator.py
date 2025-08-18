@@ -169,7 +169,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
            dklen = len(b64decode(key_b64))
            salt = b64decode(salt_b64)
            key = pbkdf2_hmac('sha512', data, salt, int(iterations), dklen)
-           generated_hash = f"$pbkdf2-sha512${iterations}${b64encode(salt).decode()}${b64encode(key).decode()}"
+           generated_hash = f"$pbkdf2-sha512${iterations}${b64encode(salt).decode(encoder)}${b64encode(key).decode(encoder)}"
 
          except binascii.Error:
            return pbkf_sha5_passlib.verify(word, target_hash)

@@ -216,6 +216,14 @@ def validate_word(word, target_hash, hash_type, ssid, user):
             time.sleep(0.02)
 
         if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
+             if hash_type in ['sha256crypt', 'sha512crypt']:
+              try:
+                context = CryptContext(schemes=[hash_type])
+                return context.verify(word, target_hash)
+
+              except Exception as e:
+                 return SUPPORTED_HASHES[hash_type].verify(word, target_hash)
+                  
             return SUPPORTED_HASHES[hash_type].verify(word, target_hash)
         return SUPPORTED_HASHES[hash_type](data).hexdigest()
 

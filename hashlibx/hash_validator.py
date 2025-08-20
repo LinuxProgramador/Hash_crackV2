@@ -181,6 +181,14 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
             time.sleep(0.02)
 
         if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
+            if hash_type in ['sha256crypt', 'sha512crypt']:
+              try:
+                context = CryptContext(schemes=[hash_type])
+                return context.verify(word, target_hash)
+
+              except Exception as e:
+                return HASH_ALGORITHMS_INFO[hash_type].verify(word, target_hash)
+                      
             return HASH_ALGORITHMS_INFO[hash_type].verify(word, target_hash)
         generated_hash = HASH_ALGORITHMS_INFO[hash_type](data).hexdigest()
 

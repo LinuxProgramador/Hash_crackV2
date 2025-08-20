@@ -21,6 +21,7 @@ from passlib.hash import (
 from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
 from passlib.hash import pbkdf2_sha1 as pbkf_sha1_passlib
 from passlib.hash import pbkdf2_sha512 as pbkf_sha5_passlib
+from passlib.context import CryptContext
 from bcrypt import checkpw
 from gmssl import sm3, func
 from whirlpool import new as wpl

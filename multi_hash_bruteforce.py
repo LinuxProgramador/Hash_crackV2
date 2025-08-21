@@ -218,7 +218,9 @@ def validate_word(word, target_hash, hash_type, ssid, user):
         if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
             if hash_type in ['sha256crypt', 'sha512crypt']:
               try:
-                context = CryptContext(schemes=[hash_type])
+                hash_type_sche = hash_type.replace("sha512crypt","sha512_crypt")
+                hash_type_sche = hash_type.replace("sha256crypt","sha256_crypt")
+                context = CryptContext(schemes=[hash_type_sche])
                 return context.verify(word, target_hash)
 
               except Exception as e:

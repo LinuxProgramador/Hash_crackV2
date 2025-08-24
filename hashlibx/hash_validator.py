@@ -181,7 +181,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
             time.sleep(0.02)
 
         if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
-            if hash_type in ['sha256crypt', 'sha512crypt']:
+            if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1']:
               try:
                 hash_type_sche = hash_type.replace("sha512crypt","sha512_crypt")
                 hash_type_sche = hash_type_sche.replace("sha256crypt","sha256_crypt")

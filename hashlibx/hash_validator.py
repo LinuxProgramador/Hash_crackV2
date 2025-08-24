@@ -185,6 +185,8 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
               try:
                 hash_type_sche = hash_type.replace("sha512crypt","sha512_crypt")
                 hash_type_sche = hash_type_sche.replace("sha256crypt","sha256_crypt")
+                hash_type_sche = hash_type_sche.replace("md5crypt","md5_crypt")
+                hash_type_sche = hash_type_sche.replace("apr1","apr_md5_crypt")
                 context = CryptContext(schemes=[hash_type_sche])
                 return context.verify(word, target_hash)
 

@@ -181,6 +181,12 @@ DCC2: root:e7f9a1ba77b1d0406ab52783b2b9636a
 To avoid conflicts, but unlikely, you have the option to install Whirlpool from a virtual environment
 
 
+10. RECOMMENDATION: If the dictionary is massive, split it with split_dictionary.py
+
+Only if you have enough disk space available
+
+
+
 Check progress
 
 To display elapsed time, press:

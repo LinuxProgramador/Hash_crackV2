@@ -268,7 +268,7 @@ Select encoding:
         '-w', '--wait',
         metavar="WAIT-TIME", dest='wait_time',
         type=str, default='n',
-        help='Pause between attempts for secure hashes: options (y/n)'
+        help='Prevent CPU overheating (y/n)'
     )
     parser.add_argument(
         '-ct7', '--cisco-type7',

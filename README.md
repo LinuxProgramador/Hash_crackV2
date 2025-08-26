@@ -192,8 +192,7 @@ which helps reduce the file size and can speed up cracking time.
 
 However, warning: doing so may also break the original smart ordering of the dictionary.
 
-    sort -u rockyou.txt > wordlist.txt
-
+sort -u rockyou.txt > wordlist.txt
 
 
 Check progress

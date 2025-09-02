@@ -96,9 +96,7 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 
 - Generate a custom dictionary based on user information:
   
-  CUPP (Common User Passwords Profiler) generates personalized password wordlists based on a target’s personal
-
-  information.
+  CUPP (Common User Passwords Profiler) generates personalized password wordlists based on a target’s person information.
 
   Link: https://github.com/Mebus/cupp
 

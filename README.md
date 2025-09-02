@@ -93,6 +93,16 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
   Dcode: https://www.dcode.fr/identificador-hash
   
   [NOTE] Or pass the hash to the main module Hasher.py and it will show you the hash type or the closest one
+
+  • Generate a custom dictionary based on user information:
+  
+  CUPP (Common User Passwords Profiler) generates personalized password wordlists based on a target’s personal
+
+  information.
+
+  Link: https://github.com/Mebus/cupp
+
+  
   
 ## Installation
 

@@ -224,6 +224,9 @@ However, warning: doing so may also break the original smart ordering of the dic
 sort -u rockyou.txt > wordlist.txt
 
 
+12 . In the SSH brute force module, it is recommended to use the ssh_keys.txt dictionary.
+
+
 Check progress
 
 To display elapsed time, press:

@@ -115,7 +115,7 @@ To access the help menu and see all available options:
 
 python3 Hasher.py -h
 
-Supported hashes
+Supported hashes:
 
 • MD5
 • SHA1
@@ -154,6 +154,27 @@ Supported hashes
 • PBKDF2-SHA256
 • PBKDF2-SHA1
 • PBKDF2-SHA512
+
+Default SSH users:
+
+• root
+• admin
+• test
+• user
+• ubuntu
+• pi
+• guest
+• webadmin
+• webmaster
+• techsupport
+• postgres
+• mysql
+• oracle
+• ftp
+• git
+• backup
+• support
+
 
 Important notes
 

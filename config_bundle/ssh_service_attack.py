@@ -61,9 +61,10 @@ def read_dic(dic_path, port, hostname, username, encoder):
          buffer = last_line + chunk
          lines = buffer.splitlines()
 
-         buffer_list = []
-         if not chunk.endswith('\n'):
-            buffer_list.append(lines.pop())
+         if chunk and not chunk.endswith('\n') and lines:
+                last_line = lines.pop()
+         else:
+                last_line = ""
 
          ssh(client, lines, hostname, username, port)
 

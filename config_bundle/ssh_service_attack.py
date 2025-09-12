@@ -68,8 +68,8 @@ def read_dic(dic_path, port, hostname, username, encoder):
 
          ssh(client, lines, hostname, username, port)
 
-       if buffer_list:
-         ssh(client, buffer_list, hostname, username, port)
+       if last_line:
+         ssh(client, [last_line], hostname, username, port)
 
 
 def main():

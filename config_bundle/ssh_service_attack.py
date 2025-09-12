@@ -58,7 +58,7 @@ def read_dic(dic_path, port, hostname, username, encoder):
          if not chunk:
             break
 
-         buffer += chunk
+         buffer = last_line + chunk
          lines = buffer.splitlines()
 
          buffer_list = []

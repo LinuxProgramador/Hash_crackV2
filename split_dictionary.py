@@ -11,7 +11,7 @@ DIVIDED_DIR = "divided_dictionaries"
 
 def split_dictionary(size):
     os.makedirs(DIVIDED_DIR, exist_ok=True)
-    os.system(f"split -C {size}M {DICT_PATH} {DIVIDED_DIR}/dic_")
+    os.system(f"split -C {size}M --additional-suffix=.txt {DICT_PATH} {DIVIDED_DIR}/dic_")
 
 def use_dictionary():
     dic_list = sorted(os.listdir(DIVIDED_DIR))

@@ -177,9 +177,9 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder):
        target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
       
     if not hash_type:
-        hash_type = match_length_hashes(target_hash)
+        hash_type, user, ssid, wpa_psk, target_hash_mod = auto_detect_type(target_hash)       
         if not hash_type:
-            hash_type, user, ssid, wpa_psk, target_hash_mod = auto_detect_type(target_hash)
+            hash_type = match_length_hashes(target_hash)
 
     if not hash_type:
         print("[ERROR]: Hash type could not be detected.")

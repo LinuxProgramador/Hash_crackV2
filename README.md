@@ -6,6 +6,20 @@
 This tool is intended for educational and research purposes only.  
 The author is not responsible for any misuse or illegal activity performed using this software.
 
+## Bugs
+
+⚠️ Known Issue:
+
+In some cases (though not very frequent)
+
+the script may become unresponsive either after being interrupted with Ctrl+C or
+
+once the correct password has been successfully found.
+
+Workaround: If this occurs, manually terminate the process by pressing Ctrl+C one or 
+
+more times until the execution stops completely.
+
 ## Recommended Platforms
 
 • Linux-based systems (Debian, Ubuntu)

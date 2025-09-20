@@ -116,7 +116,7 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 
 - Generates millions of keyword-based password mutations in seconds:
   
-  PSUDOHASH: 
+  PSUDOHASH: System administrators and other employees often use a mutated version of the Company's name to set    passwords (e.g. Am@z0n_2022). This is commonly the case for network devices (Wi-Fi access points, switches, routers, etc), application or even domain accounts. With the most basic options, psudohash can generate a wordlist with all possible mutations of one or multiple keywords, based on common character substitution patterns (customizable), case variations, strings commonly used as padding and more
   
   Link: https://github.com/t3l3machus/psudohash
 

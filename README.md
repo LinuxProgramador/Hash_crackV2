@@ -114,7 +114,12 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 
   Link: https://github.com/Mebus/cupp
 
+- Generates millions of keyword-based password mutations in seconds:
   
+  PSUDOHASH: 
+  
+  Link: https://github.com/t3l3machus/psudohash
+
   
 ## Installation
 

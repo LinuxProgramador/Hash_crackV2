@@ -14,7 +14,7 @@ In some cases (though not very frequent)
 
 the script may become unresponsive either after being interrupted with Ctrl+C or
 
-once the correct password has been successfully found.
+once the correct password has been found and successfully printed to the console
 
 Workaround: If this occurs, manually terminate the process by pressing Ctrl+C one or 
 

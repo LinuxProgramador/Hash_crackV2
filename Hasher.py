@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Tool to crack hashes by brute force on Linux distros (Ubuntu/Debian) and Termux.
+Tool to crack hashes by brute force on Ubuntu and Termux.
 Supports multiprocessing, auto-detect of hash types, custom hash definition,
 engineered block sizing, and encoding options.
 """

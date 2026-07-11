@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 crunch_option2() {
     clear

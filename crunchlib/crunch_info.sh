@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 crunch_info() {
     echo "[*] Crunch will be used to generate a custom wordlist!"

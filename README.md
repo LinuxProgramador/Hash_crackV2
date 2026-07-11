@@ -22,7 +22,7 @@ more times until the execution stops completely.
 
 ## Recommended Platforms
 
-• Linux-based systems (Ubuntu)
+• Ubuntu 24.04.4 LTS
 
 • Android (via Termux)
 

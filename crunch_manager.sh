@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 run_crunch() {
    source "$HOME/Hash_crackV2/crunchlib/crunch_info.sh"

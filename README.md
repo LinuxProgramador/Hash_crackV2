@@ -133,6 +133,11 @@ Supported hashes:
 • PBKDF2-SHA1
 • PBKDF2-SHA512
 
+Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
+
+   *WPA-PSK: network:hash
+   *DCC2: username:hash
+
 
 Check progress
 

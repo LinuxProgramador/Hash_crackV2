@@ -89,6 +89,27 @@ cd Hash_crackV2
 bash install.sh
 python3 Hasher.py [-i, -t, -e, -r, -w, -m, ...]
 
+## NOTE
+
+If you encounter installation issues on Ubuntu, it is recommended to use a Python virtual environment.
+
+### Create a virtual environment
+
+    python3 -m venv path/to/venv
+
+### Install the project dependencies
+
+    path/to/venv/bin/python3 -m pip install -r linux_requirements.txt
+
+### Install the Whirlpool dependency
+
+    path/to/venv/bin/python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
+
+## Usage
+
+   path/to/venv/bin/python3 Hasher.py -i "your_hash_here"
+
+
 To access the help menu and see all available options:
 
 python3 Hasher.py -h

@@ -39,7 +39,7 @@ main() {
         python -m pip install -r termux_requirements.txt
         python -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else
-        echo "[+] Environment detected: Linux (Debian/Ubuntu)"
+        echo "[+] Environment detected: Linux (Ubuntu)"
         if ! command -v sudo >/dev/null; then
             echo "[!] 'sudo' is not installed. Aborting."
             exit 1

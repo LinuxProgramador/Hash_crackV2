@@ -107,7 +107,7 @@ If you encounter installation issues on Ubuntu, it is recommended to use a Pytho
 
 ## Usage
 
-   path/to/venv/bin/python3 Hasher.py -i "your_hash_here"
+   path/to/venv/bin/python3 Hasher.py -i ' your_hash_here '
 
 
 To access the help menu and see all available options:

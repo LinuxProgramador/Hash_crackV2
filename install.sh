@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 main() {
     local os
     os=$(uname -o 2>/dev/null || echo "unknown")

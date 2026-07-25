@@ -4,7 +4,7 @@ import sys
 import time
 import binascii
 from string import ascii_lowercase, ascii_uppercase, digits
-from multiprocessing import Process, Queue, Event
+from multiprocessing import Pool
 from itertools import product
 from base64 import b64encode, b64decode
 from hashlib import (
@@ -234,33 +234,43 @@ def validate_word(word, target_hash, hash_type, ssid, user):
     return None
 
 
-def hash_worker(config, target_hash, hash_type, stop_event, result_queue, wait_time, ssid, user):
-  try:
-    for word in word_generator(config):
-        if stop_event.is_set():
-            break
-        if wait_time == "y":
-            time.sleep(0.20)
+def hash_worker(args):
+    config, target_hash, hash_type, wait_time, ssid, user = args
 
-        try:
-            result = validate_word(word.strip(), target_hash, hash_type, ssid, user)
+    try:
+        for word in word_generator(config):
 
-            # Direct match or special cases
-            if hash_type == "ssha":
-                if result[0].lower() == result[1].lower():
-                    stop_event.set()
-                    result_queue.put(word)
-                    break
-            elif result is True or (isinstance(result, str) and result.lower() == target_hash.lower()):
-                stop_event.set()
-                result_queue.put(word)
-                break
+            if wait_time == "y":
+                time.sleep(0.20)
 
-        except Exception:
-            continue
+            try:
+                result = validate_word(
+                    word.strip(),
+                    target_hash,
+                    hash_type,
+                    ssid,
+                    user
+                )
 
-  except KeyboardInterrupt:
-        return
+                if hash_type == "ssha":
+                    if result[0].lower() == result[1].lower():
+                        return word.strip(), True
+
+                elif result is True or (
+                    isinstance(result, str)
+                    and result.lower() == target_hash.lower()
+                ):
+                    return word.strip(), True
+
+            except Exception:
+                continue
+
+    except KeyboardInterrupt:
+        return None
+
+    return None
+
+
 
 
 def get_user_config():
@@ -332,52 +342,38 @@ def main():
      print("\nEnter 4 configurations for charset and length:")
      config_list = get_user_config()
 
-     stop_event = Event()
-     result_queue = Queue()
+     with Pool(processes=4) as pool:
 
-     processes = [
-        Process(target=hash_worker, args=(cfg, target_hash, hash_type, stop_event, result_queue, wait_time, ssid, user))
+       tasks = [
+        (cfg, target_hash, hash_type, wait_time, ssid, user)
         for cfg in config_list
-     ]
+       ]
 
-     try:
-        for p in processes:
-            p.start()
+       for result in pool.imap_unordered(hash_worker, tasks):
 
-        while any(p.is_alive() for p in processes):
-            if stop_event.is_set() and not result_queue.empty():
-                print("\n" + "=" * 50)
+        if result:
+            candidate, found = result
 
-                if wpa_psk:
-                   print("[ SSID ]".center(50))
-                   print("=" * 50)
-                   print(f">>> ssid: {ssid}".center(50))
+            print("\n" + "=" * 50)
 
+            if wpa_psk:
+                print("[ SSID ]".center(50))
                 print("=" * 50)
-                print("[ PASSWORD FOUND ]".center(50))
-                print("=" * 50)
-                print(f">>> Recovered Password: {result_queue.get().strip()}".center(50))
-                print("=" * 50 + "\n")
+                print(f">>> ssid: {ssid}".center(50))
 
-                break
+            print("=" * 50)
+            print("[ PASSWORD FOUND ]".center(50))
+            print("=" * 50)
+            print(f">>> Recovered Password: {candidate}".center(50))
+            print("=" * 50 + "\n")
 
-     except KeyboardInterrupt:
-        print()
+            pool.terminate()
+            break
 
-     except Exception as error:
-        print(f"[ERROR]: {error}")
-
-     finally:
-        for p in processes:
-            if p.is_alive():
-                p.terminate()
-        for p in processes:
-            p.join()
-        sys.exit(0)
 
    except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
    except Exception as error:
         print(f"[ERROR]: {error}")

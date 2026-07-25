@@ -3,11 +3,13 @@
 import pikepdf
 import sys
 import os
-import time
+import time, signal
 from pikepdf import PasswordError
 from multiprocessing import Pool
 
 def try_passwords(args):
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     pdf_file, passwords = args
 
     for password in passwords:

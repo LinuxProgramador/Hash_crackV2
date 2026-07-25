@@ -112,7 +112,6 @@ def crack_7z(archive_file, wordlist_file):
 
                 for result in pool.imap_unordered(try_passwords, tasks):
                     if result:
-                       candidate, found = result
                        pool.terminate()
                        return
 

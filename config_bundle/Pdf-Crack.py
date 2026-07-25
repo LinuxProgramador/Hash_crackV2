@@ -80,7 +80,10 @@ def crack_pdf(pdf_file, wordlist_file):
                    result = try_passwords((pdf_file, [last_line]))
                    if result:
                       return
+      if not result:
+          print("[FINISH]>> PASSWORD NOT FOUND")
 
+    
     except KeyboardInterrupt:
         print()
         sys.exit(1)

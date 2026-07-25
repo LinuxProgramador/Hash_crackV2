@@ -147,7 +147,8 @@ Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
    *DCC2: username:hash
 
 Note:
-     Por defecto, solo se le asigna un núcleo a los hashes (`argon2id`/`scrypt`). Para cambiar este comportamiento, modifica la variable `process_count` en la librería `hashlibx/cpu_selector.py`
+
+      By default, only one kernel is assigned to the hashes (`argon2id`/`scrypt`). To change this behavior, modify the `process_count` variable in the `hashlibx/cpu_selector.py` library.
 
 
 Check progress

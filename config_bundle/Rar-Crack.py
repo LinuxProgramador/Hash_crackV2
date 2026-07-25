@@ -3,11 +3,13 @@
 import os
 import sys
 import time
-import subprocess
+import subprocess, signal
 from multiprocessing import Pool
 
 
 def try_passwords(args):
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     rar_file, passwords = args
 
     for pwd in passwords:

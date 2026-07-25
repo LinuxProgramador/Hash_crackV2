@@ -117,7 +117,8 @@ def crack_7z(archive_file, wordlist_file):
 
             if last_line:
                result = try_passwords((archive_file, [last_line]))
-
+               if result:
+                   return
       if not result:
             print("[FINISH]>> PASSWORD NOT FOUND")
 

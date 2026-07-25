@@ -17,7 +17,7 @@ import os
 import argparse
 import signal
 from pathlib import Path
-from multiprocessing import Process, cpu_count, Queue, Event
+from multiprocessing import Pool, cpu_count
 from json import loads
 from hashlibx.help_menu import show_help
 from hashlibx.combine_words import generate_combinations
@@ -96,30 +96,35 @@ def call_modules(module_chosen, encoder):
         os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
 
 
-def hash_cracking_worker(password_list, ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time):
+def hash_cracking_worker(data_list):
+    password_list=data_list[0]
+    ssid=data_list[1]
+    wpa_psk=data_list[2]
+    target_hash=data_list[3]
+    user=data_list[4]
+    rules=data_list[5]
+    encoder=data_list[6]
+    hash_type=data_list[7]
+    wait_time=data_list[8]
+
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])
         for candidate in mutated_words:
             candidate = candidate.strip()
             data = candidate.encode(encoder)
-            if found.is_set():
-                return
+
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
             if hash_result is None:
                 continue
             if isinstance(hash_result, bool) and hash_result:
-                auxiliary_crack(candidate, wpa_psk, ssid)
-                queue.put(candidate)
-                found.set()
+                return candidate,True
+
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
     read_block_size = 1024 * 1024
-
-    found = Event()
-    queue = Queue()
-
-    with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
+    with Pool(processes=process_count) as pool:
+      with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         last_line = ""
         while True:
             chunk = keywords_read.read(read_block_size)
@@ -146,42 +151,42 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
             actual_processes = min(process_count, len(chunks))
 
-            processes = [
-                Process(target=hash_cracking_worker, args=(
-                    chunk, ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time
-                )) for chunk in chunks[:actual_processes]
-            ]
+            tasks = [
+                   [
+             chunk,
+             ssid,
+             wpa_psk,
+             target_hash,
+             user,
+             rules,
+             encoder,
+             hash_type,
+             wait_time
+             ]
+               for chunk in chunks[:actual_processes]
+             ]
 
-            try:
-                for p in processes:
-                    p.start()
+            for result in pool.imap_unordered(hash_cracking_worker, tasks):
+              if result:
+                 candidate, found = result
+                 auxiliary_crack(candidate, wpa_psk, ssid)
+                 pool.terminate()
+                 return
 
-                while any(p.is_alive() for p in processes):
-                    if found.is_set():
-                        for p in processes:
-                            p.terminate()
-                        break
-                    time.sleep(0.05)
-
-                for p in processes:
-                    p.join()
-
-            except KeyboardInterrupt:
-                print()
-                break
-            except Exception as error:
-                print(f"[ERROR]: {error}")
-            finally:
-                for p in processes:
-                    if p.is_alive():
-                        p.terminate()
-                for p in processes:
-                    p.join()
-
-        if last_line and not found.is_set():
-            hash_cracking_worker(
-                [last_line], ssid, wpa_psk, target_hash, queue, found, user, rules, encoder, hash_type, wait_time
-            )
+        if last_line:
+          task = [
+             [last_line],
+             ssid,
+             wpa_psk,
+             target_hash,
+             user,
+             rules,
+             encoder,
+             hash_type,
+             wait_time
+             ]
+          hash_cracking_worker(task)
+                            
 
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None

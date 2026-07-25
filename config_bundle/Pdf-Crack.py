@@ -38,7 +38,7 @@ def try_passwords(args):
 
 def crack_pdf(pdf_file, wordlist_file):
     try:
-      read_block_size = 1024 * 1024
+      read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = 4
       with Pool(processes=process_count) as pool:

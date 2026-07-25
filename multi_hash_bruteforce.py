@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
+import sys, signal
 import time
 import binascii
 from string import ascii_lowercase, ascii_uppercase, digits
@@ -235,6 +235,8 @@ def validate_word(word, target_hash, hash_type, ssid, user):
 
 
 def hash_worker(args):
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     config, target_hash, hash_type, wait_time, ssid, user = args
 
     try:

@@ -48,7 +48,7 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 4. Support for hybrid attacks, including rules, masks, and blended password lists  
 5. Fast and simple command-line interface  
 6. Support for multiple hash algorithms (over 30 supported formats)  
-7. Optimized resource usage: 512 KB to 1 MB of RAM per block, with customizable CPU core consumption  
+7. Optimized resource usage: 8 MB of RAM per block, with customizable CPU core consumption  
 8. Automatic detection of hash types  
 9. Supports both dictionary and brute-force attacks on hashes  
 10. Dictionary-based attack support for exposed SSH services  

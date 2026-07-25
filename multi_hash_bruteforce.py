@@ -370,7 +370,10 @@ def main():
             pool.terminate()
             break
 
+     if not result:
+        print("[FINISH]>> PASSWORD NOT FOUND")
 
+    
    except KeyboardInterrupt:
         print()
         sys.exit(0)

@@ -4,35 +4,55 @@ import os
 import sys
 import time
 import subprocess
-from multiprocessing import Process, Queue, Event
+from multiprocessing import Pool
 
-def try_passwords(zip_file, passwords, found, queue):
+def try_passwords(args):
+    zip_file, passwords = args
+
     for pwd in passwords:
-        if found.is_set():
-            return
         pwd = pwd.strip()
+
         cmd = ['7z', 't', zip_file, f'-p{pwd}']
 
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
             output = result.stdout + result.stderr
 
             if "Everything is Ok" in output:
+
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
                 print("=" * 50)
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
-                extract_cmd = ['7z', 'x', zip_file, f'-p{pwd}', f'-oDecryptedTablets', '-aoa']
-                try:
-                  subprocess.run(extract_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+                extract_cmd = [
+                    '7z',
+                    'x',
+                    zip_file,
+                    f'-p{pwd}',
+                    '-oDecryptedTablets',
+                    '-aoa'
+                ]
+
+                try:
+                    subprocess.run(
+                        extract_cmd,
+                        check=True,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL
+                    )
                 except subprocess.CalledProcessError:
-                  pass
-                queue.put(pwd)
-                found.set()
-                return
+                    pass
+
+                return pwd, True
 
             elif "Wrong password" in output:
                 continue
@@ -41,23 +61,21 @@ def try_passwords(zip_file, passwords, found, queue):
             continue
 
         except KeyboardInterrupt:
-            print()
-            found.set()
-            return
+            return None
 
         except Exception as e:
             print(f"[ERROR] {e}")
             continue
 
+    return None
+
 
 def crack_zip(zip_file, wordlist_file):
     try:
-        read_block_size = 1024 * 1024
-        encoder = "utf-8"
-        found = Event()
-        queue = Queue()
-        process_count = 4
-
+      read_block_size = 1024 * 1024
+      encoder = "utf-8"
+      process_count = 4
+      with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
             last_line = ""
             while True:
@@ -81,45 +99,22 @@ def crack_zip(zip_file, wordlist_file):
                 chunks = [lines[i:i + chunk_size] for i in range(0, total_words, chunk_size)]
                 actual_processes = min(process_count, len(chunks))
 
-                processes = [
-                    Process(target=try_passwords, args=(
-                        zip_file, chunk, found, queue
-                    )) for chunk in chunks[:actual_processes]
+                tasks = [
+                    (zip_file, chunk)
+                     for chunk in chunks[:actual_processes]
                 ]
 
-                try:
-                    for p in processes:
-                        p.start()
+                for result in pool.imap_unordered(try_passwords, tasks):
+                   if result:
+                      candidate, found = result
+                      pool.terminate()
+                      return
 
-                    while any(p.is_alive() for p in processes):
-                        if found.is_set():
-                            for p in processes:
-                                p.terminate()
-                            break
-                        time.sleep(0.05)
-
-                    for p in processes:
-                        p.join()
-
-                except KeyboardInterrupt:
-                    print()
-                    for p in processes:
-                        p.terminate()
-                    break
-
-                except Exception as e:
-                    print(f"[ERROR]: {e}")
-
-                finally:
-                    for p in processes:
-                        if p.is_alive():
-                            p.terminate()
-                    for p in processes:
-                        p.join()
-
-            if last_line and not found.is_set():
-                try_passwords(zip_file, [last_line], found, queue)
-
+            if last_line:
+               result = try_passwords((zip_file, [last_line]))
+               if result:
+                  candidate, found = result
+                  return
 
     except KeyboardInterrupt:
         print()

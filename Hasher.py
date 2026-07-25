@@ -96,16 +96,8 @@ def call_modules(module_chosen, encoder):
         os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
 
 
-def hash_cracking_worker(data_list):
-    password_list=data_list[0]
-    ssid=data_list[1]
-    wpa_psk=data_list[2]
-    target_hash=data_list[3]
-    user=data_list[4]
-    rules=data_list[5]
-    encoder=data_list[6]
-    hash_type=data_list[7]
-    wait_time=data_list[8]
+def hash_cracking_worker(args):
+    password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
 
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     for word in password_list:

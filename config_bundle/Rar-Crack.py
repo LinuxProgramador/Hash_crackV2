@@ -4,7 +4,7 @@ import os
 import sys
 import time
 import subprocess, signal
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 
 
 def try_passwords(args):
@@ -77,7 +77,7 @@ def crack_rar(rar_file, wordlist_file):
     try:
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
-      process_count = 4
+      process_count = max(1, cpu_count() - 1)
       with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
             last_line = ""

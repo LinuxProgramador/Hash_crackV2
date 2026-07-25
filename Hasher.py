@@ -183,6 +183,9 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
               auxiliary_crack(candidate, wpa_psk, ssid)
               return
 
+          if not result:
+               print("[FINISH]>> PASSWORD NOT FOUND")
+
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None
     if hash_type in ["ntlm", "ripemd-160", "sm3"]:

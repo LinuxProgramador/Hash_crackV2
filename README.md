@@ -101,7 +101,8 @@ If you encounter installation issues on Ubuntu, or receive errors such as Module
 
 #### Activate the virtual environment
 
-     source .venv/bin/activate
+     python3 -m venv path/to/venv
+     source path/to/venv/bin/activate
 
 
 #### Install the project dependencies

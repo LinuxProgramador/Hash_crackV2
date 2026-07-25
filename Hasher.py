@@ -98,7 +98,7 @@ def call_modules(module_chosen, encoder):
 
 def hash_cracking_worker(args):
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
-
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])

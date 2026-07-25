@@ -107,14 +107,12 @@ def crack_rar(rar_file, wordlist_file):
 
                 for result in pool.imap_unordered(try_passwords, tasks):
                     if result:
-                       candidate, found = result
                        pool.terminate()
                        return
 
             if last_line:
                result = try_passwords((rar_file, [last_line]))
                if result:
-                  candidate, found = result
                   return
 
 

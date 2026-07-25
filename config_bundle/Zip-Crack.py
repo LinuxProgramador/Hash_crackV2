@@ -113,6 +113,8 @@ def crack_zip(zip_file, wordlist_file):
                result = try_passwords((zip_file, [last_line]))
                if result:
                   return
+      if not result:
+            print("[FINISH]>> PASSWORD NOT FOUND")
 
     except KeyboardInterrupt:
         print()

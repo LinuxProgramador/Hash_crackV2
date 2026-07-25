@@ -97,6 +97,34 @@ If you encounter installation issues on Ubuntu, it is recommended to use a Pytho
    path/to/venv/bin/python3 Hasher.py -i ' your_hash_here '
 
 
+If you encounter installation issues on Ubuntu, or receive errors such as ModuleNotFoundError, you can activate the virtual environment and run the commands normally.
+
+#### Activate the virtual environment
+
+     source .venv/bin/activate
+
+
+#### Install the project dependencies
+
+     python3 -m pip install -r linux_requirements.txt
+
+
+#### Install the Whirlpool dependency
+
+    python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
+
+
+#### Run the program
+
+    python Hasher.py -i 'your_hash_here'
+
+
+#### Deactivate the virtual environment
+
+     deactivate
+
+
+
 To access the help menu and see all available options:
 
 python3 Hasher.py -h

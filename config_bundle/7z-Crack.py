@@ -118,8 +118,6 @@ def crack_7z(archive_file, wordlist_file):
 
             if last_line:
                result = try_passwords((archive_file, [last_line]))
-               if result:
-                 candidate, found = result
 
     except FileNotFoundError:
         print(f"[ERROR]: Wordlist file not found: {wordlist_file}")

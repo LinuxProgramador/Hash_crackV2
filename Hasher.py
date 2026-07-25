@@ -177,8 +177,11 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              hash_type,
              wait_time
              ]
-          hash_cracking_worker(task)
-                            
+          result = hash_cracking_worker(task)
+          if result:
+              candidate, found = result
+              auxiliary_crack(candidate, wpa_psk, ssid)
+              return
 
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None

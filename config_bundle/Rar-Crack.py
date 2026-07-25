@@ -114,7 +114,8 @@ def crack_rar(rar_file, wordlist_file):
                result = try_passwords((rar_file, [last_line]))
                if result:
                   return
-
+      if not result:
+            print("[FINISH]>> PASSWORD NOT FOUND")
 
     except KeyboardInterrupt:
         print()

@@ -6,19 +6,6 @@
 This tool is intended for educational and research purposes only.  
 The author is not responsible for any misuse or illegal activity performed using this software.
 
-## Bugs
-
-⚠️ Known Issue:
-
-In some cases (though not very frequent)
-
-the script may become unresponsive either after being interrupted with Ctrl+C or
-
-once the correct password has been found and successfully printed to the console
-
-Workaround: If this occurs, manually terminate the process by pressing Ctrl+C one or 
-
-more times until the execution stops completely.
 
 ## Recommended Platforms
 
@@ -158,6 +145,9 @@ Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
 
    *WPA-PSK: network:hash
    *DCC2: username:hash
+
+Note:
+     Por defecto, solo se le asigna un núcleo a los hashes (`argon2id`/`scrypt`). Para cambiar este comportamiento, modifica la variable `process_count` en la librería `hashlibx/cpu_selector.py`
 
 
 Check progress

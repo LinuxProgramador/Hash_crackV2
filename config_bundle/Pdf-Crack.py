@@ -5,45 +5,43 @@ import sys
 import os
 import time
 from pikepdf import PasswordError
-from multiprocessing import Process, Queue, Event
+from multiprocessing import Pool
 
+def try_passwords(args):
+    pdf_file, passwords = args
 
-def try_passwords(pdf_file, passwords, found, queue):
     for password in passwords:
-        if found.is_set():
-            return
         pwd = password.strip()
+
         try:
             with pikepdf.open(pdf_file, password=pwd) as pdf:
                 pdf.save("pdf_decryption.pdf")
+
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
                 print("=" * 50)
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
-                queue.put(pwd)
-                found.set()
-                return
+
+                return pwd, True
 
         except PasswordError:
-            pass
+            continue
 
         except Exception as error:
             print(f"[ERROR]: {error}")
-            found.set()
-            return
+            return None
+
+    return None
 
 
 def crack_pdf(pdf_file, wordlist_file):
     try:
-        read_block_size = 1024 * 1024
-        encoder = "utf-8"
-
-        found = Event()
-        queue = Queue()
-        process_count = 4
-
+      read_block_size = 1024 * 1024
+      encoder = "utf-8"
+      process_count = 4
+      with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as keywords_read:
             last_line = ""
             while True:
@@ -68,45 +66,22 @@ def crack_pdf(pdf_file, wordlist_file):
 
                 actual_processes = min(process_count, len(chunks))
 
-                processes = [
-                    Process(target=try_passwords, args=(
-                        pdf_file, chunk, found, queue
-                    )) for chunk in chunks[:actual_processes]
-                ]
+                tasks = [
+                   (pdf_file, chunk)
+                     for chunk in chunks[:actual_processes]
+                   ]
 
-                try:
-                    for p in processes:
-                        p.start()
+                for result in pool.imap_unordered(try_passwords, tasks):
+                    if result:
+                       candidate, found = result
+                       pool.terminate()
+                       return
 
-                    while any(p.is_alive() for p in processes):
-                        if found.is_set():
-                            for p in processes:
-                                p.terminate()
-                            break
-                        time.sleep(0.05)
-
-                    for p in processes:
-                        p.join()
-
-                except KeyboardInterrupt:
-                    print()
-                    for p in processes:
-                        p.terminate()
-                    break
-
-                except Exception as error:
-                    print(f"[ERROR]: {error}")
-
-                finally:
-                    for p in processes:
-                        if p.is_alive():
-                            p.terminate()
-                    for p in processes:
-                        p.join()
-
-            if last_line and not found.is_set():
-                try_passwords(pdf_file, [last_line], found, queue)
-
+            if last_line:
+                   result = try_passwords((pdf_file, [last_line]))
+                   if result:
+                      candidate, found = result
+                      return
 
     except KeyboardInterrupt:
         print()

@@ -256,7 +256,7 @@ def hash_worker(args):
 
                 if hash_type == "ssha":
                     if result[0].lower() == result[1].lower():
-                        return word.strip(), True
+                        return word.strip()
 
                 elif result is True or (
                     isinstance(result, str)

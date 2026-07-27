@@ -2,7 +2,7 @@
 
 import os
 import sys
-import time, signal
+import signal
 import subprocess
 from multiprocessing import Pool, cpu_count
 
@@ -54,7 +54,7 @@ def try_passwords(args):
                 except subprocess.CalledProcessError:
                     pass
 
-                return pwd, True
+                return True
 
             elif (
                 "Wrong password" in output
@@ -64,9 +64,6 @@ def try_passwords(args):
 
         except subprocess.TimeoutExpired:
             continue
-
-        except KeyboardInterrupt:
-            return None
 
         except Exception as e:
             print(f"[ERROR] {e}")
@@ -80,6 +77,7 @@ def crack_7z(archive_file, wordlist_file):
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
+      result = None
       with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
             last_line = ""

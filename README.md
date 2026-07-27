@@ -169,6 +169,8 @@ Supported hashes:
 • PBKDF2-SHA256
 • PBKDF2-SHA1
 • PBKDF2-SHA512
+• YESCRYPT
+
 
 Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
 

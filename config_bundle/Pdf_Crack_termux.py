@@ -10,10 +10,12 @@ from pypdf import PdfReader
 def try_passwords(args):
   signal.signal(signal.SIGINT, signal.SIG_IGN)
   signal.signal(signal.SIGTSTP, signal.SIG_IGN)
-  reader, passwords = args
+  pdf_file, passwords = args
+  reader = PdfReader(pdf_file)
   for password in passwords:
     pwd = password.strip()
     try:
+      if reader.is_encrypted:
           if reader.decrypt(pwd):
              print("\n" + "=" * 50)
              print("=" * 50)
@@ -37,13 +39,7 @@ def crack_pdf(pdf_file, wordlist_file):
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
-      reader = PdfReader(pdf_file)
       result = None
-
-      if not reader.is_encrypted:
-          print("[INFO:] The PDF file does not have a password")
-          sys.exit(0)
-
       with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as keywords_read:
             last_line = ""
@@ -70,7 +66,7 @@ def crack_pdf(pdf_file, wordlist_file):
                 actual_processes = min(process_count, len(chunks))
 
                 tasks = [
-                   (reader, chunk)
+                   (pdf_file, chunk)
                      for chunk in chunks[:actual_processes]
                    ]
 
@@ -80,7 +76,7 @@ def crack_pdf(pdf_file, wordlist_file):
                        return
 
             if last_line:
-                   result = try_passwords((reader, [last_line]))
+                   result = try_passwords((pdf_file, [last_line]))
                    if result:
                       return
       if not result:

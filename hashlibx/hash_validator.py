@@ -27,7 +27,8 @@ from passlib.context import CryptContext
 from bcrypt import checkpw
 from base64 import b64encode, b64decode
 from argon2.exceptions import VerifyMismatchError
-from pyescrypt import Yescrypt, Mode, WrongPassword, WrongPasswordConfiguration
+if sys.platform == "linux":  
+   from pyescrypt import Yescrypt, Mode, WrongPassword, WrongPasswordConfiguration
 
 
 HASH_ALGORITHMS_INFO = {
@@ -234,7 +235,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
            return scrypt.verify(word, target_hash)
 
           
-    elif hash_type == "yescrypt":
+    elif hash_type == "yescrypt" and sys.platform == "linux":
           if wait_time == "y":
              time.sleep(0.20)
 

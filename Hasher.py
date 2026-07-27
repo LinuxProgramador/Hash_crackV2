@@ -110,11 +110,12 @@ def hash_cracking_worker(args):
             if hash_result is None:
                 continue
             if isinstance(hash_result, bool) and hash_result:
-                return candidate,True
+                return candidate
 
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
     read_block_size = 8 * 1024 * 1024
+    result = None
     with Pool(processes=process_count) as pool:
       with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         last_line = ""
@@ -160,7 +161,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
               if result:
-                 candidate, found = result
+                 candidate = result
                  auxiliary_crack(candidate, wpa_psk, ssid)
                  pool.terminate()
                  return
@@ -179,7 +180,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              ]
           result = hash_cracking_worker(task)
           if result:
-              candidate, found = result
+              candidate = result
               auxiliary_crack(candidate, wpa_psk, ssid)
               return
 

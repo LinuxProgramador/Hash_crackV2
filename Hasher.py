@@ -123,7 +123,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             if not chunk:
                 break
 
-            if wait_time == "y" and hash_type not in ["argon2id", "bcrypt", "scrypt"]:
+            if wait_time == "y" and hash_type not in ["argon2id", "bcrypt", "scrypt" ,"yescrypt"]:
                 time.sleep(10)
 
             buffer = last_line + chunk
@@ -220,6 +220,13 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder)
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             local_db(hash_type, target_hash, encoder)
+            if hash_type == "yescrypt" and not sys.platform == "Linux":
+              print("Not supported on Termux")
+              print("If you want to crack the yescrypt hash on Android, install Ubuntu in UserLAnd")
+              print("Install Ubuntu through the UserLAnd app available on the Play Store:")
+              print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
+              sys.exit(0)
+
             dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count)
 
         sys.exit(0)
@@ -315,7 +322,7 @@ Apply mutation rules to each word in the dictionary. Available rules:
         metavar="CPU_CORES",
         type=int,
         default=cpu_count(),
-        help="Number of CPU cores to use (default: all). For 'argon2id' and 'scrypt', only 1 core is used"
+        help="Number of CPU cores to use (default: all). For 'argon2id' and 'scrypt' 'yescrypt', only 1 core is used"
     )
     parser.add_argument(
         '-m', '--modules-external-imports',

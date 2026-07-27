@@ -22,7 +22,8 @@ def cracking_prompt(encoder, hash_type, process_count):
         "bcrypt": "$2a$ bcrypt [Blowfish-based crypt]",
         "mysql5.x": "MySQL5.x [Double SHA1 used in authentication]",
         "pbkdf2-sha1": "PBKDF2-HMAC-SHA1 [Django-style, variable iterations]",
-        "pbkdf2-sha512": "PBKDF2-HMAC-SHA512 [Django-style, variable iterations]"
+        "pbkdf2-sha512": "PBKDF2-HMAC-SHA512 [Django-style, variable iterations]",
+        "yescrypt": "$y$ yescrypt [Memory-hard, ASIC-resistant Linux /etc/shadow password hash]"
     }
 
     message = f"""

@@ -2,7 +2,6 @@
 
 import os
 import sys
-import time
 import subprocess, signal
 from multiprocessing import Pool, cpu_count
 
@@ -55,16 +54,13 @@ def try_passwords(args):
                 except subprocess.CalledProcessError:
                     pass
 
-                return pwd, True
+                return True
 
             elif "Wrong password" in output:
                 continue
 
         except subprocess.TimeoutExpired:
             continue
-
-        except KeyboardInterrupt:
-            return None
 
         except Exception as e:
             print(f"[ERROR] {e}")
@@ -78,6 +74,7 @@ def crack_rar(rar_file, wordlist_file):
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
+      result = None
       with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
             last_line = ""

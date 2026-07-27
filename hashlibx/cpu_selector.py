@@ -6,7 +6,7 @@ from multiprocessing import cpu_count
 def get_cpu_allocation(hash_type, cpu_num):
   try:
 
-    is_limited = hash_type in ["argon2id", "scrypt"]
+    is_limited = hash_type in ["argon2id", "scrypt" ,"yescrypt"]
     if is_limited:
         process_count = 1
 

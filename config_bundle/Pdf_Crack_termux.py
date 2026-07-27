@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import signal
+from multiprocessing import Pool, cpu_count
+from pypdf import PdfReader
+
+
+def try_passwords(args):
+  signal.signal(signal.SIGINT, signal.SIG_IGN)
+  signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+  reader, passwords = args
+  for password in passwords:
+    pwd = password.strip()
+    try:
+          if reader.decrypt(pwd):
+             print("\n" + "=" * 50)
+             print("=" * 50)
+             print("[ PASSWORD FOUND ]".center(50))
+             print("=" * 50)
+             print(f">>> Recovered Password: {pwd}".center(50))
+             print("=" * 50 + "\n")
+             return True
+
+
+    except Exception as error:
+        print(f"[ERROR]: {error}")
+        continue
+
+  return None
+
+
+
+def crack_pdf(pdf_file, wordlist_file):
+    try:
+      read_block_size = 8 * 1024 * 1024
+      encoder = "utf-8"
+      process_count = max(1, cpu_count() - 1)
+      reader = PdfReader(pdf_file)
+      result = None
+
+      if not reader.is_encrypted:
+          print("[INFO:] The PDF file does not have a password")
+          sys.exit(0)
+
+      with Pool(processes=process_count) as pool:
+        with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as keywords_read:
+            last_line = ""
+            while True:
+                chunk = keywords_read.read(read_block_size)
+                if not chunk:
+                    break
+
+                buffer = last_line + chunk
+                lines = buffer.splitlines()
+
+                if chunk and not chunk.endswith('\n') and lines:
+                    last_line = lines.pop()
+                else:
+                    last_line = ""
+
+                total_words = len(lines)
+                if total_words == 0:
+                    continue
+
+                chunk_size = (total_words + process_count - 1) // process_count
+                chunks = [lines[i:i + chunk_size] for i in range(0, total_words, chunk_size)]
+
+                actual_processes = min(process_count, len(chunks))
+
+                tasks = [
+                   (reader, chunk)
+                     for chunk in chunks[:actual_processes]
+                   ]
+
+                for result in pool.imap_unordered(try_passwords, tasks):
+                    if result:
+                       pool.terminate()
+                       return
+
+            if last_line:
+                   result = try_passwords((reader, [last_line]))
+                   if result:
+                      return
+      if not result:
+          print("[FINISH]>> PASSWORD NOT FOUND")
+
+    
+    except KeyboardInterrupt:
+        print()
+        sys.exit(1)
+
+    except FileNotFoundError:
+        print(f"[ERROR]: File not found {wordlist_file}")
+        sys.exit(1)
+
+    except Exception as error:
+        print(f"[ERROR]: {error}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+  try:
+    pdf_file = input("Enter the absolute path of the PDF file you want to decrypt: ").strip()
+    wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
+    crack_pdf(pdf_file, wordlist_file)
+  except KeyboardInterrupt:
+      print()
+      sys.exit(1)

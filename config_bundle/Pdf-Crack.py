@@ -3,8 +3,7 @@
 import pikepdf
 import sys
 import os
-import time, signal
-from pikepdf import PasswordError
+import signal
 from multiprocessing import Pool, cpu_count
 
 def try_passwords(args):
@@ -26,9 +25,9 @@ def try_passwords(args):
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
 
-                return pwd, True
+                return True
 
-        except PasswordError:
+        except pike.PasswordError:
             continue
 
         except Exception as error:
@@ -43,6 +42,7 @@ def crack_pdf(pdf_file, wordlist_file):
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
+      result = None
       with Pool(processes=process_count) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as keywords_read:
             last_line = ""

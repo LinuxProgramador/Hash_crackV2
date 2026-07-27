@@ -239,8 +239,8 @@ def hash_worker(args):
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     config, target_hash, hash_type, wait_time, ssid, user = args
 
-    try:
-        for word in word_generator(config):
+    
+    for word in word_generator(config):
 
             if wait_time == "y":
                 time.sleep(0.20)
@@ -262,13 +262,10 @@ def hash_worker(args):
                     isinstance(result, str)
                     and result.lower() == target_hash.lower()
                 ):
-                    return word.strip(), True
+                    return word.strip()
 
             except Exception:
                 continue
-
-    except KeyboardInterrupt:
-        return None
 
     return None
 
@@ -307,7 +304,7 @@ def get_user_config():
 
 def main():
    try:
-     ssid = user = None
+     result = ssid = user = None
 
      display_supported_hashes()
 
@@ -354,7 +351,7 @@ def main():
        for result in pool.imap_unordered(hash_worker, tasks):
 
         if result:
-            candidate, found = result
+            candidate = result
 
             print("\n" + "=" * 50)
 

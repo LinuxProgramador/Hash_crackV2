@@ -21,7 +21,8 @@ hash_list = [
     "mysql5.x", "md5crypt", "apr1", "dcc2", "ssha", "sm3",
     "sha512-256", "phpass", "whirlpool", "sha512sum", "sha256sum",
     "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha256",
-    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1", "pbkdf2-sha512"
+    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1", "pbkdf2-sha512", "yescrypt"
+
 ]
 
 
@@ -37,6 +38,8 @@ Hash types available:
   sha3-224      sha3-256      sha3-384       sha3-512
   sha256        sha224        sha384         sha512
   pbkdf2-sha256 argon2id      scrypt         pbkdf2-sha1
+  yescrypt
+
 """
 
 
@@ -153,6 +156,8 @@ def auto_detect_type(target_hash):
     if target_hash.startswith("$pbkdf2"):
         return "pbkdf2-sha1", None, None, None, target_hash
 
+    if target_hash.startswith("$y$"):
+        return "yescrypt", None, None, None, target_hash
 
     return None, None, None, None, target_hash
 

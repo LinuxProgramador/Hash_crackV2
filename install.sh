@@ -36,8 +36,8 @@ main() {
 
     if [[ "$os" == "Android" || "$PREFIX" == *"com.termux"* ]]; then
         echo "[+] Environment detected: Termux"
-        apt update -y
-        apt install  python rust crunch 7zip -y
+        apt update 
+        apt install  python rust crunch 7zip unrar -y
         python -m pip install -r termux_requirements.txt
         python -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else
@@ -47,8 +47,8 @@ main() {
             exit 1
         fi
 
-        sudo apt update -y
-        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip -y
+        sudo apt update 
+        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar -y
         python3 -m pip install --upgrade pip
         python3 -m pip install -r linux_requirements.txt
 

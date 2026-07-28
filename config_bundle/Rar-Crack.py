@@ -14,7 +14,7 @@ def try_passwords(args):
     for pwd in passwords:
         pwd = pwd.strip()
 
-        cmd = ['7zz', 't', rar_file, f'-p{pwd}']
+        cmd = ['unrar', 't', f'-p{pwd}', "-idq", rar_file]
 
         try:
             result = subprocess.run(
@@ -33,25 +33,6 @@ def try_passwords(args):
                 print("=" * 50)
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
-
-                extract_cmd = [
-                    '7zz',
-                    'x',
-                    rar_file,
-                    f'-p{pwd}',
-                    '-oDecryptedTablets',
-                    '-aoa'
-                ]
-
-                try:
-                    subprocess.run(
-                        extract_cmd,
-                        check=True,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
-                    )
-                except subprocess.CalledProcessError:
-                    pass
 
                 return True
 

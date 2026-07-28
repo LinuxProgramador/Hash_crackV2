@@ -14,7 +14,7 @@ def try_passwords(args):
     for pwd in passwords:
         pwd = pwd.strip()
 
-        cmd = ['7z', 't', rar_file, f'-p{pwd}']
+        cmd = ['7zz', 't', rar_file, f'-p{pwd}']
 
         try:
             result = subprocess.run(
@@ -24,9 +24,8 @@ def try_passwords(args):
                 timeout=30
             )
 
-            output = result.stdout + result.stderr
 
-            if "Everything is Ok" in output:
+            if result.returncode = 0:
 
                 print("\n" + "=" * 50)
                 print("=" * 50)
@@ -36,7 +35,7 @@ def try_passwords(args):
                 print("=" * 50 + "\n")
 
                 extract_cmd = [
-                    '7z',
+                    '7zz',
                     'x',
                     rar_file,
                     f'-p{pwd}',
@@ -56,8 +55,6 @@ def try_passwords(args):
 
                 return True
 
-            elif "Wrong password" in output:
-                continue
 
         except subprocess.TimeoutExpired:
             continue

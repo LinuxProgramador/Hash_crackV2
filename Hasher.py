@@ -65,10 +65,7 @@ def call_modules(module_chosen, encoder):
             os.system(f"proxychains4 python3 {HOME}/Hash_crackV2/config_bundle/{module}")
             os.system("pkill tor")
         else:
-            print("Not supported on Termux")
-            print("To use the SSH cracking module in Hash_crackV2 from an Android device")
-            print("Install Ubuntu through the UserLAnd app available on the Play Store:")
-            print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
+            print("Not supported on Termux, Only Ubuntu!")
     elif module_chosen == '4':
         generate_combinations(encoder)
     elif module_chosen == '5':
@@ -220,10 +217,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and sys.platform == "android":
-              print("Not supported on Termux")
-              print("If you want to crack the yescrypt hash on Android, install Ubuntu in UserLAnd")
-              print("Install Ubuntu through the UserLAnd app available on the Play Store:")
-              print("https://play.google.com/store/apps/details?id=tech.ula&hl=es")
+              print("Not supported on Termux, Only Ubuntu!")
               sys.exit(0)
 
             dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count)

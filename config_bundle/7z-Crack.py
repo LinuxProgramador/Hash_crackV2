@@ -3,19 +3,19 @@
 import os
 import sys
 import signal
-import subprocess
+import subprocess, shutil
 from multiprocessing import Pool, cpu_count
 
 
 def try_passwords(args):
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
-    archive_file, passwords = args
+    archive_file, file_7z, passwords = args
 
     for pwd in passwords:
         pwd = pwd.strip()
 
-        cmd = ['7zz', 't', archive_file, f'-p{pwd}']
+        cmd = [file_7z, 't', archive_file, f'-p{pwd}']
 
         try:
             result = subprocess.run(
@@ -35,7 +35,7 @@ def try_passwords(args):
                 print("=" * 50 + "\n")
 
                 extract_cmd = [
-                    '7zz',
+                    file_7z,
                     'x',
                     archive_file,
                     f'-p{pwd}',
@@ -67,6 +67,10 @@ def try_passwords(args):
 
 def crack_7z(archive_file, wordlist_file):
     try:
+      if shutil.which("7zz"):
+          file_7z = "7zz"
+      else:
+          file_7z = "7z"
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
@@ -97,6 +101,7 @@ def crack_7z(archive_file, wordlist_file):
                 tasks = [
                   (
                      archive_file,
+                     file_7z,
                      chunk
                   )
                      for chunk in chunks[:actual_processes]
@@ -108,7 +113,7 @@ def crack_7z(archive_file, wordlist_file):
                        return
 
             if last_line:
-               result = try_passwords((archive_file, [last_line]))
+               result = try_passwords((archive_file, file_7z, [last_line]))
                if result:
                    return
       if not result:

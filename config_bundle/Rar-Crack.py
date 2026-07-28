@@ -25,7 +25,7 @@ def try_passwords(args):
             )
 
 
-            if result.returncode = 0:
+            if result.returncode == 0:
 
                 print("\n" + "=" * 50)
                 print("=" * 50)

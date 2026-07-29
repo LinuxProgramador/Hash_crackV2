@@ -40,6 +40,7 @@ python3 Hasher.py -i 'hash'
 python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 
 
+
 ## 🛠️ Components
 
 * **`crunch_manager.sh`**: Automates the native `crunch` tool to generate pattern-based dictionaries.
@@ -49,6 +50,7 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 * **`multi_hash_bruteforce.py`**: Performs parameterized brute-force attacks against multiple hashes in parallel.
 
 * **`Hasher.py`**: Main orchestrator that manages mutations, multiprocessing, and executes external modules (`crack_rar`, etc.)
+
 
 
 ## Features

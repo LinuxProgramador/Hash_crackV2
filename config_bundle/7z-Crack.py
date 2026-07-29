@@ -13,7 +13,6 @@ def try_passwords(args):
     archive_file, file_7z, passwords = args
 
     for pwd in passwords:
-        pwd = pwd.strip()
 
         cmd = [file_7z, 't', archive_file, f'-p{pwd}']
 

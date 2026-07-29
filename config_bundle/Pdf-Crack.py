@@ -11,8 +11,7 @@ def try_passwords(args):
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     pdf_file, passwords = args
 
-    for password in passwords:
-        pwd = password.strip()
+    for pwd in passwords:
 
         try:
             with pikepdf.open(pdf_file, password=pwd) as pdf:

@@ -11,7 +11,6 @@ def try_passwords(args):
     zip_file, file_7z, passwords = args
 
     for pwd in passwords:
-        pwd = pwd.strip()
 
         cmd = [file_7z, 't', zip_file, f'-p{pwd}']
 

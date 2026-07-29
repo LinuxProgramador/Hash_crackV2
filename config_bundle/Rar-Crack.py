@@ -12,7 +12,6 @@ def try_passwords(args):
     rar_file, passwords = args
 
     for pwd in passwords:
-        pwd = pwd.strip()
 
         cmd = ['unrar', 't', f'-p{pwd}', "-idq", rar_file]
 

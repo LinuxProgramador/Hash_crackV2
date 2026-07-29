@@ -30,6 +30,8 @@ def ssh(client, passwords, hostname, username, port):
                 print("=" * 50)
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
+                if pwd != pwd.strip():
+                   print("[WARNING:] The password contains leading or trailing whitespace")
 
                 client.close()
                 sys.exit(0)

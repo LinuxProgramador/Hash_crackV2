@@ -247,7 +247,7 @@ def hash_worker(args):
 
             try:
                 result = validate_word(
-                    word.strip(),
+                    word,
                     target_hash,
                     hash_type,
                     ssid,
@@ -256,13 +256,13 @@ def hash_worker(args):
 
                 if hash_type == "ssha":
                     if result[0].lower() == result[1].lower():
-                        return word.strip()
+                        return word
 
                 elif result is True or (
                     isinstance(result, str)
                     and result.lower() == target_hash.lower()
                 ):
-                    return word.strip()
+                    return word
 
             except Exception:
                 continue

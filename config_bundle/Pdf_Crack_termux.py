@@ -12,8 +12,7 @@ def try_passwords(args):
   signal.signal(signal.SIGTSTP, signal.SIG_IGN)
   pdf_file, passwords = args
   reader = PdfReader(pdf_file)
-  for password in passwords:
-    pwd = password.strip()
+  for pwd in passwords:
     try:
       if reader.is_encrypted:
           if reader.decrypt(pwd):

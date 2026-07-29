@@ -15,7 +15,7 @@ def auxiliary_crack(word, wpa_psk, ssid):
    print("=" * 50)
    print("[ PASSWORD FOUND ]".center(50))
    print("=" * 50)
-   print(f">>> Recovered Password: {word.strip()}".center(50))
+   print(f">>> Recovered Password: {word}".center(50))
    print("=" * 50 + "\n")
 
  except Exception as error:

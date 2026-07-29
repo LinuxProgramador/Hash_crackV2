@@ -22,6 +22,8 @@ def try_passwords(args):
              print("=" * 50)
              print(f">>> Recovered Password: {pwd}".center(50))
              print("=" * 50 + "\n")
+             if pwd != pwd.strip():
+                   print("[WARNING:] The password contains leading or trailing whitespace")
              return True
 
 

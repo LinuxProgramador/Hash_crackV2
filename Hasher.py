@@ -98,7 +98,6 @@ def hash_cracking_worker(args):
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])
         for candidate in mutated_words:
-            candidate = candidate.strip()
             data = candidate.encode(encoder)
 
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
@@ -190,7 +189,7 @@ def local_db(hash_type, target_hash, encoder):
             dic_db = loads(db_read.read())
             for db_hash, value in dic_db.items():
                 if target_hash.lower() == db_hash.lower():
-                    auxiliary_crack(value.strip(), wpa_psk, ssid)
+                    auxiliary_crack(value, wpa_psk, ssid)
                     sys.exit(0)
 
 def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen):

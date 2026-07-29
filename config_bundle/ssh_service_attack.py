@@ -19,7 +19,7 @@ def ssh(client, passwords, hostname, username, port):
 
     for pwd in passwords:
         try:
-            client.connect(hostname, port=port, username=username, password=pwd.strip(), timeout=3)
+            client.connect(hostname, port=port, username=username, password=pwd, timeout=3)
             stdin, stdout, stderr = client.exec_command('echo "Ready"')
             output = stdout.read().decode().strip()
 
@@ -28,7 +28,7 @@ def ssh(client, passwords, hostname, username, port):
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
                 print("=" * 50)
-                print(f">>> Recovered Password: {pwd.strip()}".center(50))
+                print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
 
                 client.close()
@@ -36,10 +36,10 @@ def ssh(client, passwords, hostname, username, port):
 
 
         except AuthenticationException:
-            print(f"[*] Trying password:- {pwd.strip()}")
+            print(f"[*] Trying password:- {pwd}")
 
         except Exception as e:
-            print(f"Error with password {pwd.strip()}: {e}")
+            print(f"Error with password {pwd}: {e}")
 
         finally:
             client.close()

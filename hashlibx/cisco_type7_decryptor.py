@@ -16,7 +16,7 @@ def decrypt_cisco_type7(target_hash):
        key_index = (offset + (i - 2) // 2) % len(key)
        decrypted += chr(byte ^ ord(key[key_index]))
 
-   auxiliary_crack(decrypted.strip(), wpa_psk, ssid)
+   auxiliary_crack(decrypted, wpa_psk, ssid)
 
  except Exception as error:
    print(f"[ERROR]: {error}")

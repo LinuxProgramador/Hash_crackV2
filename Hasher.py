@@ -91,10 +91,13 @@ def call_modules(module_chosen, encoder):
         os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
 
 
+def init_worker():
+   signal.signal(signal.SIGINT, signal.SIG_IGN)
+   signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+
+
 def hash_cracking_worker(args):
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])
         for candidate in mutated_words:
@@ -110,7 +113,7 @@ def hash_cracking_worker(args):
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
     read_block_size = 8 * 1024 * 1024
     result = None
-    with Pool(processes=process_count) as pool:
+    with Pool(processes=process_count, initializer=init_worker) as pool:
       with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         last_line = ""
         while True:

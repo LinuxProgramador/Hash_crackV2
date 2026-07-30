@@ -234,12 +234,13 @@ def validate_word(word, target_hash, hash_type, ssid, user):
     return None
 
 
-def hash_worker(args):
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
-    config, target_hash, hash_type, wait_time, ssid, user = args
+def init_worker():
+   signal.signal(signal.SIGINT, signal.SIG_IGN)
+   signal.signal(signal.SIGTSTP, signal.SIG_IGN)
 
-    
+
+def hash_worker(args):
+    config, target_hash, hash_type, wait_time, ssid, user = args    
     for word in word_generator(config):
 
             if wait_time == "y":
@@ -341,7 +342,7 @@ def main():
      print("\nEnter 4 configurations for charset and length:")
      config_list = get_user_config()
 
-     with Pool(processes=4) as pool:
+     with Pool(processes=4, initializer=init_worker) as pool:
 
        tasks = [
         (cfg, target_hash, hash_type, wait_time, ssid, user)

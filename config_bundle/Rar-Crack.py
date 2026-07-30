@@ -5,10 +5,12 @@ import sys
 import subprocess, signal
 from multiprocessing import Pool, cpu_count
 
+def init_worker():
+   signal.signal(signal.SIGINT, signal.SIG_IGN)
+   signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+
 
 def try_passwords(args):
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
     rar_file, passwords = args
 
     for pwd in passwords:
@@ -53,7 +55,7 @@ def crack_rar(rar_file, wordlist_file):
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
       result = None
-      with Pool(processes=process_count) as pool:
+      with Pool(processes=process_count, initializer=init_worker) as pool:
         with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
             last_line = ""
             while True:

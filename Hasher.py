@@ -186,7 +186,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None
-    if hash_type in ["ntlm", "ripemd-160", "sm3"]:
+    if hash_type in ["ntlm", "ripemd-160", "sm3" ,"mysql5.x" ]:
         db_path = os.path.join(HOME, 'Hash_crackV2/config_bundle/db.json')
         with open(db_path, 'r', encoding=encoder, errors='ignore') as db_read:
             dic_db = loads(db_read.read())

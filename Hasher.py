@@ -16,6 +16,7 @@ import time
 import os
 import argparse
 import signal
+from base64 import b64decode
 from pathlib import Path
 from multiprocessing import Pool, cpu_count
 from json import loads
@@ -195,8 +196,10 @@ def local_db(hash_type, target_hash, encoder):
                     auxiliary_crack(value, wpa_psk, ssid)
                     sys.exit(0)
 
-def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen):
+def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen, base64_decode ):
     try:
+        if base64_decode:
+          target_hash = b64decode(target_hash).hex()
         hash_type = hash_type.strip().lower() if hash_type else hash_type
         target_hash = target_hash.strip() if target_hash else target_hash
         module_chosen = module_chosen.strip() if module_chosen else module_chosen
@@ -342,7 +345,14 @@ Select the cracking module to use:
    9) 7z-Crack     - Decrypt 7Z compressed files with passwords using dictionary attacks
         """
     )
-
+    
+    parser.add_argument(
+      '-b64', '--base64-decode',
+      dest="base64_decode",
+      action="store_true",
+      help="Automatically decode Base64-encoded hashes before hash identification and cracking"
+    )
+    
     args = parser.parse_args()
 
     if not os.path.isfile(DICT_PATH):
@@ -362,5 +372,6 @@ Select the cracking module to use:
         args.cisco_type_7,
         args.cpu_num,
         args.external_imports,
-        args.module_chosen
+        args.module_chosen,
+        args.base64_decode
     )

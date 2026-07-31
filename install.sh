@@ -48,7 +48,7 @@ main() {
         fi
 
         sudo apt update 
-        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar -y
+        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config -y
         python3 -m pip install --upgrade pip
         python3 -m pip install -r linux_requirements.txt
 

@@ -70,11 +70,10 @@ def main(zip_file, wordlist_file):
           sevenzip_cmd = "7z"
          
       read_block_size = 8 * 1024 * 1024
-      encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
       result = None
       with Pool(processes=process_count, initializer=init_worker) as pool:
-        with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
+        with open(wordlist_file, 'r', encoding="utf-8", errors='ignore') as f:
             last_line = ""
             while True:
                 chunk = f.read(read_block_size)

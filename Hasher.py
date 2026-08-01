@@ -107,6 +107,8 @@ def hash_cracking_worker(args):
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
             if hash_result is None:
                 continue
+            if hash_result == "_error_":
+                return "_error_" 
             if isinstance(hash_result, bool) and hash_result:
                 return candidate
 
@@ -158,12 +160,15 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              ]
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
-              if result:
+              if result and result != "_error_" :
                  candidate = result
                  auxiliary_crack(candidate, wpa_psk, ssid)
                  pool.terminate()
                  return
-
+              elif result and result == "_error_":
+                  pool.terminate()
+                  return
+                  
         if last_line:
           task = [
              [last_line],
@@ -177,13 +182,16 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              wait_time
              ]
           result = hash_cracking_worker(task)
-          if result:
+          if result and result != "_error_":
               candidate = result
               auxiliary_crack(candidate, wpa_psk, ssid)
               return
+          elif result and result == "_error_":
+              pool.terminate()
+              return
 
-    if not result:
-       print("[FINISH]>> PASSWORD NOT FOUND")
+    
+    print("[FINISH]>> PASSWORD NOT FOUND")
 
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None

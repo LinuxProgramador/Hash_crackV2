@@ -4,7 +4,6 @@ import sys
 
 def auxiliary_crack(word, wpa_psk, ssid):
  try:
-  if not type(word) is bool:
     print("\n" + "=" * 50)
 
     if wpa_psk:

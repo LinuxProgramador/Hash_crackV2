@@ -71,7 +71,7 @@ def generate_combinations(encoder):
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except Exception as error:
         print(f"[ERROR]: An unexpected error occurred: {error}")

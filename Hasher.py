@@ -61,7 +61,7 @@ def call_modules(module_chosen, encoder):
         if not os.path.exists("/data/data/com.termux/files/"):
             time.sleep(1)
             os.system("clear")
-            os.system(f"bash {HOME}/Hash_crackV2/config_bundle/start_tor.sh")
+            os.system("sudo systemctl start tor")
             time.sleep(1)
             os.system(f"proxychains4 python3 {HOME}/Hash_crackV2/config_bundle/{module}")
             os.system("sudo systemctl stop tor")

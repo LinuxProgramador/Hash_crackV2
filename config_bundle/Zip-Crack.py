@@ -11,12 +11,9 @@ def init_worker():
 
 
 def try_passwords(args):
-    zip_file, file_7z, passwords = args
-
+    zip_file, sevenzip_cmd, passwords = args
     for pwd in passwords:
-
-        cmd = [file_7z, 't', zip_file, f'-p{pwd}']
-
+        cmd = [sevenzip_cmd, 't', zip_file, f'-p{pwd}']
         try:
             result = subprocess.run(
                 cmd,
@@ -25,9 +22,7 @@ def try_passwords(args):
                 timeout=30
             )
 
-
             if result.returncode == 0:
-
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
@@ -38,7 +33,7 @@ def try_passwords(args):
                    print("[WARNING:] The password contains leading or trailing whitespace")
                      
                 extract_cmd = [
-                    file_7z,
+                    sevenzip_cmd,
                     'x',
                     zip_file,
                     f'-p{pwd}',
@@ -55,26 +50,25 @@ def try_passwords(args):
                     )
                 except subprocess.CalledProcessError:
                     pass
-
                 return True
-
 
         except subprocess.TimeoutExpired:
             continue
-
+           
         except Exception as e:
             print(f"[ERROR] {e}")
-            continue
+            return True # returns a false positive to stop the code due to the given exception
 
     return None
 
 
-def crack_zip(zip_file, wordlist_file):
-    try:
+def main(zip_file, wordlist_file):
+    try:       
       if shutil.which("7zz"):
-          file_7z = "7zz"
+          sevenzip_cmd = "7zz"
       else:
-          file_7z = "7z"
+          sevenzip_cmd = "7z"
+         
       read_block_size = 8 * 1024 * 1024
       encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
@@ -104,7 +98,7 @@ def crack_zip(zip_file, wordlist_file):
                 actual_processes = min(process_count, len(chunks))
 
                 tasks = [
-                    (zip_file, file_7z, chunk)
+                    (zip_file, sevenzip_cmd, chunk)
                      for chunk in chunks[:actual_processes]
                 ]
 
@@ -114,15 +108,15 @@ def crack_zip(zip_file, wordlist_file):
                       return
 
             if last_line:
-               result = try_passwords((zip_file, file_7z, [last_line]))
+               result = try_passwords((zip_file, sevenzip_cmd, [last_line]))
                if result:
                   return
-      if not result:
-            print("[FINISH]>> PASSWORD NOT FOUND")
+                  
+      print("[FINISH]>> PASSWORD NOT FOUND")
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except FileNotFoundError:
         print(f"[ERROR]: Wordlist file not found: {wordlist_file}")
@@ -137,7 +131,8 @@ if __name__ == "__main__":
   try:
     zip_file = input("Enter the absolute path of the ZIP file you want to crack: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
-    crack_zip(zip_file, wordlist_file)
+    main(zip_file, wordlist_file)
+     
   except KeyboardInterrupt:
       print()
-      sys.exit(1)
+      sys.exit(0)

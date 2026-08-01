@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time
+import time, sys
 import binascii
 from gmssl import sm3,func
 from whirlpool import new as wpl

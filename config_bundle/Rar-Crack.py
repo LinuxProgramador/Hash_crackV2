@@ -14,9 +14,7 @@ def try_passwords(args):
     rar_file, passwords = args
 
     for pwd in passwords:
-
         cmd = ['unrar', 't', f'-p{pwd}', "-idq", rar_file]
-
         try:
             result = subprocess.run(
                 cmd,
@@ -25,9 +23,7 @@ def try_passwords(args):
                 timeout=30
             )
 
-
             if result.returncode == 0:
-
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
@@ -38,25 +34,23 @@ def try_passwords(args):
                    print("[WARNING:] The password contains leading or trailing whitespace")
                 return True
 
-
         except subprocess.TimeoutExpired:
             continue
 
         except Exception as e:
             print(f"[ERROR] {e}")
-            continue
+            return True # returns a false positive to stop the code due to the given exception
 
     return None
 
 
-def crack_rar(rar_file, wordlist_file):
+def main(rar_file, wordlist_file):
     try:
       read_block_size = 8 * 1024 * 1024
-      encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
       result = None
       with Pool(processes=process_count, initializer=init_worker) as pool:
-        with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
+        with open(wordlist_file, 'r', encoding="utf-8", errors='ignore') as f:
             last_line = ""
             while True:
                 chunk = f.read(read_block_size)
@@ -93,12 +87,12 @@ def crack_rar(rar_file, wordlist_file):
                result = try_passwords((rar_file, [last_line]))
                if result:
                   return
-      if not result:
-            print("[FINISH]>> PASSWORD NOT FOUND")
+                  
+      print("[FINISH]>> PASSWORD NOT FOUND")
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except FileNotFoundError:
         print(f"[ERROR]: Wordlist file not found: {wordlist_file}")
@@ -113,7 +107,8 @@ if __name__ == "__main__":
   try:
     rar_file = input("Enter the absolute path of the RAR file you want to crack: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
-    crack_rar(rar_file, wordlist_file)
+    main(rar_file, wordlist_file)
+
   except KeyboardInterrupt:
       print()
-      sys.exit(1)
+      sys.exit(0)

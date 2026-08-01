@@ -6,7 +6,6 @@ import os
 import signal
 from multiprocessing import Pool, cpu_count
 
-
 def init_worker():
    signal.signal(signal.SIGINT, signal.SIG_IGN)
    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
@@ -14,13 +13,10 @@ def init_worker():
 
 def try_passwords(args):
     pdf_file, passwords = args
-
     for pwd in passwords:
-
         try:
             with pikepdf.open(pdf_file, password=pwd) as pdf:
                 pdf.save("pdf_decryption.pdf")
-
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
@@ -28,8 +24,7 @@ def try_passwords(args):
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
                 if pwd != pwd.strip():
-                   print("[WARNING:] The password contains leading or trailing whitespace")
-                    
+                   print("[WARNING:] The password contains leading or trailing whitespace")               
                 return True
 
         except pike.PasswordError:
@@ -37,19 +32,18 @@ def try_passwords(args):
 
         except Exception as error:
             print(f"[ERROR]: {error}")
-            return None
+            return True # returns a false positive to stop the code due to the given exception
 
     return None
 
 
-def crack_pdf(pdf_file, wordlist_file):
+def main(pdf_file, wordlist_file):
     try:
       read_block_size = 8 * 1024 * 1024
-      encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
       result = None
       with Pool(processes=process_count, initializer=init_worker ) as pool:
-        with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as keywords_read:
+        with open(wordlist_file, 'r', encoding="utf-8", errors='ignore') as keywords_read:
             last_line = ""
             while True:
                 chunk = keywords_read.read(read_block_size)
@@ -87,13 +81,13 @@ def crack_pdf(pdf_file, wordlist_file):
                    result = try_passwords((pdf_file, [last_line]))
                    if result:
                       return
-      if not result:
-          print("[FINISH]>> PASSWORD NOT FOUND")
+      
+      print("[FINISH]>> PASSWORD NOT FOUND")
 
     
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except FileNotFoundError:
         print(f"[ERROR]: File not found {wordlist_file}")
@@ -108,7 +102,8 @@ if __name__ == "__main__":
   try:
     pdf_file = input("Enter the absolute path of the PDF file you want to decrypt: ").strip()
     wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
-    crack_pdf(pdf_file, wordlist_file)
+    main(pdf_file, wordlist_file)
+     
   except KeyboardInterrupt:
       print()
-      sys.exit(1)
+      sys.exit(0)

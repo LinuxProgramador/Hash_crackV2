@@ -13,7 +13,6 @@ from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 # IP-based blocking and rate-limiting mechanisms
 
 def get_encoder():
-    print("\n[INFO] This option is only valid for SSH services exposed on the Internet (not for local testing)")
     print("[INFO] To ensure compatibility with special characters, select an encoding method:")
     print("1) latin-1\n2) utf-8")
 
@@ -76,11 +75,12 @@ def read_dic(dic_path, port, hostname, username, encoder):
 
 def main():
     try:
+        print("\n[INFO] This option is only valid for SSH services exposed on the Internet (not for local testing)")
         encoder = get_encoder()
 
         dic_path = os.path.expanduser('~/Hash_crackV2/ssh_keys.txt')
         hostname = input("Enter SSH server IP or Domain URL: ").strip()
-        port = int(input("Enter the port: ").strip())
+        port = int(input("Enter the port: "))
         username = input("Enter SSH username: ").strip()
 
         read_dic(dic_path, port, hostname, username, encoder)

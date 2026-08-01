@@ -15,9 +15,11 @@ def get_encoder():
 
     return encoder_text
 
-def ssh(client, passwords, hostname, username, port):
+def ssh(passwords, hostname, username, port):
 
     for pwd in passwords:
+        client = SSHClient()
+        client.set_missing_host_key_policy(AutoAddPolicy())
         try:
             client.connect(hostname, port=port, username=username, password=pwd, timeout=5)
             stdin, stdout, stderr = client.exec_command('echo "Ready"')
@@ -48,9 +50,6 @@ def ssh(client, passwords, hostname, username, port):
 
 
 def read_dic(dic_path, port, hostname, username, encoder):
-    client = SSHClient()
-    client.set_missing_host_key_policy(AutoAddPolicy())
-
     with open(dic_path, 'r', encoding=encoder, errors='ignore') as file_read:
        chunk_size = 512 * 1024
        last_line = ""
@@ -68,10 +67,10 @@ def read_dic(dic_path, port, hostname, username, encoder):
          else:
                 last_line = ""
 
-         ssh(client, lines, hostname, username, port)
+         ssh(lines, hostname, username, port)
 
        if last_line:
-         ssh(client, [last_line], hostname, username, port)
+         ssh([last_line], hostname, username, port)
 
 
 def main():

@@ -326,7 +326,7 @@ def main():
         sys.exit(1)
 
      wpa_psk = True if hash_type == "wpa" else None
-     ssid = input("Enter SSID: ").strip() if hash_type == "wpa" else ssid
+     ssid = input("Enter SSID: ") if hash_type == "wpa" else ssid
 
      if hash_type == "pbkdf2-sha1":
          target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
@@ -340,7 +340,7 @@ def main():
          except UnicodeDecodeError:
              user = salt_bytes.decode("utf-8")
      elif hash_type == "dcc2":
-         user = input("Enter username: ").strip()
+         user = input("Enter username: ")
 
 
      print("\nEnter 4 configurations for charset and length:")

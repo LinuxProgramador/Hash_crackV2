@@ -19,7 +19,7 @@ def ssh(client, passwords, hostname, username, port):
 
     for pwd in passwords:
         try:
-            client.connect(hostname, port=port, username=username, password=pwd, timeout=3)
+            client.connect(hostname, port=port, username=username, password=pwd, timeout=5)
             stdin, stdout, stderr = client.exec_command('echo "Ready"')
             output = stdout.read().decode().strip()
 

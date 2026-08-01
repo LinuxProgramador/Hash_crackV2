@@ -9,7 +9,7 @@ The author is not responsible for any misuse or illegal activity performed using
 
 ## Recommended Platforms
 
-• Ubuntu 24.04.4 LTS and Ubuntu.26.04 LTS
+• Ubuntu 24.04.4 LTS and Ubuntu 26.04 LTS
 
 • Android (via Termux)
 

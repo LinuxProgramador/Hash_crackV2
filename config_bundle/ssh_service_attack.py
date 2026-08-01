@@ -17,9 +17,8 @@ def get_encoder():
     print("1) latin-1\n2) utf-8")
 
     option = input("Select option [1/2]: ").strip()
-    encoder_text = "latin-1" if option == "1" else "utf-8"
+    return "latin-1" if option == "1" else "utf-8"
 
-    return encoder_text
 
 def ssh(passwords, hostname, username, port):
 
@@ -87,7 +86,7 @@ def main():
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except FileNotFoundError as f:
         print(f"[ERROR]: File not found. Please verify the path: {f}")

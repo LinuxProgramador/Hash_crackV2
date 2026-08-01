@@ -12,12 +12,9 @@ def init_worker():
 
 
 def try_passwords(args):
-    archive_file, file_7z, passwords = args
-
+    archive_file, sevenzip_cmd, passwords = args
     for pwd in passwords:
-
-        cmd = [file_7z, 't', archive_file, f'-p{pwd}']
-
+        cmd = [sevenzip_cmd, 't', archive_file, f'-p{pwd}']
         try:
             result = subprocess.run(
                 cmd,
@@ -26,9 +23,7 @@ def try_passwords(args):
                 timeout=30
             )
 
-
             if result.returncode == 0:
-
                 print("\n" + "=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))
                 print("=" * 50)
@@ -38,7 +33,7 @@ def try_passwords(args):
                    print("[WARNING:] The password contains leading or trailing whitespace")
                     
                 extract_cmd = [
-                    file_7z,
+                    sevenzip_cmd,
                     'x',
                     archive_file,
                     f'-p{pwd}',
@@ -63,23 +58,23 @@ def try_passwords(args):
 
         except Exception as e:
             print(f"[ERROR] {e}")
-            continue
+            return True # returns a false positive to stop the code due to the given exception
 
     return None
 
 
-def crack_7z(archive_file, wordlist_file):
+def main(archive_file, wordlist_file):
     try:
       if shutil.which("7zz"):
-          file_7z = "7zz"
+          sevenzip_cmd = "7zz"
       else:
-          file_7z = "7z"
+          sevenzip_cmd = "7z"
+         
       read_block_size = 8 * 1024 * 1024
-      encoder = "utf-8"
       process_count = max(1, cpu_count() - 1)
       result = None
       with Pool(processes=process_count, initializer=init_worker) as pool:
-        with open(wordlist_file, 'r', encoding=encoder, errors='ignore') as f:
+        with open(wordlist_file, 'r', encoding="utf-8", errors='ignore') as f:
             last_line = ""
             while True:
                 chunk = f.read(read_block_size)
@@ -104,7 +99,7 @@ def crack_7z(archive_file, wordlist_file):
                 tasks = [
                   (
                      archive_file,
-                     file_7z,
+                     sevenzip_cmd,
                      chunk
                   )
                      for chunk in chunks[:actual_processes]
@@ -116,11 +111,11 @@ def crack_7z(archive_file, wordlist_file):
                        return
 
             if last_line:
-               result = try_passwords((archive_file, file_7z, [last_line]))
+               result = try_passwords((archive_file, sevenzip_cmd, [last_line]))
                if result:
                    return
-      if not result:
-            print("[FINISH]>> PASSWORD NOT FOUND")
+      
+      print("[FINISH]>> PASSWORD NOT FOUND")
 
     except FileNotFoundError:
         print(f"[ERROR]: Wordlist file not found: {wordlist_file}")
@@ -128,7 +123,7 @@ def crack_7z(archive_file, wordlist_file):
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except Exception as e:
         print(f"[ERROR]: {e}")
@@ -139,7 +134,8 @@ if __name__ == "__main__":
     try:
         archive_file = input("Enter the absolute path of the 7Z file you want to crack: ").strip()
         wordlist_file = os.path.expanduser('~/Hash_crackV2/wordlist.txt')
-        crack_7z(archive_file, wordlist_file)
+        main(archive_file, wordlist_file)
+       
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)

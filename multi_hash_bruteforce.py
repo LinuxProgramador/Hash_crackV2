@@ -168,7 +168,7 @@ def validate_word(word, target_hash, hash_type, ssid, user):
 
           except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
-             sys.exit(1)
+             return True # returns a false positive to stop the code due to the given exception
 
     elif hash_type == "wpa":
         if 8 <= len(word) <= 63:
@@ -265,8 +265,9 @@ def hash_worker(args):
                 ):
                     return word
 
-            except Exception:
-                continue
+            except Exception as error_:
+                print(f"[ERROR]: {error_}")
+                return True # returns a false positive to stop the code due to the given exception
 
     return None
 

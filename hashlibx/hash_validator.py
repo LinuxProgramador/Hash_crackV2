@@ -132,7 +132,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
 
           except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
-             return "_error_" 
+             return ("_error_")
 
     elif hash_type == "wpa":
         if 8 <= len(word) <= 63:
@@ -254,4 +254,4 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
 
   except Exception as error:
     print(f"[ERROR]: {error}")
-    return "_error_" 
+    return ("_error_")

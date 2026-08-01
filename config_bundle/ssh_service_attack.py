@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
+import sys, os
 from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 
 # Due to the robust security protocols integrated within SSH, parallel attacks are considerably less effective. Consequently, I opted to employ a single attack connection
@@ -78,8 +78,8 @@ def main():
     try:
         encoder = get_encoder()
 
-        dic_path = input("Enter the dictionary path: ").strip()
-        hostname = input("Enter SSH server IP: ").strip()
+        dic_path = os.path.expanduser('~/Hash_crackV2/ssh_keys.txt')
+        hostname = input("Enter SSH server IP or Domain URL: ").strip()
         port = int(input("Enter the port: ").strip())
         username = input("Enter SSH username: ").strip()
 

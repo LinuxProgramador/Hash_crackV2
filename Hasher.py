@@ -107,8 +107,8 @@ def hash_cracking_worker(args):
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
             if hash_result is None:
                 continue
-            if hash_result == "_error_":
-                return "_error_" 
+            if type(hash_result) is list:
+                return hash_result
             if isinstance(hash_result, bool) and hash_result:
                 return candidate
 
@@ -160,12 +160,12 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              ]
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
-              if result and result != "_error_" :
+              if result and not type(hash_result) is list: 
                  candidate = result
                  auxiliary_crack(candidate, wpa_psk, ssid)
                  pool.terminate()
                  return
-              elif result and result == "_error_":
+              elif result and type(hash_result) is list :
                   pool.terminate()
                   return
                   
@@ -182,11 +182,11 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              wait_time
              ]
           result = hash_cracking_worker(task)
-          if result and result != "_error_":
+          if result and not type(hash_result) is list:
               candidate = result
               auxiliary_crack(candidate, wpa_psk, ssid)
               return
-          elif result and result == "_error_":
+          elif result and type(hash_result) is list:
               pool.terminate()
               return
 

@@ -49,16 +49,16 @@ main() {
 
         sudo apt update 
         sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config -y
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r linux_requirements.txt
 
-        # Only if the config file exists
         if [[ -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" ]]; then
             echo "[*] Copying proxychains4.conf to the system"
             sudo cp -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" /etc/proxychains4.conf
         else
             echo "[!] proxychains4.conf not found in ~/Hash_crackV2/config_bundle/"
         fi
+        
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r linux_requirements.txt
         sudo python3 -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     fi
 

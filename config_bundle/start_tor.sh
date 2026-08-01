@@ -1,4 +1,3 @@
 #!/bin/bash
 
-tor &>/dev/null &
-echo
+sudo systemctl start tor

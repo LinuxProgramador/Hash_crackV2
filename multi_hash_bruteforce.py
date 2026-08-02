@@ -255,6 +255,9 @@ def hash_worker(args):
                     user
                 )
 
+                if result and type(result) is list:
+                      return result
+                    
                 if hash_type == "ssha":
                     if result[0].lower() == result[1].lower():
                         return word
@@ -382,12 +385,10 @@ def main():
     
    except KeyboardInterrupt:
         print()
-        pool.terminate()
         sys.exit(0)
 
    except Exception as error:
         print(f"[ERROR]: {error}")
-        pool.terminate()
         sys.exit(1)
 
 

@@ -101,7 +101,7 @@ def hash_cracking_worker(args):
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])
-        if type(mutated_words) is str:
+        if isinstance(mutated_words, str):
                 return ["_error_"]
             
         for candidate in mutated_words:
@@ -110,7 +110,7 @@ def hash_cracking_worker(args):
             hash_result = validate_word(candidate, data, target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time)
             if hash_result is None:
                 continue
-            if type(hash_result) is list:
+            if isinstance(hash_result, list):
                 return hash_result
             if isinstance(hash_result, bool) and hash_result:
                 return candidate
@@ -214,7 +214,7 @@ def local_db(hash_type, target_hash, encoder):
 def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen, base64_decode ):
     try:
         if base64_decode:
-          target_hash = b64decode(target_hash).hex()
+          target_hash = b64decode(target_hash, validate=True).hex()
             
         hash_type = hash_type.strip().lower() if hash_type else hash_type
         target_hash = target_hash.strip() if target_hash else target_hash
@@ -237,7 +237,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder)
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             local_db(hash_type, target_hash, encoder)
-            if hash_type == "yescrypt" and sys.platform == "android":
+            if hash_type == "yescrypt" and os.path.exists("/data/data/com.termux/files/"):
               print("Not supported on Termux, Only Ubuntu!")
               sys.exit(1)
 

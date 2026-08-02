@@ -118,7 +118,7 @@ def main(archive_file, wordlist_file):
       print("[FINISH]>> PASSWORD NOT FOUND")
 
     except FileNotFoundError as f:
-        print(f"[ERROR]: Wordlist file not found: {f}")
+        print(f"[ERROR]: file not found: {f}")
         sys.exit(1)
 
     except KeyboardInterrupt:

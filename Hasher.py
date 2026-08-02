@@ -213,14 +213,38 @@ def local_db(hash_type, target_hash, encoder):
 
 def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen, base64_decode ):
     try:
+        print(show_help())
         if base64_decode:
           target_hash = b64decode(target_hash, validate=True).hex()
             
         hash_type = hash_type.strip().lower() if hash_type else hash_type
-        target_hash = target_hash.strip() if target_hash else target_hash
-        module_chosen = module_chosen.strip() if module_chosen else module_chosen
+        if ":" in target_hash:
+         right = target_hash.split(":", 1)[1].strip()
+         excluded = (
+          "$2a$", "$2b$", "$2y$",
+           "$1$", "$5$", "$6$",
+           "$apr1",
+           "{SSHA}",
+           "$dcc2$",
+           "$P$",
+           "$argon2id$",
+           "$scrypt$",
+           "$pbkdf2-sha256",
+           "$pbkdf2-sha512",
+           "$pbkdf2",
+           "$y$"
+         )
 
-        print(show_help())
+         if len(right) in (32, 64) and not right.lower().startswith(
+           tuple(x.lower() for x in excluded)
+            ):
+              user_or_ssid, hash = target_hash.split(":", 1)
+              target_hash = f"{user_or_ssid}:{hash.strip()}"
+         else:
+            target_hash = target_hash.strip() if target_hash else target_hash
+        else:
+            target_hash = target_hash.strip() if target_hash else target_hash
+        module_chosen = module_chosen.strip() if module_chosen else module_chosen
         encoder = get_encoder(choice)
 
         if ct7:

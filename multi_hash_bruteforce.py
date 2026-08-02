@@ -255,7 +255,7 @@ def hash_worker(args):
                     user
                 )
 
-                if result and type(result) is list:
+                if isinstance(result, list):
                       return result
                     
                 if hash_type == "ssha":
@@ -318,7 +318,7 @@ def main():
      wait_time = input("Prevent CPU overheating (y/n): ").strip().lower()
      base64_decode = input("Decode Base64-encoded hash? (y/n): ").strip().lower()
      if base64_decode == "y":
-        target_hash = b64decode(target_hash).hex()
+        target_hash = b64decode(target_hash, validate=True).hex()
          
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",
@@ -358,7 +358,7 @@ def main():
 
        for result in pool.imap_unordered(hash_worker, tasks):
 
-        if result and not type(result) is list:
+        if result and not isinstance(result, list):
             candidate = result
 
             print("\n" + "=" * 50)
@@ -376,7 +376,7 @@ def main():
 
             pool.terminate()
             break
-        elif result and type(result) is list:
+        elif result and isinstance(result, list):
              pool.terminate()
              sys.exit(0)
             

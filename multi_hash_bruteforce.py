@@ -375,7 +375,7 @@ def main():
             print("=" * 50 + "\n")
 
             pool.terminate()
-            break
+            sys.exit(0)
         elif result and isinstance(result, list):
              pool.terminate()
              sys.exit(0)

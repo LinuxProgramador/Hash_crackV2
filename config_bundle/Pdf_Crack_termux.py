@@ -33,8 +33,8 @@ def try_passwords(args):
             print("[WARNING:] The password contains leading or trailing whitespace")
          return True
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
+    except Exception as error_:
+        print(f"[ERROR]: {error_}")
         return True # returns a false positive to stop the code due to the given exception
 
   return None
@@ -93,8 +93,8 @@ def main(pdf_file, wordlist_file):
         print()
         sys.exit(0)
 
-    except FileNotFoundError:
-        print(f"[ERROR]: File not found {wordlist_file}")
+    except FileNotFoundError as f:
+        print(f"[ERROR]: File not found {f}")
         sys.exit(1)
 
     except Exception as error:

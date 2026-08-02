@@ -101,6 +101,9 @@ def hash_cracking_worker(args):
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
     for word in password_list:
         mutated_words = rules_parameters(word, rules, [])
+        if type(mutated_words) is str:
+                return ["_error_"]
+            
         for candidate in mutated_words:
             data = candidate.encode(encoder)
 

@@ -207,7 +207,7 @@ def local_db(hash_type, target_hash, encoder):
         with open(db_path, 'r', encoding=encoder, errors='ignore') as db_read:
             dic_db = loads(db_read.read())
             for db_hash, value in dic_db.items():
-                if target_hash.lower() == db_hash.lower():
+                if target_hash.lower() == db_hash.strip().lower():
                     auxiliary_crack(value, wpa_psk, ssid)
                     sys.exit(0)
 

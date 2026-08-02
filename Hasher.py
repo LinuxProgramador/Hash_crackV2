@@ -216,6 +216,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
     try:
         if base64_decode:
           target_hash = b64decode(target_hash).hex()
+            
         hash_type = hash_type.strip().lower() if hash_type else hash_type
         target_hash = target_hash.strip() if target_hash else target_hash
         module_chosen = module_chosen.strip() if module_chosen else module_chosen
@@ -239,15 +240,14 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and sys.platform == "android":
               print("Not supported on Termux, Only Ubuntu!")
-              sys.exit(0)
+              sys.exit(1)
 
             dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count)
 
-        sys.exit(0)
 
     except KeyboardInterrupt:
         print()
-        sys.exit(1)
+        sys.exit(0)
 
     except Exception as error:
         print(f"[ERROR]: {error}")

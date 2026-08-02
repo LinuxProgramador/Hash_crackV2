@@ -117,6 +117,7 @@ def hash_cracking_worker(args):
 
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
+  try:
     read_block_size = 8 * 1024 * 1024
     result = None
     with Pool(processes=process_count, initializer=init_worker) as pool:
@@ -193,6 +194,12 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
               return
 
     print("[FINISH]>> PASSWORD NOT FOUND")
+
+  except Exception as error_dic:
+        print(f"[ERROR]: {error_dic}")
+        pool.terminate()
+        sys.exit(1)
+
 
 def local_db(hash_type, target_hash, encoder):
     wpa_psk = ssid = None

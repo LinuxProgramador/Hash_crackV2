@@ -164,12 +164,12 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              ]
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
-              if result and not type(result) is list: 
+              if result and not isinstance(result, list): 
                  candidate = result
                  auxiliary_crack(candidate, wpa_psk, ssid)
                  pool.terminate()
                  return
-              elif result and type(result) is list :
+              elif result and isinstance(result, list):
                   pool.terminate()
                   return
                   
@@ -186,11 +186,11 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              wait_time
              ]
           result = hash_cracking_worker(task)
-          if result and not type(result) is list:
+          if result and not isinstance(result, list):
               candidate = result
               auxiliary_crack(candidate, wpa_psk, ssid)
               return
-          elif result and type(result) is list:
+          elif result and isinstance(result, list):
               return
 
     print("[FINISH]>> PASSWORD NOT FOUND")

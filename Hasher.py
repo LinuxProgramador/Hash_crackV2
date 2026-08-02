@@ -197,7 +197,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
   except Exception as error_dic:
         print(f"[ERROR]: {error_dic}")
-        pool.terminate()
         sys.exit(1)
 
 

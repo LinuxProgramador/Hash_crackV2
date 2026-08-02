@@ -56,8 +56,8 @@ def try_passwords(args):
         except subprocess.TimeoutExpired:
             continue
 
-        except Exception as e:
-            print(f"[ERROR] {e}")
+        except Exception as e_:
+            print(f"[ERROR] {e_}")
             return True # returns a false positive to stop the code due to the given exception
 
     return None
@@ -117,8 +117,8 @@ def main(archive_file, wordlist_file):
       
       print("[FINISH]>> PASSWORD NOT FOUND")
 
-    except FileNotFoundError:
-        print(f"[ERROR]: Wordlist file not found: {wordlist_file}")
+    except FileNotFoundError as f:
+        print(f"[ERROR]: Wordlist file not found: {f}")
         sys.exit(1)
 
     except KeyboardInterrupt:

@@ -27,7 +27,7 @@ def try_passwords(args):
                    print("[WARNING:] The password contains leading or trailing whitespace")               
                 return True
 
-        except pike.PasswordError:
+        except pikepdf.PasswordError:
             continue
 
         except Exception as error:

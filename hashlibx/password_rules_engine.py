@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
 from itertools import product
-
 
 def rules_parameters(word, rules, stored):
   try:
@@ -190,4 +188,4 @@ def rules_parameters(word, rules, stored):
 
   except Exception as error:
     print(f"[ERROR]: {error}")
-    sys.exit(1)
+    return "_error_"

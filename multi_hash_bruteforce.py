@@ -168,7 +168,7 @@ def validate_word(word, target_hash, hash_type, ssid, user):
 
           except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
-             return True # returns a false positive to stop the code due to the given exception
+             return ["_error_"]
 
     elif hash_type == "wpa":
         if 8 <= len(word) <= 63:
@@ -267,7 +267,7 @@ def hash_worker(args):
 
             except Exception as error_:
                 print(f"[ERROR]: {error_}")
-                return True # returns a false positive to stop the code due to the given exception
+                return ["_error_"]
 
     return None
 
@@ -355,7 +355,7 @@ def main():
 
        for result in pool.imap_unordered(hash_worker, tasks):
 
-        if result:
+        if result and not type(result) is list:
             candidate = result
 
             print("\n" + "=" * 50)
@@ -373,16 +373,21 @@ def main():
 
             pool.terminate()
             break
-
+        elif result and type(result) is list:
+             pool.terminate()
+             sys.exit(0)
+            
      print("[FINISH]>> PASSWORD NOT FOUND")
 
     
    except KeyboardInterrupt:
         print()
+        pool.terminate()
         sys.exit(0)
 
    except Exception as error:
         print(f"[ERROR]: {error}")
+        pool.terminate()
         sys.exit(1)
 
 

@@ -188,7 +188,11 @@ Supported hashes:
 Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
 
    *WPA-PSK: network:hash
-   *DCC2: username:hash
+   *DCC2: username:hash or
+   $DCC2$iterations#username#hash
+   Example:
+
+          $DCC2$10240#root#8e8d1cd22a57d975978f1404a58548f3
 
 Note:
 

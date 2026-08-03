@@ -158,15 +158,14 @@ def validate_word(word, target_hash, hash_type, ssid, user):
 
     elif hash_type == "dcc2":
         time.sleep(0.02)
-        try:
-           from passlib.hash import dcc2
-           return dcc2.verify((user, word), target_hash)
-
-        except ImportError:
-          try:
+        try:       
+          if target_hash.startswith("$DCC2$"):
+             temp = target_hash.split('#')
+             return msdcc2.verify(word, temp[2], user=temp[1])
+          else:
              return msdcc2.verify(word, target_hash, user=user)
-
-          except ValueError as value_error:
+    
+        except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
              return ["_error_"]
 
@@ -335,14 +334,7 @@ def main():
          target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
 
        
-     if target_hash.startswith("$dcc2$") and hash_type == "dcc2":
-         dcc2_split_hash = target_hash.split('$')
-         salt_bytes = b64decode(dcc2_split_hash[3])
-         try:
-             user = salt_bytes.decode("utf-16le")
-         except UnicodeDecodeError:
-             user = salt_bytes.decode("utf-8")
-     elif hash_type == "dcc2":
+     elif hash_type == "dcc2" and not target_hash.startswith("$DCC2$"):
          user = input("Enter username: ")
 
 

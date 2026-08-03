@@ -2,6 +2,12 @@ import os
 from getpass import getuser
 import platform
 import time,zipfile
+import pyfiglet
+from tqdm import tqdm
+import termcolor
+from termcolor import colored
+
+
 print("[*] Checking Requirements Module....")
 def get_encoder():
     print("INFO: For compatibility reasons with certain symbols, choose your encoder:")
@@ -15,23 +21,8 @@ def header():
     print(colored("                                <Coded By: Clay>     \n", 'yellow', attrs=['bold']))
     print(colored("                                <Version: 2.0>     \n", 'magenta', attrs=['bold']))
     return
-if platform.system().startswith("Linux"):
-    try:
-        from tqdm import tqdm
-    except ImportError:
-        os.system("python3 -m pip install tqdm -q -q -q")
-        from tqdm import tqdm
-    try:
-        import termcolor
-    except ImportError:
-        os.system("python3 -m pip install termcolor -q -q -q")
-        import termcolor
-    from termcolor import colored
-    try:
-        import pyfiglet
-    except ImportError:
-        os.system("python3 -m pip install pyfiglet -q -q -q")
-        import pyfiglet
+
+
 def linuxpdf(encoder):
     os.system("clear")
     user=getuser()
@@ -82,8 +73,7 @@ def catc():
         encoder = get_encoder()
         time.sleep(1)
         os.system("clear")
-        if platform.system().startswith("Linux"):
-            linuxpdf(encoder)
+        linuxpdf(encoder)
     except KeyboardInterrupt:
         print(termcolor.colored("\nYou Pressed The Exit Button!", 'red'))
         quit()

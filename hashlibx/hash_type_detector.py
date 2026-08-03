@@ -123,16 +123,8 @@ def auto_detect_type(target_hash):
             user = left
             return "dcc2", user, None, None, target_hash
 
-    if target_hash.startswith("$dcc2$"):
-            dcc2_split_hash = target_hash.split('$')
-            salt_bytes = base64.b64decode(dcc2_split_hash[3])
-            try:
-               user = salt_bytes.decode("utf-16le")
-
-            except UnicodeDecodeError:
-               user = salt_bytes.decode("utf-8")
-
-            return "dcc2", user, None, None, target_hash
+    if target_hash.startswith("$DCC2$"):
+        return "dcc2", None, None, None, target_hash
 
     if target_hash.startswith("*"):
         return "mysql5.x", None, None, None, target_hash

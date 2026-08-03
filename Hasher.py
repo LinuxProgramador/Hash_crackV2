@@ -218,7 +218,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
           target_hash = b64decode(target_hash, validate=True).hex()
             
         hash_type = hash_type.strip().lower() if hash_type else hash_type
-        if ":" in target_hash:
+        if target_hash and ":" in target_hash:
          right = target_hash.split(":", 1)[1].strip()
          excluded = (
           "$2a$", "$2b$", "$2y$",

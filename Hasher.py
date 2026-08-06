@@ -69,6 +69,7 @@ vocals = ('a', 'e', 'i', 'o', 'u')
 
 character_substitution = {"a":"@","A":"4","e":"3","E":"3","i":"1","I":"1","o":"0","O":"0","s":"$","S":"5","t":"7","T":"7","ó":"0","Ó":"0","á":"@","Á":"4","é":"3","É":"3","í":"1","Í":"1","à":"@","À":"4","è":"3","È":"3","ò":"0","Ò":"0","ì":"1","Ì":"1"}
 
+digits = "0123456789"
 
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
@@ -170,6 +171,7 @@ def hash_cracking_worker(args):
                symbols,
                vocals,
                character_substitution,
+               digits,
                ):
 
                result = check_candidate(

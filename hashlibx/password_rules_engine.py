@@ -33,7 +33,7 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
               yield word.capitalize()
 
         elif chosen_rules == '6':
-            yield = word.translate(translation_table)
+            yield word.translate(translation_table)
 
         elif chosen_rules == '7':
               word = word.capitalize()

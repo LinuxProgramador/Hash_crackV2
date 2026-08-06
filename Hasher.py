@@ -137,40 +137,10 @@ def init_worker():
 
 
 
-def check_candidate(candidate, target_hash, hash_type, encoder,
-                    wpa_psk, ssid, user, wait_time):
-
-    data = candidate.encode(encoder)
-
-    hash_result = validate_word(
-        candidate,
-        data,
-        target_hash,
-        hash_type,
-        encoder,
-        wpa_psk,
-        ssid,
-        user,
-        wait_time,
-    )
-
-    if hash_result is None:
-        return None
-
-    if isinstance(hash_result, list):
-        return hash_result
-
-    if hash_result:
-        return candidate
-
-
-
 def hash_cracking_worker(args):
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
-
-    for candidate in password_list:
-
-        if rules:
+    if rules:
+        for candidate in password_list:
            try:
              for candidate in rules_parameters(
                candidate,
@@ -183,26 +153,35 @@ def hash_cracking_worker(args):
                valid_rules,
                ):
 
-               result = check_candidate(
-                candidate,
-                target_hash,
-                hash_type,
-                encoder,
-                wpa_psk,
-                ssid,
-                user,
-                wait_time,
+            
+               data = candidate.encode(encoder)
+               hash_result = validate_word(
+                   candidate,
+                   data,
+                   target_hash,
+                   hash_type,
+                   encoder,
+                   wpa_psk,
+                   ssid,
+                   user,
+                   wait_time,
                )
 
-               if result is not None:
-                  return result
+               if hash_result is None:
+                  continue
+
+               if isinstance(hash_result, list):
+                  return hash_result
+
+               if hash_result:
+                  return candidate
 
            except Exception as e_rror:
-              print(f" [ERROR]: {e_rror}")
+              print(f"[ERROR]: {e_rror}")
               return ["_error_"]
 
-        else:
-
+    else:
+         for candidate in password_list:
             data = candidate.encode(encoder)
             hash_result = validate_word(
               candidate,

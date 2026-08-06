@@ -197,7 +197,8 @@ def hash_cracking_worker(args):
                if result is not None:
                   return result
 
-           except Exception:
+           except Exception as e_rror:
+              print(f" [ERROR]: {e_rror}")
               return ["_error_"]
 
         else:

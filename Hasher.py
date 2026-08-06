@@ -71,6 +71,8 @@ character_substitution = {"a":"@","A":"4","e":"3","E":"3","i":"1","I":"1","o":"0
 
 digits = "0123456789"
 
+translation_table = str.maketrans(character_substitution)
+
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
 start = time.time()
@@ -172,6 +174,7 @@ def hash_cracking_worker(args):
                vocals,
                character_substitution,
                digits,
+               translation_table,
                ):
 
                result = check_candidate(

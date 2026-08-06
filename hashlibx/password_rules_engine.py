@@ -33,10 +33,7 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
               yield word.capitalize()
 
         elif chosen_rules == '6':
-               for char in character_substitution:
-                  word = word.translate(translation_table)
-               yield word
-
+            yield = word.translate(translation_table)
 
         elif chosen_rules == '7':
               word = word.capitalize()
@@ -78,33 +75,28 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
 
 
         elif chosen_rules in ('64','46'):
-            for char in character_substitution:
-               word = word.translate(translation_table)
+            word = word.translate(translation_table)
             for symbol in symbols:
                yield  word + symbol
 
 
         elif chosen_rules in ('61','16'):
-               for char in character_substitution:
-                  word = word.translate(translation_table)
+               word = word.translate(translation_table)
                for number in numbers:
                   yield word + number
 
 
         elif chosen_rules in ('56','65'):
-               for char in character_substitution:
-                   word = word.translate(translation_table)
+               word = word.translate(translation_table)
                yield word.capitalize()
 
         elif chosen_rules in ('26','62'):
-              for char in character_substitution:
-                  word = word.translate(translation_table)
+              word = word.translate(translation_table)
               yield word.upper()
 
 
         elif chosen_rules in ('36','63'):
-              for char in character_substitution:
-                  word = word.translate(translation_table)
+              word = word.translate(translation_table)
               yield word.lower()
 
 

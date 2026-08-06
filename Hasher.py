@@ -172,7 +172,6 @@ def hash_cracking_worker(args):
                numbers,
                symbols,
                vocals,
-               character_substitution,
                digits,
                translation_table,
                ):

@@ -27,6 +27,9 @@ from hashlibx.cisco_type7_decryptor import decrypt_cisco_type7
 from hashlibx.aux_output import auxiliary_crack
 from hashlibx.hash_type_detector import detect_and_crack_hash
 from hashlibx.hash_validator import validate_word
+from argon2 import PasswordHasher
+if sys.platform == "linux":
+  from pyescrypt import Yescrypt, Mode
 
 MENU_MODULES = {
     '1': 'zcrack.py',
@@ -80,6 +83,8 @@ valid_rules = {
 }
 
 slow_hashes = {"argon2id", "bcrypt", "scrypt", "yescrypt"}
+ph = PasswordHasher()
+yescrypt_hash = Yescrypt(mode=Mode.MCF) if sys.platform == "linux" else None
 
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
@@ -167,6 +172,9 @@ def hash_cracking_worker(args):
                    ssid,
                    user,
                    wait_time,
+                   ph,
+                   yescrypt_hash,
+
                )
 
                if hash_result is None:
@@ -195,6 +203,9 @@ def hash_cracking_worker(args):
               ssid,
               user,
               wait_time,
+              ph,
+              yescrypt_hash,
+
             )
 
             if hash_result is None:

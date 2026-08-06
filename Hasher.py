@@ -73,6 +73,12 @@ digits = "0123456789"
 
 translation_table = str.maketrans(character_substitution)
 
+valid_rules = {
+    'HBA','00','1','2','3','4','5','6','7','8','9','10','11',
+    '12','13','15','21','31','51','42','24','34','43','54',
+    '45','64','46','61','16','56','65','26','62','36','63'
+}
+
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
 start = time.time()
@@ -174,6 +180,7 @@ def hash_cracking_worker(args):
                vocals,
                digits,
                translation_table,
+               valid_rules,
                ):
 
                result = check_candidate(

@@ -2,7 +2,7 @@
 
 from itertools import product
 
-def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_table):
+def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_table, valid_rules):
     
     if rules and len(rules) == 1:
           rule = rules[0]
@@ -10,7 +10,7 @@ def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_
         rule = "".join(rules[:2])
 
 
-    chosen_rules = rule if rule in {'HBA','00','1','2','3','4','5','6','7','8','9','10','11','12','13','15','21','31','51','42','24','34','43','54','45','64','46','61','16','56','65','26','62','36','63'} else ''
+    chosen_rules = rule if rule in valid_rules else ''
 
     if chosen_rules:
         if chosen_rules == '1':

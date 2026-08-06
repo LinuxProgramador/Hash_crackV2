@@ -4,7 +4,6 @@ import time, sys
 import binascii
 from gmssl import sm3,func
 from whirlpool import new as wpl
-from argon2 import PasswordHasher
 from Crypto.Hash import RIPEMD160,MD4
 from hashlib import (
         md5,sha1, sha224, sha384, sha256, sha512,
@@ -27,7 +26,7 @@ from bcrypt import checkpw
 from base64 import b64encode, b64decode
 from argon2.exceptions import VerifyMismatchError
 if sys.platform == "linux":  
-   from pyescrypt import Yescrypt, Mode, WrongPassword, WrongPasswordConfiguration
+   from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
 
 HASH_ALGORITHMS_INFO = {
@@ -52,7 +51,7 @@ HASH_ALGORITHMS_INFO = {
     }
 
 
-def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time):
+def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time, ph, yescrypt_hash):
   try:
 
     generated_hash = ''
@@ -201,7 +200,6 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
          if wait_time == "y":
             time.sleep(0.20)
 
-         ph = PasswordHasher()
          try:
              ph.verify(target_hash, word)
              return True
@@ -236,8 +234,6 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
     elif hash_type == "yescrypt" and sys.platform == "linux":
           if wait_time == "y":
              time.sleep(0.20)
-
-          yescrypt_hash = Yescrypt(mode=Mode.MCF)
           try:
              yescrypt_hash.compare(data, target_hash.encode(encoder))
              return True

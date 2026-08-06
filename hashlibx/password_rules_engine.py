@@ -2,7 +2,7 @@
 
 from itertools import product
 
-def rules_parameters(word, rules, numbers, symbols, vocals, character_substitution, digits, translation_table):
+def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_table):
     
     if rules and len(rules) == 1:
           rule = rules[0]

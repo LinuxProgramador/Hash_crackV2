@@ -2,7 +2,7 @@
 
 from itertools import product
 
-def rules_parameters(word, rules, numbers, symbols, vocals, character_substitution, digits):
+def rules_parameters(word, rules, numbers, symbols, vocals, character_substitution, digits, translation_table):
     
     if rules and len(rules) == 1:
           rule = rules[0]
@@ -34,7 +34,7 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
 
         elif chosen_rules == '6':
                for char in character_substitution:
-                  word = word.replace(char, character_substitution[char])
+                  word = word.translate(translation_table)
                yield word
 
 
@@ -79,32 +79,32 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
 
         elif chosen_rules in ('64','46'):
             for char in character_substitution:
-               word = word.replace(char,character_substitution[char])
+               word = word.translate(translation_table)
             for symbol in symbols:
                yield  word + symbol
 
 
         elif chosen_rules in ('61','16'):
                for char in character_substitution:
-                  word = word.replace(char,character_substitution[char])
+                  word = word.translate(translation_table)
                for number in numbers:
                   yield word + number
 
 
         elif chosen_rules in ('56','65'):
                for char in character_substitution:
-                   word = word.replace(char, character_substitution[char])
+                   word = word.translate(translation_table)
                yield word.capitalize()
 
         elif chosen_rules in ('26','62'):
               for char in character_substitution:
-                  word = word.replace(char, character_substitution[char])
+                  word = word.translate(translation_table)
               yield word.upper()
 
 
         elif chosen_rules in ('36','63'):
               for char in character_substitution:
-                  word = word.replace(char, character_substitution[char])
+                  word = word.translate(translation_table)
               yield word.lower()
 
 

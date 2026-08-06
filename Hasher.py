@@ -252,8 +252,8 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
             actual_processes = min(process_count, len(chunks))
 
-            tasks = [
-                   [
+            tasks = (
+                   (
              chunk,
              ssid,
              wpa_psk,
@@ -263,9 +263,9 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              encoder,
              hash_type,
              wait_time
-             ]
+                   )
                for chunk in chunks[:actual_processes]
-             ]
+            )
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
               if result and not isinstance(result, list): 
@@ -278,7 +278,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
                   return
                   
         if last_line:
-          task = [
+          task = (
              [last_line],
              ssid,
              wpa_psk,
@@ -288,7 +288,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              encoder,
              hash_type,
              wait_time
-             ]
+          )
           result = hash_cracking_worker(task)
           if result and not isinstance(result, list):
               candidate = result

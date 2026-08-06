@@ -79,6 +79,8 @@ valid_rules = {
     '45','64','46','61','16','56','65','26','62','36','63'
 }
 
+slow_hashes = {"argon2id", "bcrypt", "scrypt", "yescrypt"}
+
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
 start = time.time()
@@ -218,7 +220,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             if not chunk:
                 break
 
-            if wait_time == "y" and hash_type not in ["argon2id", "bcrypt", "scrypt" ,"yescrypt"]:
+            if wait_time == "y" and hash_type not in slow_hashes:
                 time.sleep(10)
 
             buffer = last_line + chunk
@@ -255,7 +257,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
               if result and not isinstance(result, list): 
-                 candidate = result
+                 candidate = result 
                  auxiliary_crack(candidate, wpa_psk, ssid)
                  pool.terminate()
                  return

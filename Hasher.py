@@ -146,7 +146,7 @@ def check_candidate(candidate, target_hash, hash_type, encoder,
     )
 
     if hash_result is None:
-        pass
+        return None
 
     if isinstance(hash_result, list):
         return hash_result

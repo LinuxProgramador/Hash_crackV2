@@ -2,20 +2,12 @@
 
 from itertools import product
 
-def rules_parameters(word, rules, numbers, symbols, vocals, character_substitution):
-
-    rule = ''
-
-    if rules and len(rules) == 2:
-       for option in rules:
-            rule += option
-
-    elif rules and len(rules) == 1:
+def rules_parameters(word, rules, numbers, symbols, vocals, character_substitution, digits):
+    
+    if rules and len(rules) == 1:
           rule = rules[0]
-
-    elif rules and len(rules) >= 3:
-        for option in rules[:2]:
-            rule += option
+    elif rules and len(rules) >= 2:
+        rule = "".join(rules[:2])
 
 
     chosen_rules = rule if rule in ('HBA','00','1','2','3','4','5','6','7','8','9','10','11','12','13','15','21','31','51','42','24','34','43','54','45','64','46','61','16','56','65','26','62','36','63') else ''
@@ -80,7 +72,6 @@ def rules_parameters(word, rules, numbers, symbols, vocals, character_substituti
 
 
         elif chosen_rules == 'HBA':
-            digits = "0123456789"
             for r in range(1, 5):
                for combo in product(digits, repeat=r):
                   yield word + "".join(combo)

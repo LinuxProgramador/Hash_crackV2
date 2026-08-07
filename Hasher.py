@@ -83,7 +83,22 @@ valid_rules = {
     '45','64','46','61','16','56','65','26','62','36','63','lcu'
 }
 
-slow_hashes = {"argon2id", "bcrypt", "scrypt", "yescrypt"}
+slow_hashes = {
+"argon2id", 
+"bcrypt", 
+"scrypt", 
+"yescrypt",
+"dcc2",
+"sha256crypt",
+"sha512crypt",
+"md5crypt",
+"apr1",
+"phpass",
+"pbkdf2-sha512",
+"pbkdf2-sha1",
+"pbkdf2-sha256"
+}
+
 ph = PasswordHasher()
 yescrypt_hash = Yescrypt(mode=Mode.MCF) if sys.platform == "linux" else None
 
@@ -153,13 +168,16 @@ On UserLAND, perform the installation as root, as "sudo" may cause problems.""".
         os.system(f"python3 {HOME}/Hash_crackV2/config_bundle/{module}")
 
 
-def init_worker():
+def init_worker(hash_type):
    signal.signal(signal.SIGINT, signal.SIG_IGN)
    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
+   global context
+   context = crypt_contexts[hash_type]
 
 
 
 def hash_cracking_worker(args):
+    global context
     password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
     if rules:
         for candidate in password_list:
@@ -189,7 +207,7 @@ def hash_cracking_worker(args):
                    wait_time,
                    ph,
                    yescrypt_hash,
-                   crypt_contexts,
+                   context,
 
                )
 
@@ -221,7 +239,7 @@ def hash_cracking_worker(args):
               wait_time,
               ph,
               yescrypt_hash,
-              crypt_contexts,
+              context,
 
             )
 
@@ -240,7 +258,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
   try:
     read_block_size = 8 * 1024 * 1024
     result = None
-    with Pool(processes=process_count, initializer=init_worker) as pool:
+    with Pool(processes=process_count, initializer=init_worker, initargs=(hash_type,)) as pool:
       with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         last_line = ""
         while True:

@@ -3,12 +3,12 @@
 import sys
 from multiprocessing import cpu_count
 
-def get_cpu_allocation(hash_type, cpu_num):
+def get_cpu_allocation(hash_type, cpu_num, use_cpu_num ):
   try:
 
     is_limited = hash_type in ["argon2id", "scrypt" ,"yescrypt"]
     if is_limited:
-        process_count = 1
+        process_count = cpu_num if use_cpu_num  else 1
 
     elif cpu_num and cpu_num <= cpu_count():
         process_count = cpu_num

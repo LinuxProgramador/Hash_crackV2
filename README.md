@@ -196,7 +196,10 @@ Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
 
 Note:
 
-      By default, only one cpu is assigned to the hashes (`argon2id`/`scrypt`/`yescrypt`). To change this behavior, modify the `process_count` variable in the `hashlibx/cpu_selector.py` library.
+      By default, only one CPU is allocated to hashes (`argon2id`/`scrypt`/`yescrypt`). To change this behavior, simply pass the number of CPUs to use with the "-c" parameter.
+      For example:
+
+             python3 Hasher.py -i 'hash' -c 5
 
 
 Check progress

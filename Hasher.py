@@ -120,7 +120,14 @@ def call_modules(module_chosen, encoder):
             os.system(f"proxychains4 python3 {HOME}/Hash_crackV2/config_bundle/{module}")
             os.system("sudo systemctl stop tor")
         else:
-            print("Not supported on Termux, Only Ubuntu!")
+            print("""
+Note: Due to issues installing cryptography (Paramiko dependency), 
+it is recommended to use this feature on Ubuntu 24.04.4 LTS, Ubuntu 26.04 LTS, 
+or Ubuntu on UserLAND from Android.
+
+UserLAND: https://play.google.com/store/apps/details?id=tech.ula
+
+On UserLAND, perform the installation as root, as "sudo" may cause problems.""".strip())
     elif module_chosen == '4':
         generate_combinations(encoder)
     elif module_chosen == '5':

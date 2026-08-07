@@ -384,9 +384,10 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and os.path.exists("/data/data/com.termux/files/"):
               print("""
+              
 Note: This feature is not available on Termux, as the pyescrypt library fails to compile. 
 It is recommended to use Ubuntu 24.04.4 LTS or Ubuntu 26.04 LTS.
-              """.strip())
+              """.rstrip())
               sys.exit(1)
 
             dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count)

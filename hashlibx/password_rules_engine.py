@@ -136,4 +136,6 @@ def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_
                  yield word + symbol
 
 
-
+        elif chosen_rules in ('lcu'):
+            word = word[:1].lower() + word[1:].upper()
+            yield word

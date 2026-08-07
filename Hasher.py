@@ -383,8 +383,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and os.path.exists("/data/data/com.termux/files/"):
-              print("""
-              
+              print("""              
 Note: This feature is not available on Termux, as the pyescrypt library fails to compile. 
 It is recommended to use Ubuntu 24.04.4 LTS or Ubuntu 26.04 LTS.
               """.rstrip())

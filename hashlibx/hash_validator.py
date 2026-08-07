@@ -184,7 +184,7 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
                 context = CryptContext(schemes=[hash_type_sche])
                 return context.verify(word, target_hash)
 
-              except Exception as e:
+              except Exception:
                 return HASH_ALGORITHMS_INFO[hash_type].verify(word, target_hash)
                       
             return HASH_ALGORITHMS_INFO[hash_type].verify(word, target_hash)

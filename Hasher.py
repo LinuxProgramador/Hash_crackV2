@@ -249,7 +249,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
                 break
 
             if wait_time == "y" and hash_type not in slow_hashes:
-                time.sleep(10)
+                time.sleep(6)
 
             buffer = last_line + chunk
             lines = buffer.splitlines()

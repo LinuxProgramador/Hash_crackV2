@@ -11,7 +11,10 @@ def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_
 
 
     chosen_rules = rule if rule in valid_rules else ''
-
+    if not chosen_rules:
+       yield word
+       return
+        
     if chosen_rules:
         if chosen_rules == '1':
            for number in numbers:
@@ -136,6 +139,6 @@ def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_
                  yield word + symbol
 
 
-        elif chosen_rules in ('lcu'):
+        elif chosen_rules == 'lcu':
             word = word[:1].lower() + word[1:].upper()
             yield word

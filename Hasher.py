@@ -28,6 +28,7 @@ from hashlibx.aux_output import auxiliary_crack
 from hashlibx.hash_type_detector import detect_and_crack_hash
 from hashlibx.hash_validator import validate_word
 from argon2 import PasswordHasher
+from passlib.context import CryptContext
 if sys.platform == "linux":
   from pyescrypt import Yescrypt, Mode
 
@@ -85,6 +86,13 @@ valid_rules = {
 slow_hashes = {"argon2id", "bcrypt", "scrypt", "yescrypt"}
 ph = PasswordHasher()
 yescrypt_hash = Yescrypt(mode=Mode.MCF) if sys.platform == "linux" else None
+
+crypt_contexts = {
+    "sha256crypt": CryptContext(schemes=["sha256_crypt"]),
+    "sha512crypt": CryptContext(schemes=["sha512_crypt"]),
+    "md5crypt": CryptContext(schemes=["md5_crypt"]),
+    "apr1": CryptContext(schemes=["apr_md5_crypt"]),
+}
 
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
@@ -174,6 +182,7 @@ def hash_cracking_worker(args):
                    wait_time,
                    ph,
                    yescrypt_hash,
+                   crypt_contexts,
 
                )
 
@@ -205,6 +214,7 @@ def hash_cracking_worker(args):
               wait_time,
               ph,
               yescrypt_hash,
+              crypt_contexts,
 
             )
 
@@ -317,6 +327,7 @@ def local_db(hash_type, target_hash, encoder):
 def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen, base64_decode ):
     try:
         print(show_help())
+        use_cpu_num = "-c" in sys.argv or "--cpu-num" in sys.argv
         if base64_decode:
           target_hash = b64decode(target_hash, validate=True).hex()
             
@@ -361,7 +372,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
                 sys.exit(1)
             call_modules(module_chosen, encoder)
         else:
-            hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder)
+            hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and os.path.exists("/data/data/com.termux/files/"):

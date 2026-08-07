@@ -50,6 +50,7 @@ dic_divide() {
 
     echo ""
     echo "Recommended values:"
+    echo "  70 - 200 = Recommended for SSH module"
     echo "  500     = Very slow hashes (Argon2id, yescrypt, scrypt)"
     echo "  1000    = Slow hashes (bcrypt, PBKDF2)"
     echo "  5000    = Balanced"
@@ -57,15 +58,15 @@ dic_divide() {
     echo "  100000  = Very large blocks"
     echo ""
 
-    read -p "Lines per block (500 - 100000): " size
+    read -p "Lines per block (70 - 100000): " size
 
     if ! [[ "$size" =~ ^[0-9]+$ ]]; then
         echo "[-] You must enter a number."
         return
     fi
 
-    if [ "$size" -lt 500 ] || [ "$size" -gt 100000 ]; then
-        echo "[-] Value must be between 500 and 100000."
+    if [ "$size" -lt 70 ] || [ "$size" -gt 100000 ]; then
+        echo "[-] Value must be between 70 and 100000."
         return
     fi
 
@@ -105,13 +106,13 @@ dic_divide() {
         esac
     fi
 
-    basename=$(basename "$wordlist")
+    filename=$(basename "$wordlist")
 
-    if [[ "$basename" == *.* ]]; then
-        name="${basename%.*}"
-        ext=".${basename##*.}"
+    if [[ "$filename" == *.* ]]; then
+        name="${filename%.*}"
+        ext=".${filename##*.}"
     else
-        name="$basename"
+        name="$filename"
         ext=""
     fi
 
@@ -140,6 +141,7 @@ dic_list() {
     find "$DICT_DIR" -maxdepth 1 -type f -printf "%f\n"
 }
 
+
 dic_use() {
 
     dic_list
@@ -151,12 +153,26 @@ dic_use() {
         return
     fi
 
-    rm -f ./wordlist.txt
 
-    mv "$DICT_DIR/$file" ./wordlist.txt
+    if [[ "$file" == ssh_keys* ]]; then
 
-    echo "[+] Dictionary assigned as wordlist.txt"
+        rm -f ./ssh_keys.txt
+
+        mv "$DICT_DIR/$file" ./ssh_keys.txt
+
+        echo "[+] SSH keys assigned as ssh_keys.txt"
+
+    else
+
+        rm -f ./wordlist.txt
+
+        mv "$DICT_DIR/$file" ./wordlist.txt
+
+        echo "[+] Dictionary assigned as wordlist.txt"
+
+    fi
 }
+
 
 main() {
 

@@ -154,13 +154,13 @@ def auto_detect_type(target_hash):
     return None, None, None, None, target_hash
 
 
-def show_info_cracker(hash_type, cpu_num, encoder):
-    process_count = get_cpu_allocation(hash_type, cpu_num)
+def show_info_cracker(hash_type, cpu_num, encoder, use_cpu_num):
+    process_count = get_cpu_allocation(hash_type, cpu_num, use_cpu_num)
     print(cracking_prompt(encoder, hash_type, process_count))
     return process_count
 
 
-def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder):
+def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num):
   try:
 
     ssid = wpa_psk = user  = None
@@ -186,7 +186,7 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder):
         print(f"[!] Unsupported hash type: '{hash_type}'. Please choose a valid type from: {hash_list_show}")
         sys.exit(1)
 
-    process_count = show_info_cracker(hash_type, cpu_num, encoder)
+    process_count = show_info_cracker(hash_type, cpu_num, encoder, use_cpu_num)
 
     return hash_type, ssid, wpa_psk, user, process_count, target_hash_mod
 

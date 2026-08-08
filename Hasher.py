@@ -172,7 +172,7 @@ def init_worker(hash_type):
    signal.signal(signal.SIGINT, signal.SIG_IGN)
    signal.signal(signal.SIGTSTP, signal.SIG_IGN)
    global context
-   context = crypt_contexts[hash_type]
+   context = crypt_contexts[hash_type] if hash_type in {'sha256crypt', 'sha512crypt', 'md5crypt', 'apr1'} else None
 
 
 

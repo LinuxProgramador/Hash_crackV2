@@ -50,7 +50,7 @@ HASH_ALGORITHMS_INFO = {
     }
 
 
-def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time, ph, yescrypt_hash, crypt_contexts):
+def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time, ph, yescrypt_hash, context):
   try:
 
     generated_hash = ''
@@ -120,6 +120,9 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
 
     elif hash_type == "dcc2":
         time.sleep(0.02)
+        if wait_time == "y":
+           time.sleep(0.20)
+                
         try:
           if target_hash.startswith("$DCC2$"):
              temp = target_hash.split('#')
@@ -137,6 +140,8 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
             return derived_key.hex().lower() == target_hash.lower()
 
     elif hash_type == "pbkdf2-sha256":
+      if wait_time == "y":
+           time.sleep(0.20)
       try:
 
         algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
@@ -149,6 +154,8 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
         return pbkf_sha2_passlib.verify(word, target_hash)
 
     elif hash_type == "pbkdf2-sha1":
+      if wait_time == "y":
+           time.sleep(0.20)
       try:
 
         algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
@@ -162,6 +169,8 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
 
     
     elif hash_type == "pbkdf2-sha512":
+         if wait_time == "y":
+           time.sleep(0.20)
          try:
 
            algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
@@ -178,10 +187,12 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
         if hash_type == 'sha512crypt':
             time.sleep(0.02)
 
-        if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
-            if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1']:
+        if wait_time == "y" and hash_type in {"sha256crypt", "sha512crypt", "md5crypt", "apr1", "phpass"}:
+           time.sleep(0.20)
+
+        if hash_type in {'sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass'}:
+            if hash_type in {'sha256crypt', 'sha512crypt', 'md5crypt', 'apr1'}:
               try:
-                context = CryptContext(schemes=[hash_type_sche])
                 return context.verify(word, target_hash)
 
               except Exception:

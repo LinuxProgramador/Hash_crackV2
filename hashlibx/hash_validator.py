@@ -22,7 +22,6 @@ from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
 from passlib.hash import pbkdf2_sha1 as pbkf_sha1_passlib
 from passlib.hash import pbkdf2_sha512 as pbkf_sha5_passlib
 from bcrypt import checkpw
-from base64 import b64encode, b64decode
 from argon2.exceptions import VerifyMismatchError
 if sys.platform == "linux":  
    from pyescrypt import WrongPassword, WrongPasswordConfiguration
@@ -50,7 +49,7 @@ HASH_ALGORITHMS_INFO = {
     }
 
 
-def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time, ph, yescrypt_hash, context):
+def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, user, wait_time, ph, yescrypt_hash, context, precomputed):
   try:
 
     generated_hash = ''
@@ -87,12 +86,9 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
         generated_hash = new("sha512_256", data).hexdigest()
 
     elif hash_type == "ssha":
-        b64_data = target_hash[6:]
-        decoded = b64decode(b64_data)
-        digest = decoded[:20]
-        salt = decoded[20:]
+        digest = precomputed["digest"]
         h = sha1(data)
-        h.update(salt)
+        h.update(precomputed["salt"])
         return h.digest().lower() == digest.lower()
 
     elif hash_type == "shake-256":
@@ -144,13 +140,21 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
            time.sleep(0.20)
       try:
 
-        algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
-        dklen = len(b64decode(key_b64))
-        salt = b64decode(salt_b64)
-        key = pbkdf2_hmac('sha256', data, salt, int(iterations), dklen)
-        generated_hash = f"$pbkdf2-sha256${iterations}${b64encode(salt).decode(encoder)}${b64encode(key).decode(encoder)}"
+        if precomputed is not None:
+          key = pbkdf2_hmac(
+            'sha256',
+            data,
+            precomputed["salt"],
+            precomputed["iterations"],
+            precomputed["dklen"]
+          )
 
-      except binascii.Error:
+          return key == precomputed["key"]
+
+        else:
+          return pbkf_sha2_passlib.verify(word, target_hash)
+
+      except (binascii.Error, ValueError, TypeError, IndexError, KeyError):
         return pbkf_sha2_passlib.verify(word, target_hash)
 
     elif hash_type == "pbkdf2-sha1":
@@ -158,13 +162,20 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
            time.sleep(0.20)
       try:
 
-        algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
-        dklen = len(b64decode(key_b64))
-        salt = b64decode(salt_b64)
-        key = pbkdf2_hmac('sha1', data, salt, int(iterations), dklen)
-        generated_hash = f"$pbkdf2${iterations}${b64encode(salt).decode(encoder)}${b64encode(key).decode(encoder)}"
+        if precomputed is not None:
+          key = pbkdf2_hmac(
+            'sha1',
+            data,
+            precomputed["salt"],
+            precomputed["iterations"],
+            precomputed["dklen"]
+          )
 
-      except binascii.Error:
+          return key == precomputed["key"]
+        else:
+          return pbkf_sha1_passlib.verify(word, target_hash)
+
+      except (binascii.Error, ValueError, TypeError, IndexError, KeyError):
         return pbkf_sha1_passlib.verify(word, target_hash)
 
     
@@ -173,13 +184,20 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
            time.sleep(0.20)
          try:
 
-           algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
-           dklen = len(b64decode(key_b64))
-           salt = b64decode(salt_b64)
-           key = pbkdf2_hmac('sha512', data, salt, int(iterations), dklen)
-           generated_hash = f"$pbkdf2-sha512${iterations}${b64encode(salt).decode(encoder)}${b64encode(key).decode(encoder)}"
+            if precomputed is not None:
+             key = pbkdf2_hmac(
+               'sha512',
+               data,
+               precomputed["salt"],
+               precomputed["iterations"],
+               precomputed["dklen"]
+             )
 
-         except binascii.Error:
+             return key == precomputed["key"]
+            else:
+              return pbkf_sha5_passlib.verify(word, target_hash)
+
+         except (binascii.Error, ValueError, TypeError, IndexError, KeyError):
            return pbkf_sha5_passlib.verify(word, target_hash)
             
             
@@ -219,21 +237,22 @@ def validate_word(word, data,  target_hash, hash_type, encoder, wpa_psk, ssid, u
 
           if wait_time == "y":
             time.sleep(0.20)
+          
+          if precomputed is not None:
+            derived_key = scrypt_hashlib(
+              data,
+              salt=precomputed["salt"],
+              n=precomputed["n"],
+              r=precomputed["r"],
+              p=precomputed["p"],
+              dklen=precomputed["dklen"]
+            )
+ 
+            return derived_key == precomputed["key"]
+          else:
+             return scrypt.verify(word, target_hash)
 
-          x = target_hash.split('$')
-          params = x[2].split(',')
-          salt = b64decode(x[3])
-          n = int(params[0].split('=')[1])
-          r = int(params[1].split('=')[1])
-          p = int(params[2].split('=')[1])
-          dklen = len(b64decode(x[4]))
-          derived_key = scrypt_hashlib(data, salt=salt, n=n, r=r, p=p, dklen=dklen)
-          salt_b64 = b64encode(salt).decode(encoder)
-          key_b64 = b64encode(derived_key).decode(encoder)
-          hash_str = f"$scrypt$n={n},r={r},p={p}${salt_b64}${key_b64}"
-          generated_hash = hash_str
-
-        except binascii.Error:
+        except (binascii.Error, ValueError, TypeError, IndexError, KeyError):
            return scrypt.verify(word, target_hash)
 
           

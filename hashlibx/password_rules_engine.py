@@ -77,63 +77,63 @@ def rules_parameters(word, rules, numbers, symbols, vocals, digits, translation_
                   yield word + "".join(combo)
 
 
-        elif chosen_rules in ('64','46'):
+        elif chosen_rules in {'64','46'}:
             word = word.translate(translation_table)
             for symbol in symbols:
                yield  word + symbol
 
 
-        elif chosen_rules in ('61','16'):
+        elif chosen_rules in {'61','16'}:
                word = word.translate(translation_table)
                for number in numbers:
                   yield word + number
 
 
-        elif chosen_rules in ('56','65'):
+        elif chosen_rules in {'56','65'}:
                word = word.translate(translation_table)
                yield word.capitalize()
 
-        elif chosen_rules in ('26','62'):
+        elif chosen_rules in {'26','62'}:
               word = word.translate(translation_table)
               yield word.upper()
 
 
-        elif chosen_rules in ('36','63'):
+        elif chosen_rules in {'36','63'}:
               word = word.translate(translation_table)
               yield word.lower()
 
 
-        elif chosen_rules in ('12','21'):
+        elif chosen_rules in {'12','21'}:
               word = word.upper()
               for number in numbers:
                  yield word + number
 
 
-        elif chosen_rules in ('13','31'):
+        elif chosen_rules in {'13','31'}:
               word = word.lower()
               for number in numbers:
                  yield word + number
 
 
-        elif chosen_rules in ('15','51'):
+        elif chosen_rules in {'15','51'}:
               word = word.capitalize()
               for number in numbers:
                  yield word + number
 
 
-        elif chosen_rules in ('42','24'):
+        elif chosen_rules in {'42','24'}:
               word = word.upper()
               for symbol in symbols:
                  yield word + symbol
 
 
-        elif chosen_rules in ('34','43'):
+        elif chosen_rules in {'34','43'}:
               word = word.lower()
               for symbol in symbols:
                  yield word + symbol
 
 
-        elif chosen_rules in ('54','45'):
+        elif chosen_rules in {'54','45'}:
               word = word.capitalize()
               for symbol in symbols:
                  yield word + symbol

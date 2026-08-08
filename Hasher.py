@@ -11,7 +11,7 @@ __license__ = "GPLv3"
 __status__ = "Stable"
 __author__ = "JP Rojas"
 
-import sys
+import sys, binascii
 import time
 import os
 import argparse
@@ -178,7 +178,7 @@ def init_worker(hash_type):
 
 def hash_cracking_worker(args):
     global context
-    password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time = args
+    password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time, precomputed = args
     if rules:
         for candidate in password_list:
            try:
@@ -208,6 +208,7 @@ def hash_cracking_worker(args):
                    ph,
                    yescrypt_hash,
                    context,
+                   precomputed,
 
                )
 
@@ -240,6 +241,7 @@ def hash_cracking_worker(args):
               ph,
               yescrypt_hash,
               context,
+              precomputed,
 
             )
 
@@ -256,6 +258,52 @@ def hash_cracking_worker(args):
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:
+    precomputed = None
+    if hash_type == "ssha":
+      b64_data = target_hash[6:]
+      decoded = b64decode(b64_data)
+
+      precomputed = {
+        "digest": decoded[:20],
+        "salt": decoded[20:]
+      }
+
+    elif hash_type in {
+      "pbkdf2-sha256",
+      "pbkdf2-sha1",
+      "pbkdf2-sha512"
+      }:
+      try:
+        algo, iterations, salt_b64, key_b64 = target_hash.split('$')[1:]
+
+        precomputed = {
+          "iterations": int(iterations),
+          "salt": b64decode(salt_b64),
+          "dklen": len(b64decode(key_b64)),
+          "key": b64decode(key_b64)
+        }
+
+      except (ValueError, TypeError, binascii.Error):
+        precomputed = None
+
+    elif hash_type == "scrypt":
+     try:
+       x = target_hash.split('$')
+       params = x[2].split(',')
+       salt = b64decode(x[3])
+ 
+       precomputed = {
+        "salt": salt,
+        "n": int(params[0].split('=')[1]),
+        "r": int(params[1].split('=')[1]),
+        "p": int(params[2].split('=')[1]),
+        "dklen": len(b64decode(x[4])),
+        "key": b64decode(x[4])
+       }
+
+     except (ValueError, TypeError, binascii.Error):
+        precomputed = None
+
     read_block_size = 8 * 1024 * 1024
     result = None
     with Pool(processes=process_count, initializer=init_worker, initargs=(hash_type,)) as pool:
@@ -296,7 +344,8 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              rules,
              encoder,
              hash_type,
-             wait_time
+             wait_time,
+             precomputed
                    )
                for chunk in chunks[:actual_processes]
             )
@@ -321,7 +370,8 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
              rules,
              encoder,
              hash_type,
-             wait_time
+             wait_time,
+             precomputed
           )
           result = hash_cracking_worker(task)
           if result and not isinstance(result, list):

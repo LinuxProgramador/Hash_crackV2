@@ -616,10 +616,8 @@ def validate_word(
 
   try:
 
-    if hash_type in HASH_ALGORITHMS_INFO:
-
-        if hash_type == "sha512crypt":
-            time.sleep(0.02)
+    if hash_type == "sha512crypt":
+      time.sleep(0.02)
 
     if wait_time == "y" and hash_type in {
         "sha256crypt",

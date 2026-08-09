@@ -149,7 +149,7 @@ slow_hashes = {
 }
 
 ph = PasswordHasher()
-yescrypt_hash = Yescrypt(mode=Mode.MCF) if sys.platform == "linux" else None
+yescrypt_ = Yescrypt(mode=Mode.MCF) if sys.platform == "linux" else None
 
 crypt_contexts = {
     "sha256crypt": CryptContext(schemes=["sha256_crypt"]),
@@ -256,7 +256,7 @@ def hash_cracking_worker(args):
                     user,
                     wait_time,
                     ph,
-                    yescrypt_hash,
+                    yescrypt_,
                     context,
                     precomputed
                     )
@@ -272,7 +272,7 @@ def hash_cracking_worker(args):
                      user,
                      wait_time,
                      ph,
-                     yescrypt_hash,
+                     yescrypt_,
                      context,
                      precomputed
                      )
@@ -306,7 +306,7 @@ def hash_cracking_worker(args):
                     user,
                     wait_time,
                     ph,
-                    yescrypt_hash,
+                    yescrypt_,
                     context,
                     precomputed
                     )
@@ -322,7 +322,7 @@ def hash_cracking_worker(args):
                      user,
                      wait_time,
                      ph,
-                     yescrypt_hash,
+                     yescrypt_,
                      context,
                      precomputed
                      )

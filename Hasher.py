@@ -258,6 +258,7 @@ def hash_cracking_worker(args):
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:
+    target_hash = target_hash.replace('  -','')
     precomputed = None
     if hash_type == "ssha":
       b64_data = target_hash[6:]

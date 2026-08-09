@@ -513,11 +513,7 @@ def validate_word(
             target_hash
         )
 
+    return HASH_ALGORITHMS_INFO[hash_type](data).digest() == target_hash
 
-    if hash_type in HASH_ALGORITHMS_INFO:
-
-        return HASH_ALGORITHMS_INFO[hash_type](data).digest() == target_hash
-
-    return False
 
 

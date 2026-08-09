@@ -281,12 +281,13 @@ def hash_cracking_worker(args):
                if hash_result is None:
                   continue
 
-               if isinstance(hash_result, list):
-                  return hash_result
-
                if hash_result:
                   return candidate
-
+                 
+           except ValueError as value_error:
+               print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
+               return ["_error_"]
+      
            except Exception as e_rror:
               print(f"[ERROR]: {e_rror}")
               return ["_error_"]
@@ -332,12 +333,13 @@ def hash_cracking_worker(args):
             if hash_result is None:
                 continue
 
-            if isinstance(hash_result, list):
-                return hash_result
-
             if hash_result:
                 return candidate
-
+              
+          except ValueError as value_error:
+               print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
+               return ["_error_"]
+            
           except Exception as e_rror:
               print(f"[ERROR]: {e_rror}")
               return ["_error_"]

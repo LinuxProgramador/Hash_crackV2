@@ -321,7 +321,7 @@ def wpa_hash(
         return pbkdf2_hmac(
          "sha1",
          data,
-         ssid.encode(encoder),
+         ssid,
          4096,
          32
          ) == target_hash

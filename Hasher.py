@@ -342,6 +342,37 @@ def hash_cracking_worker(args):
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:
     target_hash = target_hash.replace('  -','')
+    
+    if hash_type in {
+      "ntlm", 
+      "whirlpool", 
+      "sha256sum", 
+      "sha512sum", 
+      "sm3", 
+      "sha512-256", 
+      "shake-256",
+      "shake-128",
+      "ripemd-160",
+      "wpa",
+      "md5",
+      "sha1",
+      "sha224",
+      "sha256",
+      "sha384",
+      "sha512",
+      "sha3-224",
+      "sha3-256",
+      "sha3-384",
+      "sha3-512",
+      "blake2b",
+      "blake2s"      
+      }:
+
+        target_hash = bytes.fromhex(target_hash)
+
+    elif hash_type == "mysql5.x":
+        target_hash = bytes.fromhex(target_hash.lstrip("*"))
+      
     precomputed = None
     if hash_type == "ssha":
       b64_data = target_hash[6:]

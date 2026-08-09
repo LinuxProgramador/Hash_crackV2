@@ -342,7 +342,9 @@ def hash_cracking_worker(args):
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:
     target_hash = target_hash.replace('  -','')
-    
+    if ssid is not None:
+      ssid = ssid.encode(encoder)
+      
     if hash_type in {
       "ntlm", 
       "whirlpool", 

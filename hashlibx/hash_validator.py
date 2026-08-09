@@ -53,6 +53,14 @@ if sys.platform == "linux":
 
 
 
+CRYPT_ALGORITHMS = {
+    "sha256crypt": sha256_crypt,
+    "sha512crypt": sha512_crypt,
+    "md5crypt": md5_crypt,
+    "apr1": apr_md5_crypt,
+    "phpass": phpass,
+}
+
 
 HASH_ALGORITHMS_INFO = {
     "md5": md5,
@@ -67,14 +75,7 @@ HASH_ALGORITHMS_INFO = {
     "sha3-512": sha3_512,
     "blake2b": blake2b,
     "blake2s": blake2s,
-    "sha256crypt": sha256_crypt,
-    "sha512crypt": sha512_crypt,
-    "md5crypt": md5_crypt,
-    "apr1": apr_md5_crypt,
-    "phpass": phpass,
 }
-
-
 
 
 def mysql5_x_hash(
@@ -83,10 +84,8 @@ def mysql5_x_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        return (
-            "*" + sha1(sha1(data).digest()).hexdigest().lower()
-            == target_hash.lower()
-        )
+        return sha1(sha1(data).digest()).digest() == target_hash
+        
     except Exception as error:
         print(f"[ERROR]: {error}")
         return ["_error_"]
@@ -98,7 +97,7 @@ def whirlpool_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        return wpl(data).hexdigest().lower() == target_hash.lower()
+        return wpl(data).digest() == target_hash
     except Exception as error:
         print(f"[ERROR]: {error}")
         return ["_error_"]
@@ -110,10 +109,7 @@ def sha256sum_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        return (
-            sha256((word + "\n").encode(encoder)).hexdigest().lower()
-            == target_hash.lower()
-        )
+        return sha256((word + "\n").encode(encoder)).digest() == target_hash
     except Exception as error:
         print(f"[ERROR]: {error}")
         return ["_error_"]
@@ -125,10 +121,7 @@ def sha512sum_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        return (
-            sha512((word + "\n").encode(encoder)).hexdigest().lower()
-            == target_hash.lower()
-        )
+        return sha512((word + "\n").encode(encoder)).digest() == target_hash
     except Exception as error:
         print(f"[ERROR]: {error}")
         return ["_error_"]
@@ -141,15 +134,15 @@ def sm3_hash(
 ):
     try:
         if "sm3" in algorithms_available:
-            h = new("sm3")
-            h.update(data)
-            generated_hash = h.hexdigest()
+           h = new("sm3")
+           h.update(data)
+           return ( h.digest() == target_hash )
         else:
-            generated_hash = sm3.sm3_hash(
-                func.bytes_to_list(data)
-            )
+           generated_hash = bytes.fromhex(
+             sm3.sm3_hash(func.bytes_to_list(data))
+             )
 
-        return generated_hash.lower() == target_hash.lower()
+           return generated_hash == target_hash
 
     except Exception as error:
         print(f"[ERROR]: {error}")
@@ -162,10 +155,10 @@ def ntlm_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        h = MD4.new()
-        h.update(word.encode("utf-16le"))
+         return MD4.new(
+           word.encode("utf-16le")
+           ).digest() == target_hash
 
-        return h.hexdigest().lower() == target_hash.lower()
 
     except Exception as error:
         print(f"[ERROR]: {error}")
@@ -178,10 +171,7 @@ def sha512_256_hash(
     yescrypt_, context, precomputed
 ):
     try:
-        return (
-            new("sha512_256", data).hexdigest().lower()
-            == target_hash.lower()
-        )
+        return new("sha512_256", data).digest() == target_hash
     except Exception as error:
         print(f"[ERROR]: {error}")
         return ["_error_"]
@@ -212,11 +202,7 @@ def shake_256_hash(
 ):
 
   try:
-    generated_hash = shake_256(data).hexdigest(
-        len(target_hash) // 2
-    )
-
-    return generated_hash.lower() == target_hash.lower()
+    return shake_256(data).digest(len(target_hash)) == target_hash
 
   except Exception as error:
         print(f"[ERROR]: {error}")
@@ -231,14 +217,7 @@ def shake_128_hash(
 
   try:
 
-    s = shake_128()
-    s.update(data)
-
-    generated_hash = s.digest(
-        len(bytes.fromhex(target_hash))
-    ).hex()
-
-    return generated_hash.lower() == target_hash.lower()
+    return shake_128(data).digest(len(target_hash)) == target_hash
 
   except Exception as error:
         print(f"[ERROR]: {error}")
@@ -253,17 +232,13 @@ def ripemd_160_hash(
 
   try:
     if "ripemd160" in algorithms_available:
-        generated_hash = new(
-            "ripemd160",
-            data
-        ).hexdigest()
-
+        return new("ripemd160", data).digest() == target_hash
     else:
         h = RIPEMD160.new()
         h.update(data)
-        generated_hash = h.hexdigest()
+        generated_hash = h.digest()
 
-    return generated_hash.lower() == target_hash.lower()
+    return generated_hash == target_hash
 
   except Exception as error:
         print(f"[ERROR]: {error}")
@@ -342,18 +317,14 @@ def wpa_hash(
   try:
 
     if 8 <= len(word) <= 63:
-        derived_key = pbkdf2_hmac(
-            "sha1",
-            data,
-            ssid.encode(encoder),
-            4096,
-            32
-        )
-
-        return (
-            derived_key.hex().lower()
-            == target_hash.lower()
-        )
+        
+        return pbkdf2_hmac(
+         "sha1",
+         data,
+         ssid.encode(encoder),
+         4096,
+         32
+         ) == target_hash
 
     return False
 
@@ -650,14 +621,14 @@ def validate_word(
                 )
 
             except Exception:
-                return HASH_ALGORITHMS_INFO[
+                return CRYPT_ALGORITHMS[
                     hash_type
                 ].verify(
                     word,
                     target_hash
                 )
 
-        return HASH_ALGORITHMS_INFO[
+        return CRYPT_ALGORITHMS[
             hash_type
         ].verify(
             word,
@@ -665,17 +636,9 @@ def validate_word(
         )
 
 
-
     if hash_type in HASH_ALGORITHMS_INFO:
 
-        generated_hash = HASH_ALGORITHMS_INFO[
-            hash_type
-        ](data).hexdigest()
-
-        return (
-            generated_hash.lower()
-            == target_hash.lower()
-        )
+        return HASH_ALGORITHMS_INFO[hash_type](data).digest() == target_hash
 
     return False
 

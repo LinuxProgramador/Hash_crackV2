@@ -258,8 +258,7 @@ def hash_cracking_worker(args):
                     ph,
                     yescrypt_hash,
                     context,
-                    precomputed,
-                    hashes_dic
+                    precomputed
                     )
                  if hash_type in hashes_verification_validator
                  else hashes_dic[hash_type](
@@ -275,8 +274,7 @@ def hash_cracking_worker(args):
                      ph,
                      yescrypt_hash,
                      context,
-                     precomputed,
-                     hashes_dic,
+                     precomputed
                      )
                  )
 
@@ -310,8 +308,7 @@ def hash_cracking_worker(args):
                     ph,
                     yescrypt_hash,
                     context,
-                    precomputed,
-                    hashes_dic
+                    precomputed
                     )
                  if hash_type in hashes_verification_validator
                  else hashes_dic[hash_type](
@@ -327,8 +324,7 @@ def hash_cracking_worker(args):
                      ph,
                      yescrypt_hash,
                      context,
-                     precomputed,
-                     hashes_dic,
+                     precomputed
                      )
                  )
 

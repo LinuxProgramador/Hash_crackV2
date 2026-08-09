@@ -293,6 +293,7 @@ def hash_cracking_worker(args):
 
     else:
          for candidate in password_list:
+          try:
             data = candidate.encode(encoder)
             hash_result = (
                  validate_word(
@@ -337,7 +338,9 @@ def hash_cracking_worker(args):
             if hash_result:
                 return candidate
 
-
+          except Exception as e_rror:
+              print(f"[ERROR]: {e_rror}")
+              return ["_error_"]
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:

@@ -617,25 +617,6 @@ def validate_word(
 
   try:
 
-    if hash_type in hashes_dic:
-        return hashes_dic[hash_type](
-            word,
-            data,
-            target_hash,
-            hash_type,
-            encoder,
-            wpa_psk,
-            ssid,
-            user,
-            wait_time,
-            ph,
-            yescrypt_hash,
-            context,
-            precomputed
-        )
-
-
-
     if hash_type in HASH_ALGORITHMS_INFO:
 
         if hash_type == "sha512crypt":

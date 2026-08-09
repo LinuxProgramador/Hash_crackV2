@@ -26,7 +26,7 @@ from hashlibx.password_rules_engine import rules_parameters
 from hashlibx.cisco_type7_decryptor import decrypt_cisco_type7
 from hashlibx.aux_output import auxiliary_crack
 from hashlibx.hash_type_detector import detect_and_crack_hash
-from hashlibx.hash_validator import validate_word
+from hashlibx.hash_validator import *
 from argon2 import PasswordHasher
 from passlib.context import CryptContext
 if sys.platform == "linux":
@@ -44,6 +44,55 @@ MENU_MODULES = {
     '9': '7z-Crack.py'
 }
 
+
+hashes_verification_validator = {
+    "md5",
+    "sha1",
+    "sha224",
+    "sha256",
+    "sha384",
+    "sha512",
+    "sha3-224",
+    "sha3-256",
+    "sha3-384",
+    "sha3-512",
+    "blake2b",
+    "blake2s",
+    "sha256crypt",
+    "sha512crypt",
+    "md5crypt",
+    "apr1",
+    "phpass"
+}
+
+
+
+hashes_dic = {
+    "mysql5.x": mysql5_x_hash,
+    "whirlpool": whirlpool_hash,
+    "sha256sum": sha256sum_hash,
+    "sha512sum": sha512sum_hash,
+    "sm3": sm3_hash,
+    "ntlm": ntlm_hash,
+    "sha512-256": sha512_256_hash,
+
+    "ssha": ssha_hash,
+    "shake-256": shake_256_hash,
+    "shake-128": shake_128_hash,
+    "ripemd-160": ripemd_160_hash,
+
+    "bcrypt": bcrypt_hash,
+    "dcc2": dcc2_hash,
+    "wpa": wpa_hash,
+
+    "pbkdf2-sha256": pbkdf2_sha256_hash,
+    "pbkdf2-sha1": pbkdf2_sha1_hash,
+    "pbkdf2-sha512": pbkdf2_sha512_hash,
+
+    "argon2id": argon2id_hash,
+    "scrypt": scrypt_hash,
+    "yescrypt": yescrypt_hash,
+}
 
 
 numbers = (
@@ -195,22 +244,41 @@ def hash_cracking_worker(args):
 
             
                data = candidate.encode(encoder)
-               hash_result = validate_word(
-                   candidate,
-                   data,
-                   target_hash,
-                   hash_type,
-                   encoder,
-                   wpa_psk,
-                   ssid,
-                   user,
-                   wait_time,
-                   ph,
-                   yescrypt_hash,
-                   context,
-                   precomputed,
-
-               )
+               hash_result = (
+                 validate_word(
+                    candidate,
+                    data,
+                    target_hash,
+                    hash_type,
+                    encoder,
+                    wpa_psk,
+                    ssid,
+                    user,
+                    wait_time,
+                    ph,
+                    yescrypt_hash,
+                    context,
+                    precomputed,
+                    hashes_dic
+                    )
+                 if hash_type in hashes_verification_validator
+                 else hashes_dic[hash_type](
+                     candidate,
+                     data,
+                     target_hash,
+                     hash_type,
+                     encoder,
+                     wpa_psk,
+                     ssid,
+                     user,
+                     wait_time,
+                     ph,
+                     yescrypt_hash,
+                     context,
+                     precomputed,
+                     hashes_dic,
+                     )
+                 )
 
                if hash_result is None:
                   continue
@@ -228,22 +296,41 @@ def hash_cracking_worker(args):
     else:
          for candidate in password_list:
             data = candidate.encode(encoder)
-            hash_result = validate_word(
-              candidate,
-              data,
-              target_hash,
-              hash_type,
-              encoder,
-              wpa_psk,
-              ssid,
-              user,
-              wait_time,
-              ph,
-              yescrypt_hash,
-              context,
-              precomputed,
-
-            )
+            hash_result = (
+                 validate_word(
+                    candidate,
+                    data,
+                    target_hash,
+                    hash_type,
+                    encoder,
+                    wpa_psk,
+                    ssid,
+                    user,
+                    wait_time,
+                    ph,
+                    yescrypt_hash,
+                    context,
+                    precomputed,
+                    hashes_dic
+                    )
+                 if hash_type in hashes_verification_validator
+                 else hashes_dic[hash_type](
+                     candidate,
+                     data,
+                     target_hash,
+                     hash_type,
+                     encoder,
+                     wpa_psk,
+                     ssid,
+                     user,
+                     wait_time,
+                     ph,
+                     yescrypt_hash,
+                     context,
+                     precomputed,
+                     hashes_dic,
+                     )
+                 )
 
             if hash_result is None:
                 continue

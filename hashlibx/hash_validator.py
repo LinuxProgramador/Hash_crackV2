@@ -83,24 +83,16 @@ def mysql5_x_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    try:
-        return sha1(sha1(data).digest()).digest() == target_hash
+     return sha1(sha1(data).digest()).digest() == target_hash
         
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
 
 def whirlpool_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    try:
-        return wpl(data).digest() == target_hash
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
+     return wpl(data).digest() == target_hash
+    
 
 
 def sha256sum_hash(
@@ -108,23 +100,16 @@ def sha256sum_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    try:
-        return sha256((word + "\n").encode(encoder)).digest() == target_hash
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
+     return sha256((word + "\n").encode(encoder)).digest() == target_hash
+    
 
 def sha512sum_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
-):
-    try:
-        return sha512((word + "\n").encode(encoder)).digest() == target_hash
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
+):  
+     return sha512((word + "\n").encode(encoder)).digest() == target_hash
+
 
 
 def sm3_hash(
@@ -132,7 +117,6 @@ def sm3_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    try:
         if "sm3" in algorithms_available:
            h = new("sm3")
            h.update(data)
@@ -144,9 +128,7 @@ def sm3_hash(
 
            return generated_hash == target_hash
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
+    
 
 
 def ntlm_hash(
@@ -154,36 +136,27 @@ def ntlm_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    try:
-         return MD4.new(
-           word.encode("utf-16le")
-           ).digest() == target_hash
+     return MD4.new(
+        word.encode("utf-16le")
+        ).digest() == target_hash
 
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
+    
 
 
 def sha512_256_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
-):
-    try:
-        return new("sha512_256", data).digest() == target_hash
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
+):    
+    return new("sha512_256", data).digest() == target_hash
+    
 
 def ssha_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-  try:
-
     digest = precomputed["digest"]
 
     h = sha1(data)
@@ -191,22 +164,13 @@ def ssha_hash(
 
     return h.digest() == digest
 
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
 
 def shake_256_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
-  try:
     return shake_256(data).digest(len(target_hash)) == target_hash
-
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
 
 
 def shake_128_hash(
@@ -214,14 +178,7 @@ def shake_128_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
-  try:
-
     return shake_128(data).digest(len(target_hash)) == target_hash
-
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
 
 
 def ripemd_160_hash(
@@ -229,8 +186,6 @@ def ripemd_160_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
-  try:
     if "ripemd160" in algorithms_available:
         return new("ripemd160", data).digest() == target_hash
     else:
@@ -240,19 +195,11 @@ def ripemd_160_hash(
 
     return generated_hash == target_hash
 
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
 def bcrypt_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
-  try:
-
     if wait_time == "y":
         time.sleep(0.20)
 
@@ -261,51 +208,31 @@ def bcrypt_hash(
         target_hash.encode(encoder)
     )
 
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
 
 def dcc2_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
     time.sleep(0.02)
 
     if wait_time == "y":
         time.sleep(0.20)
 
-    try:
-        if target_hash.startswith("$DCC2$"):
-            temp = target_hash.split("#")
-
-            return msdcc2.verify(
+    if target_hash.startswith("$DCC2$"):
+        temp = target_hash.split("#")
+        return msdcc2.verify(
                 word,
                 temp[2],
                 user=temp[1]
-            )
+               )
 
-        else:
-            return msdcc2.verify(
+    else:
+        return msdcc2.verify(
                 word,
                 target_hash,
                 user=user
-            )
-
-    except ValueError as value_error:
-        print(
-            f"[!] Error verifying DCC2 hash: {value_error}. "
-            "Please ensure the hash format and username are correct"
-        )
-        return ["_error_"]
-
-
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
+                )
 
 
 def wpa_hash(
@@ -313,9 +240,6 @@ def wpa_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-
-  try:
-
     if 8 <= len(word) <= 63:
         
         return pbkdf2_hmac(
@@ -327,11 +251,6 @@ def wpa_hash(
          ) == target_hash
 
     return False
-
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
 
 
 def pbkdf2_sha256_hash(
@@ -372,13 +291,6 @@ def pbkdf2_sha256_hash(
             target_hash
         )
 
-
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
-
 def pbkdf2_sha1_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
@@ -416,13 +328,6 @@ def pbkdf2_sha1_hash(
             word,
             target_hash
         )
-
-
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
 
 def pbkdf2_sha512_hash(
     word, data, target_hash, hash_type, encoder,
@@ -462,11 +367,6 @@ def pbkdf2_sha512_hash(
             target_hash
         )
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
 def argon2id_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
@@ -485,10 +385,6 @@ def argon2id_hash(
 
     except VerifyMismatchError:
         return False
-
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
 
 
 def scrypt_hash(
@@ -531,12 +427,6 @@ def scrypt_hash(
         )
 
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
-
 def yescrypt_hash(
     word, data, target_hash, hash_type, encoder,
     wpa_psk, ssid, user, wait_time, ph,
@@ -559,15 +449,6 @@ def yescrypt_hash(
     ):
         return False
 
-    except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
-
-
-
-
-
-
 
 def validate_word(
     word,
@@ -584,9 +465,6 @@ def validate_word(
     context,
     precomputed
 ):
-
-  try:
-
     if hash_type == "sha512crypt":
       time.sleep(0.02)
 
@@ -642,6 +520,4 @@ def validate_word(
 
     return False
 
-  except Exception as error:
-        print(f"[ERROR]: {error}")
-        return ["_error_"]
+

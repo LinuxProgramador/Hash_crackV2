@@ -379,6 +379,9 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
     elif hash_type == "mysql5.x":
         target_hash = bytes.fromhex(target_hash.lstrip("*"))
+
+    elif hash_type in {"yescrypt", "bcrypt"}:
+        target_hash = target_hash.encode(encoder)
       
     precomputed = None
     if hash_type == "ssha":

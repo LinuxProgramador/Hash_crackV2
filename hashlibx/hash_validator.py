@@ -201,7 +201,7 @@ def bcrypt_hash(
 
     return checkpw(
         data,
-        target_hash.encode(encoder)
+        target_hash
     )
 
 
@@ -434,7 +434,7 @@ def yescrypt_hash(
     try:
         yescrypt_.compare(
             data,
-            target_hash.encode(encoder)
+            target_hash
         )
 
         return True

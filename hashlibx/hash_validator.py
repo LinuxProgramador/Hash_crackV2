@@ -187,9 +187,9 @@ def ripemd_160_hash(
     else:
         h = RIPEMD160.new()
         h.update(data)
-        generated_hash = h.digest()
+        return h.digest() == target_hash
 
-    return generated_hash == target_hash
+
 
 def bcrypt_hash(
     word, data, target_hash, hash_type, encoder,

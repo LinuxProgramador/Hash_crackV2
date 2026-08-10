@@ -120,16 +120,12 @@ def sm3_hash(
         if "sm3" in algorithms_available:
            h = new("sm3")
            h.update(data)
-           return ( h.digest() == target_hash )
+           return  h.digest() == target_hash 
         else:
-           generated_hash = bytes.fromhex(
+           return bytes.fromhex(
              sm3.sm3_hash(func.bytes_to_list(data))
-             )
-
-           return generated_hash == target_hash
-
-    
-
+             ) == target_hash
+  
 
 def ntlm_hash(
     word, data, target_hash, hash_type, encoder,

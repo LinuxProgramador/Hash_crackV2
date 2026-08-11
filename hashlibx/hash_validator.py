@@ -51,6 +51,9 @@ from argon2.exceptions import VerifyMismatchError
 if sys.platform == "linux":
     from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
+
+hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
+
 CRYPT_VALIDATOR_SET = {
         "sha256crypt",
         "sha512crypt",
@@ -195,12 +198,12 @@ def ripemd_160_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    if "ripemd160" in algorithms_available:
-        return new("ripemd160", data).digest() == target_hash
-    else:
-        h = RIPEMD160.new()
-        h.update(data)
-        return h.digest() == target_hash
+    if hashlib_ripemd_160 is not None:
+        return hashlib_ripemd_160("ripemd160", data).digest() == target_hash
+    
+    h = RIPEMD160.new()
+    h.update(data)
+    return h.digest() == target_hash
 
 
 

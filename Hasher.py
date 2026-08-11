@@ -22,7 +22,7 @@ from multiprocessing import Pool, cpu_count
 from json import loads
 from hashlibx.help_menu import show_help
 from hashlibx.combine_words import generate_combinations
-from hashlibx.password_rules_engine import rules_parameters
+from hashlibx.password_rules_engine import *
 from hashlibx.cisco_type7_decryptor import decrypt_cisco_type7
 from hashlibx.aux_output import auxiliary_crack
 from hashlibx.hash_type_detector import detect_and_crack_hash

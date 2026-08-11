@@ -309,8 +309,8 @@ def hash_cracking_worker(args):
             )
             return ["error"]
 
-        except Exception as error:
-            print(f"[ERROR]: {error}")
+        except Exception as e_rror:
+            print(f"[ERROR]: {e_rror}")
             return ["error"]
 
     return None

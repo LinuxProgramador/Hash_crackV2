@@ -540,13 +540,14 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
                 sys.exit(1)
             decrypt_cisco_type7(target_hash)
         elif external_imports:
+            signal.signal(signal.SIGTSTP,show_elapsed_time)
             if not module_chosen or not encoder:
                 print("[-] Missing required options: --module-chosen and/or --encoder")
                 sys.exit(1)
             call_modules(module_chosen, encoder)
         else:
-            hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
             signal.signal(signal.SIGTSTP,show_elapsed_time)
+            hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
             local_db(hash_type, target_hash, encoder)
             if hash_type == "yescrypt" and os.path.exists("/data/data/com.termux/files/"):
               print("""              

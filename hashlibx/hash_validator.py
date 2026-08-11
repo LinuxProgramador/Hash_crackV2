@@ -92,7 +92,7 @@ HASH_ALGORITHMS_INFO = {
 
 
 def mysql5_x_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -100,7 +100,7 @@ def mysql5_x_hash(
         
 
 def whirlpool_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -109,24 +109,24 @@ def whirlpool_hash(
 
 
 def sha256sum_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-     return sha256((word + "\n").encode(encoder)).digest() == target_hash
+     return sha256(data + b"\n").digest() == target_hash
     
 
 def sha512sum_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):  
-     return sha512((word + "\n").encode(encoder)).digest() == target_hash
+     return sha512(data + b"\n").digest() == target_hash
 
 
 
 def sm3_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -141,7 +141,7 @@ def sm3_hash(
   
 
 def ntlm_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -154,7 +154,7 @@ def ntlm_hash(
 
 
 def sha512_256_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):    
@@ -162,7 +162,7 @@ def sha512_256_hash(
     
 
 def ssha_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -175,7 +175,7 @@ def ssha_hash(
 
 
 def shake_256_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -183,7 +183,7 @@ def shake_256_hash(
 
 
 def shake_128_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -191,7 +191,7 @@ def shake_128_hash(
 
 
 def ripemd_160_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -205,7 +205,7 @@ def ripemd_160_hash(
 
 
 def bcrypt_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -219,7 +219,7 @@ def bcrypt_hash(
 
 
 def dcc2_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -234,7 +234,7 @@ def dcc2_hash(
 
 
 def wpa_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -252,7 +252,7 @@ def wpa_hash(
 
 
 def pbkdf2_sha256_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -290,7 +290,7 @@ def pbkdf2_sha256_hash(
         )
 
 def pbkdf2_sha1_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -328,7 +328,7 @@ def pbkdf2_sha1_hash(
         )
 
 def pbkdf2_sha512_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -366,7 +366,7 @@ def pbkdf2_sha512_hash(
         )
 
 def argon2id_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -386,7 +386,7 @@ def argon2id_hash(
 
 
 def scrypt_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -426,7 +426,7 @@ def scrypt_hash(
 
 
 def yescrypt_hash(
-    word, data, target_hash, hash_type, encoder,
+    word, data, target_hash, hash_type, 
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
@@ -453,7 +453,6 @@ def validate_word(
     data,
     target_hash,
     hash_type,
-    encoder,
     wpa_psk,
     ssid,
     user,

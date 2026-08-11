@@ -210,25 +210,14 @@ def dcc2_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-    time.sleep(0.02)
-
     if wait_time == "y":
         time.sleep(0.20)
-
-    if target_hash.startswith("$DCC2$"):
-        temp = target_hash.split("#")
-        return msdcc2.verify(
-                word,
-                temp[2],
-                user=temp[1]
-               )
-
-    else:
-        return msdcc2.verify(
-                word,
-                target_hash,
-                user=user
-                )
+        
+    return msdcc2.verify(
+         word,
+         target_hash,
+         user=user
+         )
 
 
 def wpa_hash(
@@ -461,8 +450,6 @@ def validate_word(
     context,
     precomputed
 ):
-    if hash_type == "sha512crypt":
-      time.sleep(0.02)
 
     if wait_time == "y" and hash_type in {
         "sha256crypt",

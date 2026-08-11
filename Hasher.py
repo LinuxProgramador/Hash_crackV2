@@ -227,77 +227,44 @@ def init_worker(hash_type):
 
 def hash_cracking_worker(args):
     global context
-    password_list, ssid, wpa_psk, target_hash, user, rules, encoder, hash_type, wait_time, precomputed = args
+
+    (
+        password_list,
+        ssid,
+        wpa_psk,
+        target_hash,
+        user,
+        rules,
+        encoder,
+        hash_type,
+        wait_time,
+        precomputed,
+    ) = args
+
     if rules:
-        for candidate in password_list:
-           try:
-             for candidate in rules_parameters(
-               candidate,
-               rules,
-               numbers,
-               symbols,
-               vocals,
-               digits,
-               translation_table,
-               valid_rules,
-               ):
-
-            
-               data = candidate.encode(encoder)
-               hash_result = (
-                 validate_word(
-                    candidate,
-                    data,
-                    target_hash,
-                    hash_type,
-                    encoder,
-                    wpa_psk,
-                    ssid,
-                    user,
-                    wait_time,
-                    ph,
-                    yescrypt_,
-                    context,
-                    precomputed
-                    )
-                 if hash_type in hashes_verification_validator
-                 else hashes_dic[hash_type](
-                     candidate,
-                     data,
-                     target_hash,
-                     hash_type,
-                     encoder,
-                     wpa_psk,
-                     ssid,
-                     user,
-                     wait_time,
-                     ph,
-                     yescrypt_,
-                     context,
-                     precomputed
-                     )
-                 )
-
-               if hash_result is None:
-                  continue
-
-               elif hash_result:
-                  return candidate
-                 
-           except ValueError as value_error:
-               print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
-               return ["_error_"]
-      
-           except Exception as e_rror:
-              print(f"[ERROR]: {e_rror}")
-              return ["_error_"]
-
+        candidate_generator = (
+            candidate
+            for password in password_list
+            for candidate in rules_parameters(
+                password,
+                rules,
+                numbers,
+                symbols,
+                vocals,
+                digits,
+                translation_table,
+                valid_rules,
+            )
+        )
     else:
-         for candidate in password_list:
-          try:
+        candidate_generator = iter(password_list)
+
+    for candidate in candidate_generator:
+        try:
             data = candidate.encode(encoder)
-            hash_result = (
-                 validate_word(
+
+            if hash_type in hashes_verification_validator:
+                hash_result = validate_word(
                     candidate,
                     data,
                     target_hash,
@@ -310,39 +277,43 @@ def hash_cracking_worker(args):
                     ph,
                     yescrypt_,
                     context,
-                    precomputed
-                    )
-                 if hash_type in hashes_verification_validator
-                 else hashes_dic[hash_type](
-                     candidate,
-                     data,
-                     target_hash,
-                     hash_type,
-                     encoder,
-                     wpa_psk,
-                     ssid,
-                     user,
-                     wait_time,
-                     ph,
-                     yescrypt_,
-                     context,
-                     precomputed
-                     )
-                 )
+                    precomputed,
+                )
+            else:
+                hash_result = hashes_dic[hash_type](
+                    candidate,
+                    data,
+                    target_hash,
+                    hash_type,
+                    encoder,
+                    wpa_psk,
+                    ssid,
+                    user,
+                    wait_time,
+                    ph,
+                    yescrypt_,
+                    context,
+                    precomputed,
+                )
 
             if hash_result is None:
                 continue
 
-            elif hash_result:
+            if hash_result:
                 return candidate
-              
-          except ValueError as value_error:
-               print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
-               return ["_error_"]
-            
-          except Exception as e_rror:
-              print(f"[ERROR]: {e_rror}")
-              return ["_error_"]
+
+        except ValueError as value_error:
+            print(
+                f"[!] Error verifying DCC2 hash: {value_error}. "
+                "Please ensure the hash format and username are correct"
+            )
+            return ["error"]
+
+        except Exception as error:
+            print(f"[ERROR]: {error}")
+            return ["error"]
+
+    return None
 
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:

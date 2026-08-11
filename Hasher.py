@@ -281,7 +281,7 @@ def hash_cracking_worker(args):
                if hash_result is None:
                   continue
 
-               if hash_result:
+               elif hash_result:
                   return candidate
                  
            except ValueError as value_error:
@@ -333,7 +333,7 @@ def hash_cracking_worker(args):
             if hash_result is None:
                 continue
 
-            if hash_result:
+            elif hash_result:
                 return candidate
               
           except ValueError as value_error:
@@ -347,6 +347,12 @@ def hash_cracking_worker(args):
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
   try:
     target_hash = target_hash.replace('  -','')
+  
+    if target_hash.startswith("$DCC2$"):
+        temp = target_hash.split("#")
+        user = temp[1]
+        target_hash = temp[2]
+      
     if ssid is not None:
       ssid = ssid.encode(encoder)
       

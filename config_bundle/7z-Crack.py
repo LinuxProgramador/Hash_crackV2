@@ -57,7 +57,7 @@ def try_passwords(args):
             continue
 
         except Exception as e_:
-            print(f"[ERROR] {e_}")
+            print(f"[ERROR]: {e_}")
             return True # returns a false positive to stop the code due to the given exception
 
     return None
@@ -118,7 +118,7 @@ def main(archive_file, wordlist_file):
       print("[FINISH]>> PASSWORD NOT FOUND")
 
     except FileNotFoundError as f:
-        print(f"[ERROR]: file not found: {f}")
+        print(f"[ERROR]: file not found {f}")
         sys.exit(1)
 
     except KeyboardInterrupt:

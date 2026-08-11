@@ -15,7 +15,7 @@ def get_cpu_allocation(hash_type, cpu_num, use_cpu_num ):
         else:
            process_count = 1
 
-    elif cpu_num and cpu_num <= cpu_count():
+    elif cpu_num and 1 <= cpu_num <= cpu_count():
         process_count = cpu_num
 
     else:

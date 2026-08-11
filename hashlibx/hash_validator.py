@@ -53,6 +53,7 @@ if sys.platform == "linux":
 
 
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
+sm3_hash = new if "sm3" in algorithms_available else None
 
 CRYPT_VALIDATOR_SET = {
         "sha256crypt",
@@ -133,12 +134,10 @@ def sm3_hash(
     wpa_psk, ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-        if "sm3" in algorithms_available:
-           h = new("sm3")
-           h.update(data)
-           return  h.digest() == target_hash 
-        else:
-           return bytes.fromhex(
+        if sm3_hash is not None:
+           return sm3_hash("sm3", data).digest() == target_hash 
+        
+        return bytes.fromhex(
              sm3.sm3_hash(func.bytes_to_list(data))
              ) == target_hash
   
@@ -201,9 +200,7 @@ def ripemd_160_hash(
     if hashlib_ripemd_160 is not None:
         return hashlib_ripemd_160("ripemd160", data).digest() == target_hash
     
-    h = RIPEMD160.new()
-    h.update(data)
-    return h.digest() == target_hash
+    return RIPEMD160.new(data).digest() == target_hash
 
 
 

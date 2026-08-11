@@ -51,7 +51,20 @@ from argon2.exceptions import VerifyMismatchError
 if sys.platform == "linux":
     from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
+CRYPT_VALIDATOR_SET = {
+        "sha256crypt",
+        "sha512crypt",
+        "md5crypt",
+        "apr1",
+        "phpass"
+    }
 
+CRYPT_VALIDATOR_SET_WITHOUT_PHPASS = {
+            "sha256crypt",
+            "sha512crypt",
+            "md5crypt",
+            "apr1"
+        }
 
 CRYPT_ALGORITHMS = {
     "sha256crypt": sha256_crypt,
@@ -451,29 +464,12 @@ def validate_word(
     precomputed
 ):
 
-    if wait_time == "y" and hash_type in {
-        "sha256crypt",
-        "sha512crypt",
-        "md5crypt",
-        "apr1",
-        "phpass"
-    }:
+    if wait_time == "y" and hash_type in CRYPT_VALIDATOR_SET:
         time.sleep(0.20)
 
-    if hash_type in {
-        "sha256crypt",
-        "sha512crypt",
-        "md5crypt",
-        "apr1",
-        "phpass"
-    }:
+    if hash_type in CRYPT_VALIDATOR_SET:
 
-        if hash_type in {
-            "sha256crypt",
-            "sha512crypt",
-            "md5crypt",
-            "apr1"
-        }:
+        if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
 
             try:
                 return context.verify(

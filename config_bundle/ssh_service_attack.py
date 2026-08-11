@@ -13,7 +13,7 @@ from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 # IP-based blocking and rate-limiting mechanisms
 
 def get_encoder():
-    print("[INFO] To ensure compatibility with special characters, select an encoding method:")
+    print("[INFO]: To ensure compatibility with special characters, select an encoding method:")
     print("1) latin-1\n2) utf-8")
 
     option = input("Select option [1/2]: ").strip()
@@ -34,7 +34,7 @@ def ssh(passwords, hostname, username, port):
             print(f">>> Recovered Password: {pwd}".center(50))
             print("=" * 50 + "\n")
             if pwd != pwd.strip():
-                print("[WARNING:] The password contains leading or trailing whitespace")
+                print("[WARNING]: The password contains leading or trailing whitespace")
             sys.exit(0)
 
         except AuthenticationException:
@@ -74,7 +74,7 @@ def read_dic(dic_path, port, hostname, username, encoder):
 
 def main():
     try:
-        print("\n[INFO] This option is only valid for SSH services exposed on the Internet (not for local testing)")
+        print("\n[INFO]: This option is only valid for SSH services exposed on the Internet (not for local testing)")
         encoder = get_encoder()
 
         dic_path = os.path.expanduser('~/Hash_crackV2/ssh_keys.txt')

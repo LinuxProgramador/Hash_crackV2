@@ -540,7 +540,6 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
                 sys.exit(1)
             decrypt_cisco_type7(target_hash)
         elif external_imports:
-            signal.signal(signal.SIGTSTP,show_elapsed_time)
             if not module_chosen or not encoder:
                 print("[-] Missing required options: --module-chosen and/or --encoder")
                 sys.exit(1)

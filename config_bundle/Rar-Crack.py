@@ -38,7 +38,7 @@ def try_passwords(args):
             continue
 
         except Exception as e_:
-            print(f"[ERROR] {e_}")
+            print(f"[ERROR]: {e_}")
             return True # returns a false positive to stop the code due to the given exception
 
     return None

@@ -6,10 +6,12 @@ def auxiliary_crack(word, wpa_psk, ssid):
  try:
     print("\n" + "=" * 50)
 
+    if ssid is not None:
+      ssid = ssid.decode()
     if wpa_psk:
       print("[ SSID ]".center(50))
       print("=" * 50)
-      print(f">>> ssid: {ssid.decode()}".center(50))
+      print(f">>> ssid: {ssid}".center(50))
 
     print("=" * 50)
     print("[ PASSWORD FOUND ]".center(50))

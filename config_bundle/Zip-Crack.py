@@ -30,7 +30,7 @@ def try_passwords(args):
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
                 if pwd != pwd.strip():
-                   print("[WARNING:] The password contains leading or trailing whitespace")
+                   print("[WARNING]: The password contains leading or trailing whitespace")
                      
                 extract_cmd = [
                     sevenzip_cmd,
@@ -56,7 +56,7 @@ def try_passwords(args):
             continue
            
         except Exception as e_:
-            print(f"[ERROR] {e_}")
+            print(f"[ERROR]: {e_}")
             return True # returns a false positive to stop the code due to the given exception
 
     return None
@@ -118,7 +118,7 @@ def main(zip_file, wordlist_file):
         sys.exit(0)
 
     except FileNotFoundError as f:
-        print(f"[ERROR]: file not found: {f}")
+        print(f"[ERROR]: file not found {f}")
         sys.exit(1)
 
     except Exception as e:

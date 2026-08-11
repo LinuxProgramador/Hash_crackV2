@@ -30,7 +30,7 @@ def try_passwords(args):
                 print(f">>> Recovered Password: {pwd}".center(50))
                 print("=" * 50 + "\n")
                 if pwd != pwd.strip():
-                   print("[WARNING:] The password contains leading or trailing whitespace")
+                   print("[WARNING]: The password contains leading or trailing whitespace")
                     
                 extract_cmd = [
                     sevenzip_cmd,

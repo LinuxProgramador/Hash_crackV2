@@ -502,7 +502,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
         print(show_help())
         use_cpu_num = "-c" in sys.argv or "--cpu-num" in sys.argv
         if base64_decode:
-          target_hash = b64decode(target_hash, validate=True).hex()
+          target_hash = b64decode(target_hash.strip(), validate=True).hex()
             
         hash_type = hash_type.strip().lower() if hash_type else hash_type
         if target_hash and ":" in target_hash:

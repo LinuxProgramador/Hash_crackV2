@@ -299,10 +299,7 @@ def hash_cracking_worker(args):
                 return candidate
 
         except ValueError as value_error:
-            print(
-                f"[!] Error verifying DCC2 hash: {value_error}. "
-                "Please ensure the hash format and username are correct"
-            )
+            print(f"[ERROR]: {value_error}")
             return ["error"]
 
         except Exception as e_rror:

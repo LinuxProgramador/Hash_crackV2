@@ -499,7 +499,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
         print(show_help())
         use_cpu_num = "-c" in sys.argv or "--cpu-num" in sys.argv
         if base64_decode:
-          decoded = b64decode(target_hash.strip(), validate=True)
+         decoded = b64decode(target_hash.strip(), validate=True)
 
          try:
            decoded_text = decoded.decode("ascii")

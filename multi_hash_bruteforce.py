@@ -313,7 +313,29 @@ def main():
      wait_time = input("Prevent CPU overheating (y/n): ").strip().lower()
      base64_decode = input("Decode Base64-encoded hash? (y/n): ").strip().lower()
      if base64_decode == "y":
-        target_hash = b64decode(target_hash, validate=True).hex()
+         decoded = b64decode(target_hash, validate=True)
+
+         try:
+           decoded_text = decoded.decode("ascii")
+         except UnicodeDecodeError:
+           decoded_text = None
+
+         if decoded_text and (
+            decoded_text.startswith((
+             "$2a$", "$2b$", "$2y$",
+             "$1$", "$5$", "$6$",
+             "$apr1",
+             "{SSHA}",
+             "$P$",
+             "$pbkdf2-sha256",
+             "$pbkdf2-sha512",
+             "$pbkdf2",
+             "$DCC2$"
+           ))):
+
+           target_hash = decoded_text
+         else:
+           target_hash = decoded.hex()
          
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",

@@ -499,7 +499,32 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
         print(show_help())
         use_cpu_num = "-c" in sys.argv or "--cpu-num" in sys.argv
         if base64_decode:
-          target_hash = b64decode(target_hash.strip(), validate=True).hex()
+          decoded = b64decode(target_hash.strip(), validate=True)
+
+         try:
+           decoded_text = decoded.decode("ascii")
+         except UnicodeDecodeError:
+           decoded_text = None
+
+         if decoded_text and (
+            decoded_text.startswith((
+             "$2a$", "$2b$", "$2y$",
+             "$1$", "$5$", "$6$",
+             "$apr1",
+             "{SSHA}",
+             "$P$",
+             "$argon2id$",
+             "$scrypt$",
+             "$pbkdf2-sha256",
+             "$pbkdf2-sha512",
+             "$pbkdf2",
+             "$y$",
+             "$DCC2$"
+           ))):
+
+           target_hash = decoded_text
+         else:
+           target_hash = decoded.hex()
             
         hash_type = hash_type.strip().lower() if hash_type else hash_type
         if target_hash and ":" in target_hash:
@@ -509,7 +534,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
            "$1$", "$5$", "$6$",
            "$apr1",
            "{SSHA}",
-           "$dcc2$",
+           "$DCC2$",
            "$P$",
            "$argon2id$",
            "$scrypt$",

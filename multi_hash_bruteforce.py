@@ -157,7 +157,6 @@ def validate_word(word, target_hash, hash_type, ssid, user):
         return checkpw(data, target_hash.encode())
 
     elif hash_type == "dcc2":
-        time.sleep(0.02)
         try:       
           if target_hash.startswith("$DCC2$"):
              temp = target_hash.split('#')
@@ -211,9 +210,6 @@ def validate_word(word, target_hash, hash_type, ssid, user):
            return pbkf_sha5_passlib.verify(word, target_hash)
 
     elif hash_type in SUPPORTED_HASHES:
-        if hash_type == 'sha512crypt':
-            time.sleep(0.02)
-
         if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1', 'phpass']:
             if hash_type in ['sha256crypt', 'sha512crypt', 'md5crypt', 'apr1']:
               try:

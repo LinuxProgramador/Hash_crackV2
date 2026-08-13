@@ -521,7 +521,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
              "$y$",
              "$DCC2$",
              "*"
-           ))) or ":" in decoded_text:
+           ))) or decoded_text and  ":" in decoded_text:
 
            target_hash = decoded_text
          else:

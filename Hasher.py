@@ -519,7 +519,8 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
              "$pbkdf2-sha512",
              "$pbkdf2",
              "$y$",
-             "$DCC2$"
+             "$DCC2$",
+             "*"
            ))):
 
            target_hash = decoded_text

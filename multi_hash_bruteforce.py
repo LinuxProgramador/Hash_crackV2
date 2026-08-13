@@ -332,7 +332,7 @@ def main():
              "$pbkdf2",
              "$DCC2$",
              "*"
-           ))) or ":" in decoded_text:
+           ))) or decoded_text and ":" in decoded_text:
 
            target_hash = decoded_text
          else:

@@ -330,7 +330,8 @@ def main():
              "$pbkdf2-sha256",
              "$pbkdf2-sha512",
              "$pbkdf2",
-             "$DCC2$"
+             "$DCC2$",
+             "*"
            ))):
 
            target_hash = decoded_text

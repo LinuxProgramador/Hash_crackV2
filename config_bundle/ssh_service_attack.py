@@ -8,10 +8,6 @@ from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 # a single-connection strategy is used to maximize compatibility and
 # reduce the likelihood of triggering defensive controls.
 
-# Outbound connections are routed through the Tor network, providing
-# an additional layer of anonymity and reducing the effectiveness of
-# IP-based blocking and rate-limiting mechanisms
-
 def get_encoder():
     print("[INFO]: To ensure compatibility with special characters, select an encoding method:")
     print("1) latin-1\n2) utf-8")

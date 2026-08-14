@@ -94,9 +94,6 @@ def main(rar_file, wordlist_file):
         print()
         sys.exit(0)
 
-    except FileNotFoundError as f:
-        print(f"[ERROR]: file not found {f}")
-        sys.exit(1)
 
     except Exception as e:
         print(f"[ERROR]: {e}")
@@ -112,3 +109,7 @@ if __name__ == "__main__":
   except KeyboardInterrupt:
       print()
       sys.exit(0)
+
+  except FileNotFoundError as f:
+        print(f"[ERROR]: file not found {f}")
+        sys.exit(1)

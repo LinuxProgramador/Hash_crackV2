@@ -336,7 +336,12 @@ def main():
 
            target_hash = decoded_text
          else:
-           target_hash = decoded.hex()
+           try:
+               target_hash = decoded.decode("utf-8").strip()
+
+           except UnicodeDecodeError:
+               target_hash = decoded.hex()
+
          
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",

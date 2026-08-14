@@ -93,10 +93,7 @@ def main(pdf_file, wordlist_file):
         print()
         sys.exit(0)
 
-    except FileNotFoundError as f:
-        print(f"[ERROR]: File not found {f}")
-        sys.exit(1)
-
+   
     except Exception as error:
         print(f"[ERROR]: {error}")
         sys.exit(1)
@@ -111,3 +108,7 @@ if __name__ == "__main__":
   except KeyboardInterrupt:
       print()
       sys.exit(0)
+
+  except FileNotFoundError as f:
+        print(f"[ERROR]: File not found {f}")
+        sys.exit(1)

@@ -105,6 +105,9 @@ def call_modules(module_chosen, encoder):
         )
 
     elif module_chosen == '3' and module:
+        # Outbound connections are routed through the Tor network, providing
+        # an additional layer of anonymity and reducing the effectiveness of
+        # IP-based blocking and rate-limiting mechanisms
         if sys.platform == "linux":
             time.sleep(1)
             subprocess.run(["clear"], check=True)

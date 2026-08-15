@@ -657,6 +657,18 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
         else:
             signal.signal(signal.SIGTSTP,show_elapsed_time)
             hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
+
+            if hash_type in {"wpa", "dcc2"} and ":" in target_hash:
+               left, right = target_hash.split(":", 1)
+
+               if hash_type == "wpa":
+                  ssid = left
+                  target_hash = right
+                  wpa_psk = True
+               else:
+                   user = left
+                   target_hash = right
+                 
             local_db(hash_type, target_hash, encoder)
 
             if hash_type == "yescrypt" and sys.platform != "linux":

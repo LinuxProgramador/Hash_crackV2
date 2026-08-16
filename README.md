@@ -202,6 +202,11 @@ Note:
              python3 Hasher.py -i 'hash' -c 5
 
 
+Note:
+
+     You can use your own dictionaries, but you must rename them to ssh_keys or wordlist.txt
+
+
 Check progress
 
 To display elapsed time, press:

@@ -64,10 +64,21 @@ slow_hashes = {
 }
 
 
+fast_hashes = {
+   "md5", "sha1", "sha224", "sha256", "sha384", "sha512",
+   "sha3-224", "sha3-256", "sha3-384", "sha3-512", "blake2b", 
+   "blake2s", "sha256crypt", "sha512crypt", "md5crypt", "apr1",
+   "mysql5.x", "whirlpool", "sha256sum", "sha512sum", "sm3",
+   "ntlm", "sha512-256", "ssha", "shake-256", "shake-128",
+   "ripemd-160", "dcc2", "wpa", "pbkdf2-sha256", "pbkdf2-sha1",
+   "pbkdf2-sha512"
+}
+
+
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
 start = time.time()
-
+size = os.path.getsize(DICT_PATH)
 
 
 def show_elapsed_time(signum, frame):
@@ -409,9 +420,30 @@ def hash_cracking_worker(args):
 
     return None
 
+
+def get_available_ram():
+    with open("/proc/meminfo", "r") as f:
+        for line in f:
+            if line.startswith("MemAvailable:"):
+                return int(line.split()[1]) * 1024
+    return 0
+
+
 def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
 
     read_block_size = 8 * 1024 * 1024
+    available_ram = get_available_ram()
+    if hash_type in fast_hashes and size >= 350 * 1024 * 1024:
+
+         if available_ram >= 8 * 1024 * 1024 * 1024:
+             read_block_size = 64 * 1024 * 1024
+
+         elif available_ram >= 4 * 1024 * 1024 * 1024:
+             read_block_size = 32 * 1024 * 1024
+
+         elif available_ram >= 2 * 1024 * 1024 * 1024:
+             read_block_size = 16 * 1024 * 1024
+
     result = None
     precomputed = None
     last_line = ""

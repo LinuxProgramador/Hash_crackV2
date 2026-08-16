@@ -204,7 +204,7 @@ Note:
 
 Note:
 
-     You can use your own dictionaries, but you must rename them to ssh_keys or wordlist.txt
+     You can use your own dictionaries, but you must rename them to ssh_keys.txt or wordlist.txt
 
 
 Check progress

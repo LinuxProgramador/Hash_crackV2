@@ -57,8 +57,8 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 1. Elpscrk — Intelligent wordlist generator: https://github.com/D4Vinci/elpscrk⁠
 2. CUPP — Custom wordlist generator: https://github.com/mebus/cupp⁠
 3. Hashes.com — Hash lookup: https://hashes.com⁠
-4. CrackStation — Hash lookup: https://crackstation.net/⁠
-5. SecLists — Wordlist collection: https://github.com/danielmiessler/SecLists⁠
+4. CrackStation — Hash lookup: https://crackstation.net
+5. SecLists — Wordlist collection: https://github.com/danielmiessler/seclists⁠
 
 
 

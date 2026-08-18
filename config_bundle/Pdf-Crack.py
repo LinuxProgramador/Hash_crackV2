@@ -16,7 +16,6 @@ def try_passwords(args):
     for pwd in passwords:
         try:
             with pikepdf.open(pdf_file, password=pwd) as pdf:
-                pdf.save("pdf_decryption.pdf")
                 print("\n" + "=" * 50)
                 print("=" * 50)
                 print("[ PASSWORD FOUND ]".center(50))

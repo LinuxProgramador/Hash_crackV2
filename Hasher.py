@@ -78,8 +78,6 @@ fast_hashes = {
 HOME = Path.home()
 DICT_PATH = os.path.join(HOME, 'Hash_crackV2/wordlist.txt')
 start = time.time()
-size = os.path.getsize(DICT_PATH)
-
 
 def show_elapsed_time(signum, frame):
     elapsed = time.time() - start
@@ -433,6 +431,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
     read_block_size = 8 * 1024 * 1024
     available_ram = get_available_ram()
+    size = os.path.getsize(DICT_PATH)
     if hash_type in fast_hashes and size >= 350 * 1024 * 1024:
 
          if available_ram >= 8 * 1024 * 1024 * 1024:

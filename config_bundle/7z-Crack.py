@@ -32,25 +32,6 @@ def try_passwords(args):
                 if pwd != pwd.strip():
                    print("[WARNING]: The password contains leading or trailing whitespace")
                     
-                extract_cmd = [
-                    sevenzip_cmd,
-                    'x',
-                    archive_file,
-                    f'-p{pwd}',
-                    '-oDecryptedFiles',
-                    '-aoa'
-                ]
-
-                try:
-                    subprocess.run(
-                        extract_cmd,
-                        check=True,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL
-                    )
-                except subprocess.CalledProcessError:
-                    pass
-
                 return True
 
         except subprocess.TimeoutExpired:

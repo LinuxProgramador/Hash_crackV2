@@ -447,8 +447,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
     precomputed = None
     last_line = ""
 
-
-    target_hash = target_hash.replace('  -','')
   
     if target_hash.startswith("$DCC2$"):
         temp = target_hash.split("#")

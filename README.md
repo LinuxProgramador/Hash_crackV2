@@ -53,6 +53,21 @@ python3 Hasher.py -i 'hash' -t md5 -c 1 -e 2 -w n -r 1
 
 
 
+Note:
+
+The "sha256sum" and "sha512sum" functions can be used to check whether a file matches any hash stored in a predefined list, for example, to identify files that have previously been flagged as malicious or otherwise known.
+
+The function uses a plain-text file containing the hashes to be checked, with one hash per line.
+
+During the verification process:
+
+- If the file's hash matches one of the hashes in the list, the matching hash will be displayed in the console after entering the "recovery password".
+- If no match is found, "password not found" will be displayed.
+
+This allows the tool to quickly determine whether an analyzed file belongs to a set of files previously identified by their cryptographic hash.
+
+
+
 ##  External resources (dictionaries/rainbow tables/dictionary generator)
 1. Elpscrk — Intelligent wordlist generator: https://github.com/D4Vinci/elpscrk⁠
 2. CUPP — Custom wordlist generator: https://github.com/mebus/cupp⁠

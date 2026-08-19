@@ -63,13 +63,12 @@ def display_supported_hashes():
 | apr1       | dcc2         |
 | ssha       | sm3          |
 | sha512-256 | phpass       |
-| whirlpool  | sha512sum    |
-| sha256sum  | sha3-224     |
+| whirlpool  | pbkdf2-sha512|
+| pbkdf2-sha1| sha3-224     |
 | sha3-384   | sha3-256     |
 | sha3-512   | sha256       |
 | sha224     | sha384       |
 | sha512     | pbkdf2-sha256|
-| pbkdf2-sha1| pbkdf2-sha512|
  ---------------------------
 ''')
 
@@ -107,12 +106,6 @@ def validate_word(word, target_hash, hash_type, ssid, user):
 
     elif hash_type == "whirlpool":
         return wpl(data).hexdigest()
-
-    elif hash_type == "sha256sum":
-        return sha256((word + "\n").encode()).hexdigest()
-
-    elif hash_type == "sha512sum":
-        return sha512((word + "\n").encode()).hexdigest()
 
     elif hash_type == "sm3":
         if 'sm3' in algorithms_available:
@@ -308,7 +301,7 @@ def main():
 
      display_supported_hashes()
 
-     target_hash = input("Enter the target hash: ").strip().replace('  -','')
+     target_hash = input("Enter the target hash: ").strip()
      hash_type = input("Enter the hash type: ").strip().lower()
      wait_time = input("Prevent CPU overheating (y/n): ").strip().lower()
      base64_decode = input("Decode Base64-encoded hash? (y/n): ").strip().lower()
@@ -345,7 +338,7 @@ def main():
          
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",
-        "dcc2", "mysql5.x", "whirlpool", "sha256sum", "sha512sum",
+        "dcc2", "mysql5.x", "whirlpool",
         "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "wpa", "pbkdf2-sha1", "pbkdf2-sha512"
      ]:
         print("Invalid input.")

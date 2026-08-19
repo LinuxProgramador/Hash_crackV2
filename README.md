@@ -59,7 +59,8 @@ Note:
     simply pass the hash of the file to be analyzed to Hasher.py. 
     Additionally, obtain a .txt file of malicious hashes or hashes marked for any other reason; 
     it's important to rename this file to wordlist.txt so that Hasher.py recognizes it.
-
+    If the hash is on the list, you will be notified with "password recovered >> and here is your hash"
+    if it is not, you will see "password not found".
 
 
 

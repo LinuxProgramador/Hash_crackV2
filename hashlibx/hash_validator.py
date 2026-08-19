@@ -117,7 +117,7 @@ def sha256sum_hash(
     ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
-     return data == target_hash
+     return bytes.fromhex(word) == target_hash
     
 
 def sha512sum_hash(
@@ -125,7 +125,7 @@ def sha512sum_hash(
     ssid, user, wait_time, ph,
     yescrypt_, context, precomputed
 ):  
-     return data == target_hash
+     return bytes.fromhex(word) == target_hash
 
 
 

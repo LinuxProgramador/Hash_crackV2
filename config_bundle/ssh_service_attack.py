@@ -8,6 +8,8 @@ from paramiko import SSHClient, AutoAddPolicy, AuthenticationException
 # a single-connection strategy is used to maximize compatibility and
 # reduce the likelihood of triggering defensive controls.
 
+counter_ssh = 0
+
 def get_encoder():
     print("[INFO]: To ensure compatibility with special characters, select an encoding method:")
     print("1) latin-1\n2) utf-8")
@@ -38,6 +40,9 @@ def ssh(passwords, hostname, username, port):
 
         except Exception as e:
             print(f"Error with password {pwd}: {e}")
+            counter_ssh += 1
+            if counter_ssh > 5:
+               sys.exit(1)                
 
         finally:
             client.close()

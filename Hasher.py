@@ -457,7 +457,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
       ssid = ssid.encode(encoder)
       
     if hash_type in {
-      "ntlm", "whirlpool", "sm3", 
+      "ntlm", "whirlpool", "sha256sum", "sha512sum", "sm3", 
       "sha512-256", "shake-256", "shake-128", "ripemd-160",
       "wpa", "md5", "sha1", "sha224", "sha256", "sha384", "sha512",
       "sha3-224", "sha3-256", "sha3-384", "sha3-512", "blake2b",
@@ -472,8 +472,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
     elif hash_type in {"yescrypt", "bcrypt"}:
         target_hash = target_hash.encode(encoder)
 
-    elif hash_type in {"sha256sum", "sha512sum"}:
-        target_hash = target_hash.encode(encoder)
       
     if hash_type == "ssha":
       b64_data = target_hash[6:]

@@ -308,9 +308,6 @@ def init_worker(hash_type):
     if hash_type == "sha256crypt":
         context = CryptContext(schemes=["sha256_crypt"])
 
-    elif hash_type == "sha512crypt":
-        context = CryptContext(schemes=["sha512_crypt"])
-
     elif hash_type == "md5crypt":
         context = CryptContext(schemes=["md5_crypt"])
 

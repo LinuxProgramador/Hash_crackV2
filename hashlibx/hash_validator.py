@@ -52,6 +52,10 @@ if sys.platform == "linux":
     from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
 
+if sys.platform == "linux":
+    import sha512_crypt
+
+
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
 
@@ -470,6 +474,9 @@ def validate_word(
         if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
 
             try:
+                if hash_type == "sha512crypt":
+                   return sha512_crypt.verify(word, target_hash)
+
                 return context.verify(
                     word,
                     target_hash

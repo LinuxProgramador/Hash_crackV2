@@ -47,12 +47,12 @@ from passlib.hash import pbkdf2_sha512 as pbkf_sha5_passlib
 from bcrypt import checkpw
 from argon2.exceptions import VerifyMismatchError
 
+is_linux = "yes" if sys.platform == "linux" else None
 
-if sys.platform == "linux":
+if is_linux is not None:
     from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
-
-if sys.platform == "linux":
+if is_linux is not None:
     import sha512_crypt
 
 
@@ -474,7 +474,7 @@ def validate_word(
         if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
 
             try:
-                if hash_type == "sha512crypt":
+                if is_linux is not None and hash_type == "sha512crypt":
                    return sha512_crypt.verify(word, target_hash)
 
                 return context.verify(

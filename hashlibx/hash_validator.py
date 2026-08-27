@@ -53,7 +53,7 @@ if is_linux is not None:
     from pyescrypt import WrongPassword, WrongPasswordConfiguration
 
 if is_linux is not None:
-    import sha512_crypt
+    import pyxcrypt
 
 
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
@@ -474,8 +474,13 @@ def validate_word(
         if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
 
             try:
-                if is_linux is not None and hash_type == "sha512crypt":
-                   return sha512_crypt.verify(word, target_hash)
+                if is_linux is not None and hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
+                   result_pyxcyt = pyxcrypt.crypt(word, target_hash)
+                   if result_pyxcyt is None or result_pyxcyt.startswith('*'):
+                        pass
+                   else:
+                      return result_pyxcyt == target_hash
+                   
 
                 return context.verify(
                     word,

@@ -48,7 +48,7 @@ main() {
         fi
 
         sudo apt update 
-        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config -y
+        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config libcrypt-dev gcc python3-dev -y
 
         if [[ -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" ]]; then
             echo "[*] Copying proxychains4.conf to the system"

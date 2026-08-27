@@ -12,6 +12,7 @@ argon2-cffi
 pikepdf==9.10.2
 libpass
 pyescrypt
-sha512-crypt
+pyxcrypt
+
 
 

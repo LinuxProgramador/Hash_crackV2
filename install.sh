@@ -52,7 +52,7 @@ main() {
 
         if [[ -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" ]]; then
             sudo cp -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" /etc/proxychains4.conf
-            echo "[*] Copying proxychains4.conf to the system"
+            echo "[*] Successfully copied the proxychains4.conf file to '/etc'"
         else
             echo "[!] proxychains4.conf not found in ~/Hash_crackV2/config_bundle/"
         fi

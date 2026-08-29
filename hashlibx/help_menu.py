@@ -20,7 +20,7 @@ def show_help():
          ║  md5         sha1        blake2s     ║
          ║  blake2b     ripemd-160  bcrypt      ║
          ║  sha256crypt sha512crypt shake-128   ║
-         ║  shake-256   wpa         ntlm        ║
+         ║  shake-256   yescrypt    ntlm        ║
          ║  mysql5.x    md5crypt    apr1        ║
          ║  dcc2        ssha        sm3         ║
          ║  sha512-256  phpass      whirlpool   ║
@@ -29,6 +29,6 @@ def show_help():
          ║  sha256      sha224      sha384      ║
          ║  sha512      pbkdf2-sha256           ║
          ║  argon2id    scrypt      CiscoType7  ║
-         ║  pbkdf2-sha1 pbkdf2-sha512 yescrypt  ║
+         ║  pbkdf2-sha1 pbkdf2-sha512           ║
          ╚══════════════════════════════════════╝
   '''

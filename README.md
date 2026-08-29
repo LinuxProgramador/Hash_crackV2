@@ -204,7 +204,7 @@ Supported hashes:
 • YESCRYPT
 
 
-Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
+Note: For **DCC2** hash, the expected input format is:
 
    *DCC2: username:hash or
    $DCC2$iterations#username#hash

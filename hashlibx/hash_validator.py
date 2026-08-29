@@ -101,7 +101,7 @@ HASH_ALGORITHMS_INFO = {
 
 def mysql5_x_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
      return sha1(sha1(data).digest()).digest() == target_hash
@@ -109,7 +109,7 @@ def mysql5_x_hash(
 
 def whirlpool_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
      return wpl(data).digest() == target_hash
@@ -118,7 +118,7 @@ def whirlpool_hash(
 
 def sha256sum_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
      return bytes.fromhex(word) == target_hash
@@ -126,7 +126,7 @@ def sha256sum_hash(
 
 def sha512sum_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):  
      return bytes.fromhex(word) == target_hash
@@ -135,7 +135,7 @@ def sha512sum_hash(
 
 def sm3_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
         if hashlib_sm3 is not None:
@@ -148,7 +148,7 @@ def sm3_hash(
 
 def ntlm_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
      return MD4.new(
@@ -161,7 +161,7 @@ def ntlm_hash(
 
 def sha512_256_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):    
     return new("sha512_256", data).digest() == target_hash
@@ -169,7 +169,7 @@ def sha512_256_hash(
 
 def ssha_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     digest = precomputed["digest"]
@@ -182,7 +182,7 @@ def ssha_hash(
 
 def shake_256_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     return shake_256(data).digest(len(target_hash)) == target_hash
@@ -190,7 +190,7 @@ def shake_256_hash(
 
 def shake_128_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     return shake_128(data).digest(len(target_hash)) == target_hash
@@ -198,7 +198,7 @@ def shake_128_hash(
 
 def ripemd_160_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if hashlib_ripemd_160 is not None:
@@ -210,7 +210,7 @@ def ripemd_160_hash(
 
 def bcrypt_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -224,7 +224,7 @@ def bcrypt_hash(
 
 def dcc2_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -237,27 +237,9 @@ def dcc2_hash(
          )
 
 
-def wpa_hash(
-    word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
-    yescrypt_, context, precomputed
-):
-    if 8 <= len(word) <= 63:
-        
-        return pbkdf2_hmac(
-         "sha1",
-         data,
-         ssid,
-         4096,
-         32
-         ) == target_hash
-
-    return False
-
-
 def pbkdf2_sha256_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -295,7 +277,7 @@ def pbkdf2_sha256_hash(
 
 def pbkdf2_sha1_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -333,7 +315,7 @@ def pbkdf2_sha1_hash(
 
 def pbkdf2_sha512_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -371,7 +353,7 @@ def pbkdf2_sha512_hash(
 
 def argon2id_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -391,7 +373,7 @@ def argon2id_hash(
 
 def scrypt_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -431,7 +413,7 @@ def scrypt_hash(
 
 def yescrypt_hash(
     word, data, target_hash, hash_type, 
-    ssid, user, wait_time, ph,
+    user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
     if wait_time == "y":
@@ -457,7 +439,6 @@ def validate_word(
     data,
     target_hash,
     hash_type,
-    ssid,
     user,
     wait_time,
     ph,

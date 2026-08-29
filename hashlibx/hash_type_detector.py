@@ -111,9 +111,10 @@ def auto_detect_type(target_hash):
 
     if target_hash.count(':') == 1:
         left, right = target_hash.split(':')
-        target_hash = right
-        user = left
-        return "dcc2", user, target_hash
+        if len(right) == 32:
+          target_hash = right
+          user = left
+          return "dcc2", user, target_hash
 
     if target_hash.startswith("$DCC2$"):
         return "dcc2", None, target_hash

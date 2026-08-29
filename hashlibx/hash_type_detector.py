@@ -92,58 +92,58 @@ def match_length_hashes(target_hash):
 
 def auto_detect_type(target_hash):
     if len(target_hash) == 60 and any(v in target_hash[:5] for v in ["2a$", "2b$", "2y$"]):
-        return "bcrypt", None, None, None, target_hash
+        return "bcrypt", None, target_hash
 
     if target_hash.startswith("$5$"):
-        return "sha256crypt", None, None, None, target_hash
+        return "sha256crypt", None, target_hash
 
     if target_hash.startswith("$6$"):
-        return "sha512crypt", None, None, None, target_hash
+        return "sha512crypt", None, target_hash
 
     if target_hash.startswith("$1$"):
-        return "md5crypt", None, None, None, target_hash
+        return "md5crypt", None, target_hash
 
     if target_hash.startswith("$apr1"):
-        return "apr1", None, None, None, target_hash
+        return "apr1", None, target_hash
 
     if target_hash.startswith("{SSHA}"):
-        return "ssha", None, None, None, target_hash
+        return "ssha", None, target_hash
 
     if target_hash.count(':') == 1:
         left, right = target_hash.split(':')
         target_hash = right
         user = left
-        return "dcc2", user, None, None, target_hash
+        return "dcc2", user, target_hash
 
     if target_hash.startswith("$DCC2$"):
-        return "dcc2", None, None, None, target_hash
+        return "dcc2", None, target_hash
 
     if target_hash.startswith("*"):
-        return "mysql5.x", None, None, None, target_hash
+        return "mysql5.x", None, target_hash
 
     if target_hash.startswith("$P$"):
-        return "phpass", None, None, None, target_hash
+        return "phpass", None, target_hash
 
     if target_hash.startswith("$argon2id$"):
-        return "argon2id", None, None, None, target_hash
+        return "argon2id", None, target_hash
 
     if target_hash.startswith("$scrypt$"):
-        return "scrypt", None, None, None, target_hash
+        return "scrypt", None, target_hash
 
     if target_hash.startswith("$pbkdf2-sha256"):
-        return "pbkdf2-sha256", None, None, None, target_hash
+        return "pbkdf2-sha256", None, target_hash
 
     
     if target_hash.startswith("$pbkdf2-sha512"):
-        return "pbkdf2-sha512", None, None, None, target_hash
+        return "pbkdf2-sha512", None, target_hash
 
     if target_hash.startswith("$pbkdf2"):
-        return "pbkdf2-sha1", None, None, None, target_hash
+        return "pbkdf2-sha1", None, target_hash
 
     if target_hash.startswith("$y$"):
-        return "yescrypt", None, None, None, target_hash
+        return "yescrypt", None, target_hash
 
-    return None, None, None, None, target_hash
+    return None, None, target_hash
 
 
 def show_info_cracker(hash_type, cpu_num, encoder, use_cpu_num):

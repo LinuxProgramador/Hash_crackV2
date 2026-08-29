@@ -58,7 +58,7 @@ def display_supported_hashes():
 | ripemd-160 | bcrypt       |
 | sha256crypt| sha512crypt  |
 | shake-128  | shake-256    |
-| wpa        | ntlm         |
+| ntlm       | pbkdf2-sha256| 
 | mysql5.x   | md5crypt     |
 | apr1       | dcc2         |
 | ssha       | sm3          |
@@ -68,7 +68,7 @@ def display_supported_hashes():
 | sha3-384   | sha3-256     |
 | sha3-512   | sha256       |
 | sha224     | sha384       |
-| sha512     | pbkdf2-sha256|
+| sha512     |              |
  ---------------------------
 ''')
 
@@ -98,7 +98,7 @@ def word_generator(config):
             yield word
 
 
-def validate_word(word, target_hash, hash_type, ssid, user):
+def validate_word(word, target_hash, hash_type, user):
     data = word.encode()
 
     if hash_type == "mysql5.x":
@@ -160,11 +160,6 @@ def validate_word(word, target_hash, hash_type, ssid, user):
         except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
              return ["_error_"]
-
-    elif hash_type == "wpa":
-        if 8 <= len(word) <= 63:
-            derived_key = pbkdf2_hmac('sha1', data, ssid.encode(), 4096, 32)
-            return derived_key.hex().lower() == target_hash.lower()
 
     elif hash_type == "pbkdf2-sha256":
       try:
@@ -228,7 +223,7 @@ def init_worker():
 
 
 def hash_worker(args):
-    config, target_hash, hash_type, wait_time, ssid, user = args    
+    config, target_hash, hash_type, wait_time, user = args    
     for word in word_generator(config):
 
             if wait_time == "y":
@@ -239,7 +234,6 @@ def hash_worker(args):
                     word,
                     target_hash,
                     hash_type,
-                    ssid,
                     user
                 )
 
@@ -297,7 +291,7 @@ def get_user_config():
 
 def main():
    try:
-     result = ssid = user = None
+     result = user = None
 
      display_supported_hashes()
 
@@ -339,13 +333,10 @@ def main():
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",
         "dcc2", "mysql5.x", "whirlpool",
-        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "wpa", "pbkdf2-sha1", "pbkdf2-sha512"
+        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "pbkdf2-sha1", "pbkdf2-sha512"
      ]:
         print("Invalid input.")
         sys.exit(1)
-
-     wpa_psk = True if hash_type == "wpa" else None
-     ssid = input("Enter SSID: ") if hash_type == "wpa" else ssid
 
      if hash_type == "pbkdf2-sha1":
          target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
@@ -361,7 +352,7 @@ def main():
      with Pool(processes=4, initializer=init_worker) as pool:
 
        tasks = [
-        (cfg, target_hash, hash_type, wait_time, ssid, user)
+        (cfg, target_hash, hash_type, wait_time, user)
         for cfg in config_list
        ]
 
@@ -371,12 +362,6 @@ def main():
             candidate = result
 
             print("\n" + "=" * 50)
-
-            if wpa_psk:
-                print("[ SSID ]".center(50))
-                print("=" * 50)
-                print(f">>> ssid: {ssid}".center(50))
-
             print("=" * 50)
             print("[ PASSWORD FOUND ]".center(50))
             print("=" * 50)

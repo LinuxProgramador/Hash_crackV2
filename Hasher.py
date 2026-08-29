@@ -70,7 +70,7 @@ fast_hashes = {
    "blake2s", "sha256crypt", "sha512crypt", "md5crypt", "apr1",
    "mysql5.x", "whirlpool", "sha256sum", "sha512sum", "sm3",
    "ntlm", "sha512-256", "ssha", "shake-256", "shake-128",
-   "ripemd-160", "dcc2", "wpa", "pbkdf2-sha256", "pbkdf2-sha1",
+   "ripemd-160", "dcc2", "pbkdf2-sha256", "pbkdf2-sha1",
    "pbkdf2-sha512"
 }
 
@@ -340,8 +340,6 @@ def hash_cracking_worker(args):
 
     (
         password_list,
-        ssid,
-        wpa_psk,
         target_hash,
         user,
         rules,
@@ -379,7 +377,6 @@ def hash_cracking_worker(args):
                     data,
                     target_hash,
                     hash_type,
-                    ssid,
                     user,
                     wait_time,
                     ph,
@@ -393,7 +390,6 @@ def hash_cracking_worker(args):
                     data,
                     target_hash,
                     hash_type,
-                    ssid,
                     user,
                     wait_time,
                     ph,
@@ -427,7 +423,7 @@ def get_available_ram():
     return 0
 
 
-def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count):
+def dict_crack(target_hash, hash_type, wait_time, encoder, user, rules, process_count):
 
     read_block_size = 8 * 1024 * 1024
     available_ram = get_available_ram()
@@ -453,13 +449,11 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
         user = temp[1]
         target_hash = temp[2]
       
-    if ssid is not None:
-      ssid = ssid.encode(encoder)
       
     if hash_type in {
       "ntlm", "whirlpool", "sha256sum", "sha512sum", "sm3", 
       "sha512-256", "shake-256", "shake-128", "ripemd-160",
-      "wpa", "md5", "sha1", "sha224", "sha256", "sha384", "sha512",
+      "md5", "sha1", "sha224", "sha256", "sha384", "sha512",
       "sha3-224", "sha3-256", "sha3-384", "sha3-512", "blake2b",
       "blake2s"
       }:
@@ -549,8 +543,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             tasks = (
                    (
              chunk,
-             ssid,
-             wpa_psk,
              target_hash,
              user,
              rules,
@@ -565,7 +557,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
             for result in pool.imap_unordered(hash_cracking_worker, tasks):
               if result and not isinstance(result, list): 
                  candidate = result 
-                 auxiliary_crack(candidate, wpa_psk, ssid)
+                 auxiliary_crack(candidate)
                  pool.terminate()
                  return
               elif result and isinstance(result, list):
@@ -575,8 +567,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
         if last_line:
           task = (
              [last_line],
-             ssid,
-             wpa_psk,
              target_hash,
              user,
              rules,
@@ -588,7 +578,7 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
           result = hash_cracking_worker(task)
           if result and not isinstance(result, list):
               candidate = result
-              auxiliary_crack(candidate, wpa_psk, ssid)
+              auxiliary_crack(candidate)
               return
           elif result and isinstance(result, list):
               return
@@ -599,7 +589,6 @@ def dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, 
 
 
 def local_db(hash_type, target_hash, encoder):
-    wpa_psk = ssid = None
     if hash_type in {"ntlm", "ripemd-160", "sm3" ,"mysql5.x" }:
         db_path = os.path.join(HOME, 'Hash_crackV2/config_bundle/db.json')
 
@@ -608,7 +597,7 @@ def local_db(hash_type, target_hash, encoder):
 
             for db_hash, value in dic_db.items():
                 if target_hash.lower() == db_hash.strip().lower():
-                    auxiliary_crack(value, wpa_psk, ssid)
+                    auxiliary_crack(value)
                     sys.exit(0)
 
 def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, external_imports, module_chosen, base64_decode ):
@@ -656,11 +645,11 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
           "$pbkdf2", "$y$"
          )
 
-         if len(right) in (32, 64) and not right.lower().startswith(
+         if len(right) in (32) and not right.lower().startswith(
            tuple(x.lower() for x in excluded)
             ):
-              user_or_ssid, hash_value = target_hash.split(":", 1)
-              target_hash = f"{user_or_ssid}:{hash_value.strip()}"
+              user_data, hash_value = target_hash.split(":", 1)
+              target_hash = f"{user_data}:{hash_value.strip()}"
 
          else:
             target_hash = target_hash.strip() if target_hash else target_hash
@@ -685,18 +674,12 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
 
         else:
             signal.signal(signal.SIGTSTP,show_elapsed_time)
-            hash_type, ssid, wpa_psk, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
+            hash_type, user, process_count, target_hash = detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
 
-            if hash_type in {"wpa", "dcc2"} and ":" in target_hash:
+            if hash_type in {"dcc2"} and ":" in target_hash:
                left, right = target_hash.split(":", 1)
-
-               if hash_type == "wpa":
-                  ssid = left
-                  target_hash = right
-                  wpa_psk = True
-               else:
-                   user = left
-                   target_hash = right
+               user = left
+               target_hash = right
                  
             local_db(hash_type, target_hash, encoder)
 
@@ -707,7 +690,7 @@ It is recommended to use Ubuntu 24.04.4 LTS or Ubuntu 26.04 LTS.
               """.rstrip())
               sys.exit(1)
 
-            dict_crack(target_hash, hash_type, wait_time, ssid, wpa_psk, encoder, user, rules, process_count)
+            dict_crack(target_hash, hash_type, wait_time, encoder, user, rules, process_count)
 
 
     except KeyboardInterrupt:

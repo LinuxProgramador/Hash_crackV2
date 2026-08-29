@@ -644,7 +644,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
           "$pbkdf2", "$y$"
          )
 
-         if len(right) in (32) and not right.lower().startswith(
+         if len(right) == 32 and not right.lower().startswith(
            tuple(x.lower() for x in excluded)
             ):
               user_data, hash_value = target_hash.split(":", 1)

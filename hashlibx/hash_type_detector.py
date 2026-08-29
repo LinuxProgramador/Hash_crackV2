@@ -17,7 +17,7 @@ hash_lengths = {
 
 hash_list = [
     "md5", "sha1", "blake2s", "blake2b", "ripemd-160", "bcrypt",
-    "sha256crypt", "sha512crypt", "shake-128", "shake-256", "wpa", "ntlm",
+    "sha256crypt", "sha512crypt", "shake-128", "shake-256", "ntlm",
     "mysql5.x", "md5crypt", "apr1", "dcc2", "ssha", "sm3",
     "sha512-256", "phpass", "whirlpool", "sha512sum", "sha256sum",
     "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha256",
@@ -31,14 +31,14 @@ Hash types available:
 
   md5           sha1          blake2s        blake2b      
   ripemd-160    bcrypt        sha256crypt    sha512crypt
-  shake-128     shake-256     wpa            ntlm
+  shake-128     shake-256     yescrypt       ntlm
   mysql5.x      md5crypt      apr1           dcc2
   ssha          sm3           sha512-256     phpass
   whirlpool     sha512sum     sha256sum      pbkdf2-sha512
   sha3-224      sha3-256      sha3-384       sha3-512
   sha256        sha224        sha384         sha512
   pbkdf2-sha256 argon2id      scrypt         pbkdf2-sha1
-  yescrypt
+  
 
 """
 
@@ -111,17 +111,9 @@ def auto_detect_type(target_hash):
 
     if target_hash.count(':') == 1:
         left, right = target_hash.split(':')
-
-        if len(right) == 64:
-            target_hash = right
-            ssid = left
-            wpa_psk = True
-            return "wpa", None, ssid, wpa_psk, target_hash
-
-        else:
-            target_hash = right
-            user = left
-            return "dcc2", user, None, None, target_hash
+        target_hash = right
+        user = left
+        return "dcc2", user, None, None, target_hash
 
     if target_hash.startswith("$DCC2$"):
         return "dcc2", None, None, None, target_hash
@@ -163,7 +155,7 @@ def show_info_cracker(hash_type, cpu_num, encoder, use_cpu_num):
 def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num):
   try:
 
-    ssid = wpa_psk = user  = None
+    user  = None
     target_hash_mod = target_hash
 
     if not target_hash:
@@ -174,7 +166,7 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
        target_hash = target_hash.replace("pbkdf2-sha1","pbkdf2")
       
     if not hash_type:
-        hash_type, user, ssid, wpa_psk, target_hash_mod = auto_detect_type(target_hash)       
+        hash_type, user, target_hash_mod = auto_detect_type(target_hash)       
         if not hash_type:
             hash_type = match_length_hashes(target_hash)
 
@@ -188,7 +180,7 @@ def detect_and_crack_hash(target_hash, hash_type, cpu_num, encoder, use_cpu_num)
 
     process_count = show_info_cracker(hash_type, cpu_num, encoder, use_cpu_num)
 
-    return hash_type, ssid, wpa_psk, user, process_count, target_hash_mod
+    return hash_type, user, process_count, target_hash_mod
 
   except Exception as error:
     print(f"[ERROR]: {error}")

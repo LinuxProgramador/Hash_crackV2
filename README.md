@@ -183,7 +183,6 @@ Supported hashes:
 • SHA512CRYPT
 • SHAKE-128
 • SHAKE-256
-• WPA-PSK
 • NTLM
 • MySQL 5.x
 • MD5CRYPT
@@ -207,7 +206,6 @@ Supported hashes:
 
 Note: For **WPA-PSK** and **DCC2** hashes, the expected input format is:
 
-   *WPA-PSK: network:hash
    *DCC2: username:hash or
    $DCC2$iterations#username#hash
    Example:

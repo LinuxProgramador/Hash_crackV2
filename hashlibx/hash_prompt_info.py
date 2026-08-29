@@ -13,7 +13,6 @@ def cracking_prompt(encoder, hash_type, process_count):
     "md5crypt": "$1$ md5crypt [FreeBSD-style MD5-based crypt]",
     "ssha": "{SSHA} Salted SHA-1 [LDAP salted hash]",
     "phpass": "$P$ phpass [WordPress/Drupal/PhpBB]",
-    "wpa": "WPA-PSK [Pre-Shared Key, 4096 HMAC-SHA1 iterations]",
     "scrypt": "scrypt [Memory-hard password hash]",
     "pbkdf2-sha256": "PBKDF2-HMAC-SHA256 [Django-style, variable iterations]",
     "argon2id": "Argon2id [Memory-hard, CPU-intensive password hash]",

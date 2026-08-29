@@ -6,7 +6,6 @@ from hashlibx.aux_output import auxiliary_crack
 def decrypt_cisco_type7(target_hash):
  try:
 
-   wpa_psk = ssid = None
    key = "dsfd;kfoA,.iyewrkldJKD"
    offset = int(target_hash[:2])
    decrypted = ""
@@ -16,7 +15,7 @@ def decrypt_cisco_type7(target_hash):
        key_index = (offset + (i - 2) // 2) % len(key)
        decrypted += chr(byte ^ ord(key[key_index]))
 
-   auxiliary_crack(decrypted, wpa_psk, ssid)
+   auxiliary_crack(decrypted)
 
  except Exception as error:
    print(f"[ERROR]: {error}")

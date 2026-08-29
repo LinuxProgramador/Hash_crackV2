@@ -295,7 +295,6 @@ def init_worker(hash_type):
         "ripemd-160": ripemd_160_hash,
         "bcrypt": bcrypt_hash,
         "dcc2": dcc2_hash,
-        "wpa": wpa_hash,
         "pbkdf2-sha256": pbkdf2_sha256_hash,
         "pbkdf2-sha1": pbkdf2_sha1_hash,
         "pbkdf2-sha512": pbkdf2_sha512_hash,
@@ -707,7 +706,7 @@ if __name__ == "__main__":
         description=("""
 Cracks hashes on Linux and Termux with multiprocessing,
 automatic detection, and custom rules.
-Supports bcrypt, sha256crypt, wpa, scrypt, argon2id, and more.
+Supports bcrypt, sha256crypt, scrypt, argon2id, and more.
         """),
         formatter_class=argparse.RawTextHelpFormatter
     )

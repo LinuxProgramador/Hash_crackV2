@@ -71,7 +71,7 @@ fast_hashes = {
    "mysql5.x", "whirlpool", "sha256sum", "sha512sum", "sm3",
    "ntlm", "sha512-256", "ssha", "shake-256", "shake-128",
    "ripemd-160", "dcc2", "pbkdf2-sha256", "pbkdf2-sha1",
-   "pbkdf2-sha512"
+   "pbkdf2-sha512" ,"mssql2005"
 }
 
 
@@ -301,6 +301,8 @@ def init_worker(hash_type):
         "argon2id": argon2id_hash,
         "scrypt": scrypt_hash,
         "yescrypt": yescrypt_hash,
+        "mssql2005": mssql2005_hash
+
     }
 
 
@@ -622,7 +624,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
              "$2a$", "$2b$", "$2y$", "$1$", "$5$", "$6$",
              "$apr1", "{SSHA}", "$P$", "$argon2id$", "$scrypt$",
              "$pbkdf2-sha256", "$pbkdf2-sha512", "$pbkdf2", "$y$",
-             "$DCC2$", "*"
+             "$DCC2$", "*" ,"0x0100"
            ))) or decoded_text and ":" in decoded_text:
 
            target_hash = decoded_text
@@ -641,7 +643,7 @@ def main(hash_type, target_hash, wait_time, rules, choice, ct7, cpu_num, externa
           "$2a$", "$2b$", "$2y$", "$1$", "$5$", "$6$",
           "$apr1", "{SSHA}", "$DCC2$", "$P$", "$argon2id$",
           "$scrypt$", "$pbkdf2-sha256", "$pbkdf2-sha512",
-          "$pbkdf2", "$y$"
+          "$pbkdf2", "$y$" ,"0x0100"
          )
 
          if len(right) == 32 and not right.lower().startswith(

@@ -38,7 +38,7 @@ Hash types available:
   sha3-224      sha3-256      sha3-384       sha3-512
   sha256        sha224        sha384         sha512
   pbkdf2-sha256 argon2id      scrypt         pbkdf2-sha1
-  
+  mssql2005
 
 """
 
@@ -143,7 +143,10 @@ def auto_detect_type(target_hash):
 
     if target_hash.startswith("$y$"):
         return "yescrypt", None, target_hash
-
+        
+    if target_hash.startswith("0x0100"):
+        return "mssql2005", None, target_hash
+        
     return None, None, target_hash
 
 

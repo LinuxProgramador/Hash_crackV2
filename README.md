@@ -202,6 +202,7 @@ Supported hashes:
 • PBKDF2-SHA1
 • PBKDF2-SHA512
 • YESCRYPT
+• MSSQL2005
 
 
 Note: For **DCC2** hash, the expected input format is:

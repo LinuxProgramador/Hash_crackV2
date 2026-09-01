@@ -41,7 +41,8 @@ def cracking_prompt(encoder, hash_type, process_count):
     "sm3": "SM3 [Chinese national cryptographic hash standard]",
     "ntlm": "NTLM [Windows NT LAN Manager password hash based on MD4]",
     "sha512-256": "SHA-512/256 [SHA-512 truncated to 256 bits]",
-    "ripemd-160": "RIPEMD-160 [160-bit cryptographic hash function]"
+    "ripemd-160": "RIPEMD-160 [160-bit cryptographic hash function]",
+    "mssql2005": "MSSQL2005 [Microsoft SQL Server 2005 password hash based on SHA-1]"
     }
 
 

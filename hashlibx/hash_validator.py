@@ -38,6 +38,7 @@ from passlib.hash import (
     msdcc2,
     phpass,
     scrypt,
+    mssql2005,
 )
 
 from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
@@ -432,6 +433,18 @@ def yescrypt_hash(
         WrongPasswordConfiguration
     ):
         return False
+
+
+
+def mssql2005_hash(
+    word, data, target_hash, hash_type,
+    user, wait_time, ph,
+    yescrypt_, context, precomputed
+):
+
+    return mssql2005.verify(word, target_hash)
+
+
 
 
 def validate_word(

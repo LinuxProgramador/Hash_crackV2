@@ -21,7 +21,7 @@ hash_list = [
     "mysql5.x", "md5crypt", "apr1", "dcc2", "ssha", "sm3",
     "sha512-256", "phpass", "whirlpool", "sha512sum", "sha256sum",
     "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha256",
-    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1", "pbkdf2-sha512", "yescrypt"
+    "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1", "pbkdf2-sha512", "yescrypt" ,"mssql2005"
 
 ]
 

@@ -39,8 +39,11 @@ from passlib.hash import (
     phpass,
     scrypt,
     mssql2005,
+    ldap_salted_sha512,
+    ldap_salted_sha256,
 )
 
+from hashward import CryptContext as crypc_bcrypt_sha256
 from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
 from passlib.hash import pbkdf2_sha1 as pbkf_sha1_passlib
 from passlib.hash import pbkdf2_sha512 as pbkf_sha5_passlib
@@ -56,6 +59,10 @@ if is_linux is not None:
 if is_linux is not None:
     import pyxcrypt
 
+ctx = crypc_bcrypt_sha256(
+    schemes=["bcrypt_sha256"],
+    default="bcrypt_sha256"
+)
 
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
@@ -444,6 +451,32 @@ def mssql2005_hash(
 
     return mssql2005.verify(word, target_hash)
 
+
+
+def lpap_ssha512_hash(
+    word, data, target_hash, hash_type,
+    user, wait_time, ph,
+    yescrypt_, context, precomputed
+):
+   return ldap_salted_sha512.verify(word, target_hash)
+
+
+
+def ldap_ssha256_hash(
+    word, data, target_hash, hash_type,
+    user, wait_time, ph,
+    yescrypt_, context, precomputed
+):
+    return ldap_salted_sha256.verify(word, target_hash)
+
+
+
+def bcrypt_sha256_hash(
+    word, data, target_hash, hash_type,
+    user, wait_time, ph,
+    yescrypt_, context, precomputed
+):
+    return ctx.verify(word, target_hash)
 
 
 

@@ -203,6 +203,9 @@ Supported hashes:
 • PBKDF2-SHA512
 • YESCRYPT
 • MSSQL2005
+• BCRYPT-SHA256
+• LDAP-SSHA256
+• LDAP-SSHA512
 
 
 Note: For **DCC2** hash, the expected input format is:

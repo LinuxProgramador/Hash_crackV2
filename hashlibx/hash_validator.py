@@ -453,7 +453,7 @@ def mssql2005_hash(
 
 
 
-def lpap_ssha512_hash(
+def ldap_ssha512_hash(
     word, data, target_hash, hash_type,
     user, wait_time, ph,
     yescrypt_, context, precomputed

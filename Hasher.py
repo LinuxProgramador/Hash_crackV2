@@ -72,7 +72,7 @@ fast_hashes = {
    "mysql5.x", "whirlpool", "sha256sum", "sha512sum", "sm3",
    "ntlm", "sha512-256", "ssha", "shake-256", "shake-128",
    "ripemd-160", "dcc2", "pbkdf2-sha256", "pbkdf2-sha1",
-   "pbkdf2-sha512" ,"mssql2005" ,"ldap-ssha256", "lpap-ssha512"
+   "pbkdf2-sha512" ,"mssql2005" ,"ldap-ssha256", "ldap-ssha512"
 }
 
 
@@ -303,7 +303,7 @@ def init_worker(hash_type):
         "scrypt": scrypt_hash,
         "yescrypt": yescrypt_hash,
         "mssql2005": mssql2005_hash,        
-        "lpap-ssha512": lpap_ssha512_hash,
+        "ldap-ssha512": ldap_ssha512_hash,
         "ldap-ssha256": ldap_ssha256_hash,
         "bcrypt-sha256": bcrypt_sha256_hash
 

@@ -22,7 +22,7 @@ hash_list = [
     "sha512-256", "phpass", "whirlpool", "sha512sum", "sha256sum",
     "sha3-224", "sha3-256", "sha3-384", "sha3-512", "sha256",
     "sha224", "sha384", "sha512", "pbkdf2-sha256", "argon2id", "scrypt", "pbkdf2-sha1", "pbkdf2-sha512", "yescrypt" ,"mssql2005",
-    "bcrypt-sha256", "ldap-ssha256", "lpap-ssha512"
+    "bcrypt-sha256", "ldap-ssha256", "ldap-ssha512"
 
 ]
 
@@ -39,7 +39,7 @@ Hash types available:
   sha3-224      sha3-256      sha3-384       sha3-512
   sha256        sha224        sha384         sha512
   pbkdf2-sha256 argon2id      scrypt         pbkdf2-sha1
-  mssql2005     ldap-ssha256  lpap-ssha512   bcrypt-sha256
+  mssql2005     ldap-ssha256  ldap-ssha512   bcrypt-sha256
 
 """
 
@@ -155,7 +155,7 @@ def auto_detect_type(target_hash):
         return "ldap-ssha256", None, target_hash
     
     if target_hash.startswith("{SSHA512}"):
-        return "lpap-ssha512", None, target_hash
+        return "ldap-ssha512", None, target_hash
         
     return None, None, target_hash
 

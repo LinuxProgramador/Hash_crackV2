@@ -476,6 +476,9 @@ def bcrypt_sha256_hash(
     user, wait_time, ph,
     yescrypt_, context, precomputed
 ):
+    if wait_time == "y":
+        time.sleep(0.20)
+        
     return ctx.verify(word, target_hash)
 
 

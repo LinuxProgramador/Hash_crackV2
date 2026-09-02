@@ -42,7 +42,10 @@ def cracking_prompt(encoder, hash_type, process_count):
     "ntlm": "NTLM [Windows NT LAN Manager password hash based on MD4]",
     "sha512-256": "SHA-512/256 [SHA-512 truncated to 256 bits]",
     "ripemd-160": "RIPEMD-160 [160-bit cryptographic hash function]",
-    "mssql2005": "MSSQL2005 [Microsoft SQL Server 2005 password hash based on SHA-1]"
+    "mssql2005": "MSSQL2005 [Microsoft SQL Server 2005 password hash based on SHA-1]",
+    "ldap-ssha256": "LDAP-SSHA256 [LDAP salted SHA-256 password hash]",
+    "ldap-ssha512": "LDAP-SSHA512 [LDAP salted SHA-512 password hash]",
+    "bcrypt-sha256": "BCRYPT-SHA256 [bcrypt password hash with SHA-256 preprocessing]"
     }
 
 

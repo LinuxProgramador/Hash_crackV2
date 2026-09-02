@@ -10,3 +10,4 @@ gmssl==3.2.2
 argon2-cffi
 libpass
 pypdf
+hashward

@@ -30,5 +30,6 @@ def show_help():
          ║  sha512      pbkdf2-sha256           ║
          ║  argon2id    scrypt      CiscoType7  ║
          ║  pbkdf2-sha1 pbkdf2-sha512 mssql2005 ║
+         ║bcrypt-sha256 Ldap-ssha256Lpap-ssha512║
          ╚══════════════════════════════════════╝
   '''

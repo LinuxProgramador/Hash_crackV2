@@ -13,6 +13,6 @@ pikepdf==9.10.2
 libpass
 pyescrypt
 pyxcrypt
-
+hashward
 
 

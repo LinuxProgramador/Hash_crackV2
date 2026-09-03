@@ -430,7 +430,7 @@ def get_available_ram():
 
 
 def dict_crack(target_hash, hash_type, wait_time, encoder, user, rules, process_count):
-
+    convert_target_hash_bytes(target_hash)
     read_block_size = 8 * 1024 * 1024
     available_ram = get_available_ram()
     size = os.path.getsize(DICT_PATH)

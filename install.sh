@@ -37,7 +37,7 @@ main() {
     if [[ "$os" == "Android" || "$PREFIX" == *"com.termux"* ]]; then
         echo "[+] Environment detected: Termux"
         apt update 
-        apt install  python rust crunch 7zip unrar cmake clang make -y
+        apt install  python rust crunch 7zip unrar cmake clang make libcrypt -y
         python -m pip install -r termux_requirements.txt
         python -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else

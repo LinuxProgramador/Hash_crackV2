@@ -3,7 +3,7 @@
 import time
 import sys
 import binascii
-
+import ctypes
 from gmssl import sm3, func
 from whirlpool import new as wpl
 from Crypto.Hash import RIPEMD160, MD4
@@ -64,6 +64,16 @@ ctx = crypc_bcrypt_sha256(
     default="bcrypt_sha256"
 )
 
+libcrypt = ctypes.CDLL("libcrypt.so")
+
+libcrypt.crypt.argtypes = [
+    ctypes.c_char_p,
+    ctypes.c_char_p
+]
+libcrypt.crypt.restype = ctypes.c_char_p
+
+target_hash_g = None
+
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
 
@@ -105,6 +115,11 @@ HASH_ALGORITHMS_INFO = {
     "blake2b": blake2b,
     "blake2s": blake2s,
 }
+
+
+def convert_target_hash_bytes(target_hash):
+      global target_hash_g
+      target_hash_g = target_hash.encode()
 
 
 def mysql5_x_hash(
@@ -511,6 +526,9 @@ def validate_word(
                    else:
                       return result_pyxcyt == target_hash
                    
+                elif is_linux is None:
+                  if target_hash_g.startswith((b"$1$", b"$5$", b"$6$")):
+                     return libcrypt.crypt(data, target_hash_g) == target_hash_g
 
                 return context.verify(
                     word,

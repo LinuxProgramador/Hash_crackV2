@@ -521,9 +521,7 @@ def validate_word(
             try:
                 if is_linux is not None:
                    result_pyxcyt = pyxcrypt.crypt(word, target_hash)
-                   if result_pyxcyt is None or result_pyxcyt.startswith('*'):
-                        pass
-                   else:
+                   if result_pyxcyt is not None and not result_pyxcyt.startswith('*'):
                       return result_pyxcyt == target_hash
                    
                 elif is_linux is None:

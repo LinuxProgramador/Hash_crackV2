@@ -558,7 +558,7 @@ def validate_word(
                       return result_pyxcyt == target_hash
                    
                 elif is_linux is None:
-                  if target_hash_g.startswith((b"$1$", b"$5$", b"$6$")):
+                  if libcrypt is not None and target_hash_g.startswith((b"$1$", b"$5$", b"$6$")):
                      return libcrypt.crypt(data, target_hash_g) == target_hash_g
 
                 if hash_type == "apr1":

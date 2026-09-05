@@ -77,6 +77,33 @@ target_hash_g = None
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
 
+
+candidates_apr = (
+        "libaprutil-1.so",
+        "libaprutil-1.so.0",
+        "aprutil-1",
+    )
+
+for name_lib in candidates_apr:
+        try:
+            lib = ctypes.CDLL(name_lib)
+            lib.apr_md5_encode.argtypes = [
+                ctypes.c_char_p,
+                ctypes.c_char_p,
+                ctypes.c_char_p,
+                ctypes.c_size_t,
+            ]
+            lib.apr_md5_encode.restype = ctypes.c_int
+        except (OSError, AttributeError):
+            continue
+
+else:
+    lib = None
+    
+
+result = ctypes.create_string_buffer(128)
+    
+
 CRYPT_VALIDATOR_SET = {
         "sha256crypt",
         "sha512crypt",
@@ -120,30 +147,6 @@ HASH_ALGORITHMS_INFO = {
 def convert_target_hash_bytes(target_hash):
       global target_hash_g
       target_hash_g = target_hash.encode()
-
-
-def load_aprutil():
-    candidates_apr = (
-        "libaprutil-1.so",
-        "libaprutil-1.so.0",
-        "aprutil-1",
-    )
-
-    for name_lib in candidates_apr:
-        try:
-            lib = ctypes.CDLL(name_lib)
-            lib.apr_md5_encode.argtypes = [
-                ctypes.c_char_p,
-                ctypes.c_char_p,
-                ctypes.c_char_p,
-                ctypes.c_size_t,
-            ]
-            lib.apr_md5_encode.restype = ctypes.c_int
-            return lib
-        except (OSError, AttributeError):
-            continue
-
-    return None
 
 
 def mysql5_x_hash(
@@ -553,9 +556,7 @@ def validate_word(
                      return libcrypt.crypt(data, target_hash_g) == target_hash_g
 
                 if hash_type == "apr1":
-                   lib = load_aprutil()
                    if lib is not None:
-                      result = ctypes.create_string_buffer(128)
                       ret = lib.apr_md5_encode(
                              data,
                              target_hash_g,

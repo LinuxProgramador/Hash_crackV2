@@ -64,13 +64,18 @@ ctx = crypc_bcrypt_sha256(
     default="bcrypt_sha256"
 )
 
-libcrypt = ctypes.CDLL("libcrypt.so")
+try:
+    
+  libcrypt = ctypes.CDLL("libcrypt.so")
 
-libcrypt.crypt.argtypes = [
+  libcrypt.crypt.argtypes = [
     ctypes.c_char_p,
     ctypes.c_char_p
-]
-libcrypt.crypt.restype = ctypes.c_char_p
+  ]
+  libcrypt.crypt.restype = ctypes.c_char_p
+    
+except OSError:
+    libcrypt = None
 
 target_hash_g = None
 

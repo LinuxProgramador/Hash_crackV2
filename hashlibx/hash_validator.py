@@ -95,13 +95,14 @@ for name_lib in candidates_apr:
             ]
             candidate_lib.apr_md5_encode.restype = ctypes.c_int
             lib = candidate_lib
+            break
         except (OSError, AttributeError):
             continue
 
 
+if lib is not None:
+    result = ctypes.create_string_buffer(128)
     
-
-result = ctypes.create_string_buffer(128)
     
 
 CRYPT_VALIDATOR_SET = {

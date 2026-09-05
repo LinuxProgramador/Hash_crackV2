@@ -37,7 +37,7 @@ main() {
     if [[ "$os" == "Android" || "$PREFIX" == *"com.termux"* ]]; then
         echo "[+] Environment detected: Termux"
         apt update 
-        apt install  python rust crunch 7zip unrar cmake clang make libcrypt -y
+        apt install apr apr-util python rust crunch 7zip unrar cmake clang make libcrypt -y
         python -m pip install -r termux_requirements.txt
         python -m pip install -e ./thirdparty_cracktools/python-whirlpool --use-pep517
     else
@@ -48,7 +48,7 @@ main() {
         fi
 
         sudo apt update 
-        sudo apt install python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config libcrypt-dev gcc python3-dev -y
+        sudo apt install libapr1 libaprutil1 python3 python3-pip tor proxychains4 crunch 7zip unrar python3-venv libqpdf-dev qpdf build-essential pkg-config libcrypt-dev gcc python3-dev -y
 
         if [[ -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" ]]; then
             sudo cp -f "$HOME/Hash_crackV2/config_bundle/proxychains4.conf" /etc/proxychains4.conf

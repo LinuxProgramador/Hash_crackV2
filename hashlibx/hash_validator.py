@@ -122,6 +122,30 @@ def convert_target_hash_bytes(target_hash):
       target_hash_g = target_hash.encode()
 
 
+def load_aprutil():
+    candidates_apr = (
+        "libaprutil-1.so",
+        "libaprutil-1.so.0",
+        "aprutil-1",
+    )
+
+    for name_lib in candidates_apr:
+        try:
+            lib = ctypes.CDLL(name_lib)
+            lib.apr_md5_encode.argtypes = [
+                ctypes.c_char_p,
+                ctypes.c_char_p,
+                ctypes.c_char_p,
+                ctypes.c_size_t,
+            ]
+            lib.apr_md5_encode.restype = ctypes.c_int
+            return lib
+        except (OSError, AttributeError):
+            continue
+
+    return None
+
+
 def mysql5_x_hash(
     word, data, target_hash, hash_type, 
     user, wait_time, ph,
@@ -527,6 +551,20 @@ def validate_word(
                 elif is_linux is None:
                   if target_hash_g.startswith((b"$1$", b"$5$", b"$6$")):
                      return libcrypt.crypt(data, target_hash_g) == target_hash_g
+
+                if hash_type == "apr1":
+                   lib = load_aprutil()
+                   if lib is not None:
+                      result = ctypes.create_string_buffer(128)
+                      ret = lib.apr_md5_encode(
+                             data,
+                             target_hash_g,
+                             result,
+                             ctypes.sizeof(result)
+                      )
+
+                      if ret == 0:
+                         return result.value == target_hash_g
 
                 return context.verify(
                     word,

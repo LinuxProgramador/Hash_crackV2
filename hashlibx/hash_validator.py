@@ -77,7 +77,7 @@ target_hash_g = None
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
 
-
+lib = None
 candidates_apr = (
         "libaprutil-1.so",
         "libaprutil-1.so.0",
@@ -86,19 +86,19 @@ candidates_apr = (
 
 for name_lib in candidates_apr:
         try:
-            lib = ctypes.CDLL(name_lib)
-            lib.apr_md5_encode.argtypes = [
+            candidate_lib = ctypes.CDLL(name_lib)
+            candidate_lib.apr_md5_encode.argtypes = [
                 ctypes.c_char_p,
                 ctypes.c_char_p,
                 ctypes.c_char_p,
                 ctypes.c_size_t,
             ]
-            lib.apr_md5_encode.restype = ctypes.c_int
+            candidate_lib.apr_md5_encode.restype = ctypes.c_int
+            lib = candidate_lib
         except (OSError, AttributeError):
             continue
 
-else:
-    lib = None
+
     
 
 result = ctypes.create_string_buffer(128)

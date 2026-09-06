@@ -777,17 +777,17 @@ Apply mutation rules to each word in the dictionary. Available rules:
  11) Prepend numbers (e.g., password → 123password, hola → 456hola)
  00) Prepend symbols (e.g., password → @password, hola → #hola)
  lcu) Lowercase the first letter and uppercase the rest (e.g., hola → hOLA)
- un)   Uppercase + numbers + symbols
- ln)   Lowercase + numbers + symbols
- sn)   Symbols + word + numbers
- ns)   Numbers + word + symbols
- tn)   Character substitution + numbers + symbols
- rn)   Reverse the word + numbers
- uns)  Uppercase + symbols + numbers
- lns)  Lowercase + symbols + numbers
- cns)  Capitalize first letter + symbols + numbers
- alc)  Alternating Lowercase/uppercase
- acu)  Alternating Uppercase/lowercase
+ un) Uppercase + numbers + symbols
+ ln) Lowercase + numbers + symbols
+ sn) Symbols + word + numbers
+ ns) Numbers + word + symbols
+ tn) Character substitution + numbers + symbols
+ rn) Reverse the word + numbers
+ uns) Uppercase + symbols + numbers
+ lns) Lowercase + symbols + numbers
+ cns) Capitalize first letter + symbols + numbers
+ alc) Alternating Lowercase/uppercase
+ acu) Alternating Uppercase/lowercase
  HBA) Brute force numbers (1 to 4 digits) at the end 
  appends all possible number combinations from 1 to 4 digits to the end of the word.
  (e.g., password1, password2, password9999)

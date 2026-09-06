@@ -552,7 +552,7 @@ def validate_word(
         if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
 
             try:
-                if is_linux is not None:
+                if is_linux is not None and target_hash.startswith(("$1$", "$5$", "$6$")):
                    result_pyxcyt = pyxcrypt.crypt(word, target_hash)
                    if result_pyxcyt is not None and not result_pyxcyt.startswith('*'):
                       return result_pyxcyt == target_hash

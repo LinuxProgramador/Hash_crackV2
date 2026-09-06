@@ -161,3 +161,78 @@ def rules_parameters(
 
     elif chosen_rules == 'lcu':
         yield word[:1].lower() + word[1:].upper()
+
+    
+    elif chosen_rules == 'un':
+        word = word.upper()
+        for number in numbers:
+            for symbol in symbols:
+                yield word + number + symbol
+
+
+    elif chosen_rules == 'ln':
+        word = word.lower()
+        for number in numbers:
+            for symbol in symbols:
+                yield word + number + symbol
+
+
+    elif chosen_rules == 'sn':
+        for symbol in symbols:
+            for number in numbers:
+                yield symbol + word + number
+
+    elif chosen_rules == 'ns':
+        for number in numbers:
+            for symbol in symbols:
+                yield number + word + symbol
+
+
+    elif chosen_rules == 'tn':
+       translated = word.translate(translation_table)
+       for number in numbers:
+         for symbol in symbols:
+            yield translated + number + symbol
+
+
+
+    elif chosen_rules == 'rn':
+       reversed_word = word[::-1]
+       for number in numbers:
+           yield reversed_word + number
+
+
+    elif chosen_rules == 'uns':
+       word = word.upper()
+       for symbol in symbols:
+          for number in numbers:
+              yield word + symbol + number
+
+
+
+    elif chosen_rules == 'lns':
+       word = word.lower()
+       for symbol in symbols:
+          for number in numbers:
+              yield word + symbol + number
+
+
+    elif chosen_rules == 'cns':
+        word = word.capitalize()
+        for symbol in symbols:
+           for number in numbers:
+               yield word + symbol + number
+
+
+    elif chosen_rules == 'alc':
+        yield ''.join(
+            char.upper() if i % 2 else char.lower()
+            for i, char in enumerate(word)
+        )
+
+    elif chosen_rules == 'acu':
+        yield ''.join(
+            char.upper() if i % 2 == 0 else char.lower()
+            for i, char in enumerate(word)
+        )
+

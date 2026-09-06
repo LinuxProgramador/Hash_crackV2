@@ -210,10 +210,11 @@ On UserLAND, perform the installation as root, as "sudo" may cause problems.
 
 
 
-def init_worker(hash_type):
+def init_worker(hash_type, target_hash):
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGTSTP, signal.SIG_IGN)
-
+    convert_target_hash_bytes(target_hash)
+  
     global context
     global numbers, symbols, vocals, digits
     global translation_table, valid_rules
@@ -430,7 +431,7 @@ def get_available_ram():
 
 
 def dict_crack(target_hash, hash_type, wait_time, encoder, user, rules, process_count):
-    convert_target_hash_bytes(target_hash)
+   
     read_block_size = 8 * 1024 * 1024
     available_ram = get_available_ram()
     size = os.path.getsize(DICT_PATH)
@@ -519,7 +520,7 @@ def dict_crack(target_hash, hash_type, wait_time, encoder, user, rules, process_
         precomputed = None
 
 
-    with Pool(processes=process_count, initializer=init_worker, initargs=(hash_type,)) as pool:
+    with Pool(processes=process_count, initializer=init_worker, initargs=(hash_type, target_hash)) as pool:
       with open(DICT_PATH, 'r', encoding=encoder, errors='ignore') as keywords_read:
         while True:
             chunk = keywords_read.read(read_block_size)

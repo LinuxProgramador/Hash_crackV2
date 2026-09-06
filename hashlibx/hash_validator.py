@@ -546,6 +546,10 @@ def validate_word(
     if hash_type in CRYPT_VALIDATOR_SET:
 
         if hash_type in CRYPT_VALIDATOR_SET_WITHOUT_PHPASS:
+            try:
+               error_test_unboundlocal = target_hash_g
+            except UnboundLocalError:
+               target_hash_g = target_hash.encode()
 
             try:
                 if is_linux is not None and target_hash.startswith(("$1$", "$5$", "$6$")):

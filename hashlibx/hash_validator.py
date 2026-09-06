@@ -77,7 +77,7 @@ try:
 except OSError:
     libcrypt = None
 
-salt_g = target_hash_g = None
+target_hash_g = None
 
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
@@ -146,12 +146,10 @@ HASH_ALGORITHMS_INFO = {
 }
 
 
-def convert_target_hash_bytes(target_hash, hash_type):
+def convert_target_hash_bytes(target_hash):
       global target_hash_g , salt_g 
       target_hash_g = target_hash.encode()
-      hash_parts = target_hash_g.split(b'$')
-      if hash_type == "apr1":
-        salt_g = b'$'.join(hash_parts[:3]) + b'$'
+      
 
 def mysql5_x_hash(
     word, data, target_hash, hash_type, 
@@ -564,7 +562,7 @@ def validate_word(
                       result = ctypes.create_string_buffer(128)
                       ret = lib.apr_md5_encode(
                              data,
-                             salt_g,
+                             target_hash_g,
                              result,
                              ctypes.sizeof(result)
                       )

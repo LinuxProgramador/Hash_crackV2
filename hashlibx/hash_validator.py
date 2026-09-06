@@ -147,7 +147,7 @@ HASH_ALGORITHMS_INFO = {
 
 
 def convert_target_hash_bytes(target_hash):
-      global target_hash_g , salt_g 
+      global target_hash_g 
       target_hash_g = target_hash.encode()
       
 

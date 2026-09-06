@@ -147,6 +147,7 @@ HASH_ALGORITHMS_INFO = {
 
 
 def convert_target_hash_bytes(target_hash):
+    if isinstance(target_hash, str):
       global target_hash_g 
       target_hash_g = target_hash.encode()
       

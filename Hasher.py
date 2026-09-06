@@ -272,7 +272,7 @@ def init_worker(hash_type, target_hash):
         "HBA", "00", "1", "2", "3", "4", "5", "6", "7", "8", "9",
         "10", "11", "12", "13", "15", "21", "31", "51", "42", "24",
         "34", "43", "54", "45", "64", "46", "61", "16", "56", "65",
-        "26", "62", "36", "63", "lcu"
+        "26", "62", "36", "63", "lcu", "un", "ln", "sn", "ns", "tn", "rn", "uns", "lns", "cns"
     }
 
     hashes_verification_validator = {
@@ -777,6 +777,15 @@ Apply mutation rules to each word in the dictionary. Available rules:
  11) Prepend numbers (e.g., password → 123password, hola → 456hola)
  00) Prepend symbols (e.g., password → @password, hola → #hola)
  lcu) Lowercase the first letter and uppercase the rest (e.g., hola → hOLA)
+ un)   Uppercase + numbers + symbols
+ ln)   Lowercase + numbers + symbols
+ sn)   Symbols + word + numbers
+ ns)   Numbers + word + symbols
+ tn)   Character substitution + numbers + symbols
+ rn)   Reverse the word + numbers
+ uns)  Uppercase + symbols + numbers
+ lns)  Lowercase + symbols + numbers
+ cns)  Capitalize first letter + symbols + numbers
  HBA) Brute force numbers (1 to 4 digits) at the end 
  appends all possible number combinations from 1 to 4 digits to the end of the word.
  (e.g., password1, password2, password9999)
@@ -784,7 +793,7 @@ Apply mutation rules to each word in the dictionary. Available rules:
 
 [INFO] Valid input: single or double-digit combinations, e.g., 1, 12
 [INFO] Unsupported combinations detected (14, 23, 35, 25)
-[NOTE] Rules '7', '8', '9', '10', '11', 'HBA', 'lcu'  and '00' are not valid in combination and are applied individually
+[NOTE] Rules '7', '8', '9', '10', '11', 'HBA', 'lcu', 'un', 'ln', 'sn', 'ns', 'tn', 'rn', 'uns', 'lns', 'cns' and '00' are not valid in combination and are applied individually
         """
     )
     parser.add_argument(

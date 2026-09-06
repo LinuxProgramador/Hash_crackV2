@@ -77,7 +77,7 @@ try:
 except OSError:
     libcrypt = None
 
-target_hash_g = None
+salt_g = target_hash_g = None
 
 hashlib_ripemd_160 = new if "ripemd160" in algorithms_available else None
 hashlib_sm3 = new if "sm3" in algorithms_available else None
@@ -104,10 +104,6 @@ for name_lib in candidates_apr:
         except (OSError, AttributeError):
             continue
 
-
-if lib is not None:
-    result = ctypes.create_string_buffer(128)
-    
     
 
 CRYPT_VALIDATOR_SET = {
@@ -150,10 +146,12 @@ HASH_ALGORITHMS_INFO = {
 }
 
 
-def convert_target_hash_bytes(target_hash):
-      global target_hash_g
+def convert_target_hash_bytes(target_hash, hash_type):
+      global target_hash_g , salt_g 
       target_hash_g = target_hash.encode()
-
+      hash_parts = target_hash_g.split(b'$')
+      if hash_type == "apr1":
+        salt_g = b'$'.join(hash_parts[:3]) + b'$'
 
 def mysql5_x_hash(
     word, data, target_hash, hash_type, 
@@ -563,9 +561,10 @@ def validate_word(
 
                 if hash_type == "apr1":
                    if lib is not None:
+                      result = ctypes.create_string_buffer(128)
                       ret = lib.apr_md5_encode(
                              data,
-                             target_hash_g,
+                             salt_g,
                              result,
                              ctypes.sizeof(result)
                       )

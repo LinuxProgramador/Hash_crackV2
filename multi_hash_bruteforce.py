@@ -16,7 +16,10 @@ from hashlib import (
 from Crypto.Hash import RIPEMD160, MD4
 from passlib.hash import (
     sha256_crypt, sha512_crypt, md5_crypt,
-    apr_md5_crypt, msdcc2, phpass
+    apr_md5_crypt, msdcc2, phpass,
+    mssql2005,
+    ldap_salted_sha512,
+    ldap_salted_sha256
 )
 from passlib.hash import pbkdf2_sha256 as pbkf_sha2_passlib
 from passlib.hash import pbkdf2_sha1 as pbkf_sha1_passlib
@@ -25,6 +28,12 @@ from passlib.context import CryptContext
 from bcrypt import checkpw
 from gmssl import sm3, func
 from whirlpool import new as wpl
+from hashward import CryptContext as crypc_bcrypt_sha256
+
+ctx = crypc_bcrypt_sha256(
+    schemes=["bcrypt_sha256"],
+    default="bcrypt_sha256"
+)
 
 
 SUPPORTED_HASHES = {
@@ -68,7 +77,9 @@ def display_supported_hashes():
 | sha3-384   | sha3-256     |
 | sha3-512   | sha256       |
 | sha224     | sha384       |
-| sha512     |              |
+| sha512     | bcrypt-sha256|
+| mssql2005  | ldap-ssha256 | 
+|ldap-ssha512|              |
  ---------------------------
 ''')
 
@@ -160,6 +171,22 @@ def validate_word(word, target_hash, hash_type, user):
         except ValueError as value_error:
              print(f"[!] Error verifying DCC2 hash: {value_error}. Please ensure the hash format and username are correct")
              return ["_error_"]
+    
+    elif hash_type == "mssql2005":
+         return mssql2005.verify(word, target_hash)
+
+
+    elif hash_type == "ldap-ssha256":
+         return ldap_salted_sha256.verify(word, target_hash)
+
+
+    elif hash_type == "ldap-ssha512"
+         return ldap_salted_sha512.verify(word, target_hash)
+
+
+    elif hash_type == "bcrypt-sha256":
+          return ctx.verify(word, target_hash)
+
 
     elif hash_type == "pbkdf2-sha256":
       try:
@@ -318,7 +345,11 @@ def main():
              "$pbkdf2-sha512",
              "$pbkdf2",
              "$DCC2$",
-             "*"
+             "*",
+             "{SSHA512}",
+             "{SSHA256}",
+             "$bcrypt-sha256$",
+             "0x0100"
            ))) or decoded_text and ":" in decoded_text:
 
            target_hash = decoded_text
@@ -333,7 +364,8 @@ def main():
      if not target_hash or hash_type not in SUPPORTED_HASHES and hash_type not in [
         "pbkdf2-sha256", "ripemd-160", "shake-128", "shake-256", "md5",
         "dcc2", "mysql5.x", "whirlpool",
-        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "pbkdf2-sha1", "pbkdf2-sha512"
+        "sm3", "ntlm", "sha512-256", "ssha", "bcrypt", "pbkdf2-sha1", "pbkdf2-sha512",
+        "bcrypt-sha256", "ldap-ssha512", "ldap-ssha256", "mssql2005" 
      ]:
         print("Invalid input.")
         sys.exit(1)
